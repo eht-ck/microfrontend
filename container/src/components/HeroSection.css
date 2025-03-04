@@ -1,32 +1,23 @@
-*{
-    margin: 0px;
-    padding: 0px;
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
-.hero-section {
-    position: relative;
-    text-align: center;
-    color: white;
-  }
-  
-  .hero-section img {
-    width: 100%;
-    height: auto;
-    filter: blur(0.9px);
- 
-  }
-  
-  .overlay {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-  }
-  
-  .overlay h1 {
-    font-size: 4rem;
-    font-weight: bold;
-  }
-  
-  .overlay p {
-    font-size: 1.5rem;
-  }
+
+.fade-in {
+  opacity: 0;
+  animation: fadeIn 1s ease-out forwards;
+}
+
+.delay-1 {
+  animation-delay: 0.5s;
+}
+
+.delay-2 {
+  animation-delay: 1s;
+}

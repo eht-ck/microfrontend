@@ -10,15 +10,16 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 
 import Product from "mf_product/Product"
 import HeroSection from "./components/HeroSection";
+import About from "./components/About";
 const App = () => (
  <>
     <AnnouncementBanner/>
    <Header/>
   <HeroSection/>
-
-   <div>
+<About/>
+   {/* <div>
   <Product/>
-   </div>
+   </div> */}
    <Footer/>
 
    </>
