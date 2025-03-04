@@ -1,0 +1,8 @@
+
+
+.custom-alert {
+    background-color: var(--banner-green) !important;
+    margin-top: -0.7px;
+    margin-left: -0.7px;
+    margin-right: -0.7px;  
+}  
