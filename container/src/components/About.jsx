@@ -1,9 +1,8 @@
 import React from "react";
 import { Card, Container, Row, Col, Image } from "react-bootstrap";
-import "bootstrap/dist/css/bootstrap.min.css";
+// import "bootstrap/dist/css/bootstrap.min.css";
 
-// Image import
-import AboutImage from "../../public/assets/img1.jpg"; // Use a relevant high-quality image
+ import AboutImage from "../../public/assets/img1.jpg"; // Use a relevant high-quality image
 
 const About = () => {
   return (
@@ -28,8 +27,7 @@ const About = () => {
             </Card.Body>
           </Col>
 
-          {/* Right Side: Image */}
-          <Col md={6} className="d-flex justify-content-center">
+           <Col md={6} className="d-flex justify-content-center">
             <Image src={AboutImage} alt="Tea Image" fluid rounded className="shadow w-200 h-100" />
           </Col>
         </Row>
