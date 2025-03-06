@@ -3,15 +3,15 @@ import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import { FaFacebook, FaTwitter, FaInstagram } from 'react-icons/fa';
-// import './Footer.css';
-
+ 
 const Footer = () => {
   return (
     <footer className="bg-dark text-white text-center text-lg-start">
       <Container className="p-4">
         <Row>
           <Col lg={6} md={12} className="mb-4 mb-md-0">
-            <h5 className="text-uppercase">TEA TREATS</h5>
+          
+            <h5 className="text-uppercase">TEA TREATS 🍃</h5>
             <p>
               Enjoy the finest selection of teas and treats from around the world.
             </p>

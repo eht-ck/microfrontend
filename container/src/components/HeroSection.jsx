@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-// import "bootstrap/dist/css/bootstrap.min.css";
 import "./HeroSection.css"; // Custom styles for animation
 import Image3 from "../../public/assets/hero_croped.JPG";
 
