@@ -5,8 +5,8 @@ import  "./AnnouncementBanner.css";
 
 const AnnouncementBanner = () => {
   return (
-    <Alert variant="" className="text-center pt-10 pb-10 mb-0 text-white custom-alert ">
-      FLAT 10% OFF ON GIFT SETS!!
+    <Alert variant="" className="text-center pt-1 pb-1  mb-0 text-white custom-alert ">
+     🚀🚀 FLAT 10% OFF ON GIFT SETS!!
     </Alert>
   );
 };
