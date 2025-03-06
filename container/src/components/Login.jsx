@@ -14,7 +14,6 @@ const Login = () => {
   const [toastMessage, setToastMessage] = useState("");
   const [showToast, setShowToast] = useState("");
   const navigate = useNavigate();
-  //   const { setIsLoggedIn } = useContext(AuthContext);
   const handleSubmitLogin = async (event) => {
     event.preventDefault();
 
