@@ -5,10 +5,14 @@ import { useNavigate } from "react-router-dom";
 import AuthContext from "../context/AuthContext";
 // import {userContext}
 import axios from "axios";
+import Toast from "react-bootstrap/Toast";
+import ToastContainer from "react-bootstrap/ToastContainer";
 
 const Login = () => {
   const [userName, setUserName] = useState("");
   const [password, setPassword] = useState("");
+  const [toastMessage, setToastMessage] = useState("");
+  const [showToast, setShowToast] = useState("");
   const navigate = useNavigate();
   //   const { setIsLoggedIn } = useContext(AuthContext);
   const handleSubmitLogin = async (event) => {
@@ -27,9 +31,19 @@ const Login = () => {
       const token = response.data;
       document.cookie = `token=${token}; path=/;`;
       console.log("Login Successfully: ", response.data);
-      navigate("/");
+      setToastMessage(
+        "User Login Successfully!! Redirecting to Landing Page -> to be changed to product page "
+      );
+      setShowToast(true);
+      setTimeout(() => {
+        navigate("/");
+      }, 3000);
     } catch (error) {
-      console.log("Login Failed: ", error);
+      const errorMessage = error.response
+        ? error.response.data
+        : "Login Failed";
+      setToastMessage(errorMessage);
+      setShowToast(true);
     }
   };
 
@@ -69,6 +83,16 @@ const Login = () => {
           </div>
         </div>
       </div>
+      <ToastContainer position="top-end" className="p-3">
+        <Toast
+          show={showToast}
+          onClose={() => setShowToast(false)}
+          delay={3000}
+          autohide
+        >
+          <Toast.Body>{toastMessage}</Toast.Body>
+        </Toast>
+      </ToastContainer>
     </>
   );
 };

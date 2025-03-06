@@ -8,6 +8,10 @@ const Product = React.lazy(() => import("mf_product/Product"));
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import SignIn from "./pages/SignIn";
 import AuthProvider from "./context/AuthContext";
+import SignUp from "./pages/SignUp";
+
+import UserModule from "./pages/UserModule";
+import { Admin } from "./pages/Admin";
 
 const App = () => (
   <>
@@ -16,6 +20,9 @@ const App = () => (
         <Routes>
           <Route index element={<Home />} />
           <Route path="login" element={<SignIn />} />
+          <Route path="signup" element={<SignUp/>} />
+          <Route path="user"  element={<UserModule/>} />
+          <Route path="admin" element= {<Admin/>} />
         </Routes>
       </BrowserRouter>
     </AuthProvider>
