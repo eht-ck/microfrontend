@@ -49,6 +49,8 @@ const SignUpForm = () => {
       );
       console.log("Signup Successfully: ", response.data);
       setToastMessage("Signup Successfully!  Redirecting to Login Page");
+
+
       setShowToast(true);
       setTimeout(() => {
         navigate("/login");
@@ -67,8 +69,8 @@ const SignUpForm = () => {
     <>
       <div className="container d-flex vh-100">
         <div className="row w-100 justify-content-center align-items-center">
-          <div className="col-10 col-md-8 col-lg-6 p-5 border border-success">
-            <Form onSubmit={handleSubmitSignup}>
+          <div className="col-10 col-md-8 col-lg-6 p-5 border border-success rounded">
+            <Form onSubmit={handleSubmitSignup} >
               <div className="fst-italic brand-color mx-auto text-center">
                 TEA TREATS 🍃
               </div>

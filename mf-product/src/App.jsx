@@ -3,11 +3,11 @@ import ReactDOM from "react-dom/client";
 
 import "./index.css";
 import Product from "./component/Product";
+import Products from "./component/ProductComp";
 // import Header  from "container/Header";
 // import Footer  from "container/Footer";
 const App = () => (
-  
-  <Product/>
+  <Products/>
   
 );
 const rootElement = document.getElementById("app")

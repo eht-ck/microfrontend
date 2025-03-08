@@ -12,7 +12,8 @@ import SignUp from "./pages/SignUp";
 
 import UserModule from "./pages/UserModule";
 import { Admin } from "./pages/Admin";
-
+import Products from "./pages/Products";
+import PdpPage from "./pages/PdpPage";
 const App = () => (
   <>
     <AuthProvider>
@@ -23,6 +24,9 @@ const App = () => (
           <Route path="signup" element={<SignUp/>} />
           <Route path="user"  element={<UserModule/>} />
           <Route path="admin" element= {<Admin/>} />
+          <Route path="product" element = {<Products/>} />
+
+          <Route path="product/:id" element ={<PdpPage/>}/>
         </Routes>
       </BrowserRouter>
     </AuthProvider>

@@ -1,0 +1,15 @@
+.glassy-card {
+    background: rgba(125, 248, 135, 0.15); 
+    backdrop-filter: blur(15px) saturate(180%);
+    -webkit-backdrop-filter: blur(15px) saturate(180%);
+    border: 1px solid rgba(232, 245, 233, 0.4);  
+    border-radius: 12px;  
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);  
+     transition: all 0.3s ease-in-out;
+  }
+   
+   .glassy-card:hover {
+    background: rgba(7, 167, 21, 0.2);  
+    transform: translateY(-5px);  
+    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.2);
+  }

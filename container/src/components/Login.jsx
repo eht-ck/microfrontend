@@ -28,11 +28,13 @@ const Login = () => {
         payload
       );
       const token = response.data;
-      document.cookie = `token=${token}; path=/;`;
+      document.cookie = `token=${token}; path=/; domain=localhost; SameSite=None; Secure`;
       console.log("Login Successfully: ", response.data);
       setToastMessage(
         "User Login Successfully!! Redirecting to Landing Page -> to be changed to product page "
       );
+
+
       setShowToast(true);
       setTimeout(() => {
         navigate("/");

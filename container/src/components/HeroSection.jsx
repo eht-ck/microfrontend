@@ -24,9 +24,12 @@ function HeroSection() {
      <div className="position-absolute top-50 start-50 translate-middle text-white text-center">
       <h1 className="display-3 fw-bold text-uppercase fade-in">TEATREATS</h1>
       <p className="fs-4 fade-in delay-1">Brewed Bliss in Every Cup</p>
-      <button className="btn btn-light btn-lg mt-3 fw-semibold px-4 py-2 fade-in delay-2" >
+      <a href={`/product`} className="text-decoration-none">
+
+      <button className="btn btn-light btn-lg mt-3 fw-semibold px-4 py-2 fade-in delay-2"  >
         Shop Now
       </button>
+      </a>
     </div>
   </div>
   

@@ -17,6 +17,18 @@ const AdminModule = () => {
     setActiveTab(eventKey);
   };
 
+  const [customFields, setCustomFields] = useState([]);
+
+    const addCustomField = () => {
+        setCustomFields([...customFields, '']);
+    };
+
+    const handleSubmit = (event) => {
+        event.preventDefault();
+        // Add your form submission logic here
+        alert('Form submitted!');
+    };
+
   const getAllUsers = async () => {
     try {
       const token = document.cookie
@@ -102,10 +114,13 @@ const AdminModule = () => {
                     <Nav.Link eventKey="userInfoTab">All Users</Nav.Link>
                   </Nav.Item>
                   <Nav.Item>
-                    <Nav.Link eventKey="changePasswordTag">Products</Nav.Link>
+                    <Nav.Link eventKey="addProduct">ADD Products</Nav.Link>
                   </Nav.Item>
                   <Nav.Item>
-                    <Nav.Link eventKey="updateUserInfoTab">Orders</Nav.Link>
+                    <Nav.Link eventKey="changePasswordTag">PRODUCTS</Nav.Link>
+                  </Nav.Item>
+                  <Nav.Item>
+                    <Nav.Link eventKey="updateUserInfoTab">ADD</Nav.Link>
                   </Nav.Item>
                   <Nav.Item>
                     <Nav.Link eventKey="orderHistory">Order History</Nav.Link>
@@ -168,7 +183,51 @@ const AdminModule = () => {
                     </tbody>
                   </Table>
                 )}
-                {activeTab === "changePasswordTag" && <></>}
+                {activeTab === "addProduct" && <>
+                
+                
+                  <div className="container mt-5">
+            <h2>Add New Product</h2>
+            <form onSubmit={handleSubmit}>
+                <div className="form-group">
+                    <label htmlFor="name">Product Name</label>
+                    <input type="text" className="form-control" id="name" name="name" required />
+                </div>
+                <div className="form-group">
+                    <label htmlFor="description">Description</label>
+                    <textarea className="form-control" id="description" name="description" rows="3" required></textarea>
+                </div>
+                <div className="form-group">
+                    <label htmlFor="price">Price</label>
+                    <input type="number" className="form-control" id="price" name="price" required />
+                </div>
+                <div className="form-group">
+                    <label htmlFor="stockQuantity">Stock Quantity</label>
+                    <input type="number" className="form-control" id="stockQuantity" name="stockQuantity" required />
+                </div>
+                <div className="form-group">
+                    <label htmlFor="brand">Brand</label>
+                    <input type="text" className="form-control" id="brand" name="brand" required />
+                </div>
+                <div className="form-group">
+                    <label htmlFor="category">Category</label>
+                    <input type="text" className="form-control" id="category" name="category" required />
+                </div>
+                <div className="form-group">
+                    <label htmlFor="imageURL">Image URL</label>
+                    <input type="url" className="form-control" id="imageURL" name="imageURL" required />
+                </div>
+                {customFields.map((field, index) => (
+                    <div className="form-group custom-field" key={index}>
+                        <label htmlFor={`customField${index}`}>Custom Field</label>
+                        <input type="text" className="form-control" id={`customField${index}`} name={`customField${index}`} />
+                    </div>
+                ))}
+                <button type="button" className="btn btn-secondary" onClick={addCustomField}>+ Add Custom Field</button>
+                <button type="submit" className="btn btn-primary">Submit</button>
+            </form>
+        </div>
+                </>}
                 {activeTab === "updateUserInfoTab" && <></>}
               </Card.Body>
             </Card>
