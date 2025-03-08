@@ -81,12 +81,12 @@ module.exports = (_, argv) => ({
       name: "container",
       filename: "remoteEntry.js",
       remotes: {
-          mf_product : "mf_product@http://localhost:3001/remoteEntry.js"
-
+          mf_product : "mf_product@http://localhost:3001/remoteEntry.js",
+          mf_purchase :  "mf_purchase@http://localhost:3002/remoteEntry.js"
+          
       },
       exposes: {
-            // "./Header" : "./src/Header.jsx",
-            // "./Footer":  "./src/Footer.jsx",
+       
             
       },
       shared: {
