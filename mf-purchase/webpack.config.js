@@ -9,7 +9,7 @@ const printCompilationMessage = require('./compilation.config.js');
 
 module.exports = (_, argv) => ({
   output: {
-    publicPath: "http://localhost:3000/",
+    publicPath: "http://localhost:3002/",
   },
 
   resolve: {
@@ -17,7 +17,7 @@ module.exports = (_, argv) => ({
   },
 
   devServer: {
-    port: 3000,
+    port: 3002,
     historyApiFallback: true,
     watchFiles: [path.resolve(__dirname, 'src')],
     onListening: function (devServer) {
@@ -57,37 +57,17 @@ module.exports = (_, argv) => ({
           loader: "babel-loader",
         },
       },
-      {
-        test: /\.scss$/,
-        use: [
-          'style-loader',
-          'css-loader',
-          'sass-loader'
-        ],
-      },
-      {
-        test: /\.(png|jpe?g|gif)$/i,
-        use: [
-          {
-            loader: 'file-loader',
-          },
-        ],
-      },
     ],
   },
 
   plugins: [
     new ModuleFederationPlugin({
-      name: "container",
+      name: "mf_purchase",
       filename: "remoteEntry.js",
-      remotes: {
-          mf_product : "mf_product@http://localhost:3001/remoteEntry.js",
-          mf_purchase :  "mf_purchase@http://localhost:3002/remoteEntry.js"
-          
-      },
+      remotes: {},
       exposes: {
-       
-            
+        "./Purchase" : "./src/components/Checkout.jsx",
+        "./Cart" : "./src/components/Cart.jsx"
       },
       shared: {
         ...deps,

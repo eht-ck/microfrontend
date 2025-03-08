@@ -14,6 +14,7 @@ import UserModule from "./pages/UserModule";
 import { Admin } from "./pages/Admin";
 import Products from "./pages/Products";
 import PdpPage from "./pages/PdpPage";
+import CartPage from "./pages/CartPage"
 const App = () => (
   <>
     <AuthProvider>
@@ -25,7 +26,7 @@ const App = () => (
           <Route path="user"  element={<UserModule/>} />
           <Route path="admin" element= {<Admin/>} />
           <Route path="product" element = {<Products/>} />
-
+          <Route path="cart" element ={<CartPage/>}/>
           <Route path="product/:id" element ={<PdpPage/>}/>
         </Routes>
       </BrowserRouter>

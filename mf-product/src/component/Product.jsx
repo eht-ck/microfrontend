@@ -2,14 +2,19 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import "bootstrap/dist/css/bootstrap.min.css";
 import Button from "react-bootstrap/Button";
+import Toast from "react-bootstrap/Toast";
+import ToastContainer from "react-bootstrap/ToastContainer";
 import { addToCart } from "../../api/api";
-import  "./ProductComp.css";
+import "./ProductComp.css";
+import { Alert } from "bootstrap";
 
 const Product = () => {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const [quantities, setQuantities] = useState({}); // Track quantity for each product
+  const [quantities, setQuantities] = useState({});
+  const [showToast, setShowToast] = useState(false);
+  const [toastMessage, setToastMessage] = useState("");
 
   const getProduct = async () => {
     try {
@@ -18,7 +23,7 @@ const Product = () => {
         {}
       );
       setData(response.data);
-       const initialQuantities = {};
+      const initialQuantities = {};
       response.data.forEach((product) => {
         initialQuantities[product.id] = 1;
       });
@@ -37,24 +42,35 @@ const Product = () => {
   const handleQuantityChange = (productId, amount) => {
     setQuantities((prev) => ({
       ...prev,
-      [productId]: Math.max(1, prev[productId] + amount),  
+      [productId]: Math.max(1, prev[productId] + amount),
     }));
   };
 
-  const handleAddToCart = (productId) => {
-    try{
-     addToCart(productId, quantities[productId]);
-    }catch(error){
-
+  const handleAddToCart = async (productId) => {
+    try {
+      console.log("ADDING TO CART")
+      await addToCart(productId, quantities[productId]);
+     alert("ADDED TO CART");
+    } catch (error) {
+      console.error("Error adding to cart:", error);
     }
-  
-   };
+  };
 
   if (loading) return <p>Loading...</p>;
   if (error) return <p>Error: {error}</p>;
 
   return (
     <div className="container-fluid mx-10">
+      <ToastContainer position="top-end" className="p-3">
+        <Toast
+          show={showToast}
+          onClose={() => setShowToast(false)}
+          delay={3000}
+          autohide
+        >
+          <Toast.Body>{toastMessage}</Toast.Body>
+        </Toast>
+      </ToastContainer>
       <div className="row mt-4">
         {data.map(
           (product) =>
@@ -112,6 +128,7 @@ const Product = () => {
             )
         )}
       </div>
+      
     </div>
   );
 };
