@@ -58,15 +58,17 @@ const Header = () => {
               <FaShoppingCart />
             </Nav.Link>
           ) : (
-            <Nav.Link href="/signup"> SignUp</Nav.Link>
+            <Nav.Link href="/signup" className="btn">
+              SignUp
+            </Nav.Link>
           )}
           {isLoggedIn ? (
-            <Nav.Link href="#logout" onClick={handleLogout}>
-              <FaSignOutAlt /> LOGOUT
+            <Nav.Link href="#logout" onClick={handleLogout} className="btn btn-outline-danger">
+              <FaSignOutAlt /> Logout
             </Nav.Link>
           ) : (
-            <Nav.Link href="/login">
-              <FaSignInAlt /> LOGIN{" "}
+            <Nav.Link href="/login" className="btn ">
+              <FaSignInAlt /> Login
             </Nav.Link>
           )}
           {isLoggedIn ? (

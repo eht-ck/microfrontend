@@ -5,7 +5,10 @@ import ToastContainer from "react-bootstrap/ToastContainer";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { FaTrash, FaBan, FaUserShield } from "react-icons/fa";
-import Image from "../../public/assets/4288d1.JPG"; 
+import Image from "../../public/assets/4288d1.JPG";
+import { Form, Row, Col } from "react-bootstrap";
+import AddProductForm from "./AddProductForm";
+
 const AdminModule = () => {
   const [activeTab, setActiveTab] = useState("userInfoTab");
   const [showToast, setShowToast] = useState(false);
@@ -19,15 +22,15 @@ const AdminModule = () => {
 
   const [customFields, setCustomFields] = useState([]);
 
-    const addCustomField = () => {
-        setCustomFields([...customFields, '']);
-    };
+  const addCustomField = () => {
+    setCustomFields([...customFields, ""]);
+  };
 
-    const handleSubmit = (event) => {
-        event.preventDefault();
-        // Add your form submission logic here
-        alert('Form submitted!');
-    };
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    // Add your form submission logic here
+    alert("Form submitted!");
+  };
 
   const getAllUsers = async () => {
     try {
@@ -68,35 +71,35 @@ const AdminModule = () => {
     };
     return config;
   };
-  const handleDeleteUser = async(userId) =>  {
+  const handleDeleteUser = async (userId) => {
     const config = getToken();
     const response = await axios.delete(
-        `http://localhost:8080/api/user/delete/${userId}`,
-        config
-      );
+      `http://localhost:8080/api/user/delete/${userId}`,
+      config
+    );
     console.log(`Delete user with ID: ${userId}`);
-  }
+  };
 
-  const handleBlockUser = async(userId) =>{
+  const handleBlockUser = async (userId) => {
     const config = getToken();
     const response = await axios.put(
-        `http://localhost:8080/api/user/block-user/${userId}`,
-        {},
-        config
-      );
+      `http://localhost:8080/api/user/block-user/${userId}`,
+      {},
+      config
+    );
     // Implement block user functionality
     console.log(`Block user with ID: ${userId}`);
-  }
+  };
 
-  const  handleMakeAdmin  = async (userId) => {
+  const handleMakeAdmin = async (userId) => {
     const config = getToken();
     const response = await axios.patch(
-        `http://localhost:8080/api/user/update/role/${userId}`,
-        {"role": "ADMIN"},
-        config
-      );
+      `http://localhost:8080/api/user/update/role/${userId}`,
+      { role: "ADMIN" },
+      config
+    );
     console.log(`Make user with ID: ${userId} an admin`);
-  }
+  };
 
   return (
     <>
@@ -183,51 +186,11 @@ const AdminModule = () => {
                     </tbody>
                   </Table>
                 )}
-                {activeTab === "addProduct" && <>
-                
-                
-                  <div className="container mt-5">
-            <h2>Add New Product</h2>
-            <form onSubmit={handleSubmit}>
-                <div className="form-group">
-                    <label htmlFor="name">Product Name</label>
-                    <input type="text" className="form-control" id="name" name="name" required />
-                </div>
-                <div className="form-group">
-                    <label htmlFor="description">Description</label>
-                    <textarea className="form-control" id="description" name="description" rows="3" required></textarea>
-                </div>
-                <div className="form-group">
-                    <label htmlFor="price">Price</label>
-                    <input type="number" className="form-control" id="price" name="price" required />
-                </div>
-                <div className="form-group">
-                    <label htmlFor="stockQuantity">Stock Quantity</label>
-                    <input type="number" className="form-control" id="stockQuantity" name="stockQuantity" required />
-                </div>
-                <div className="form-group">
-                    <label htmlFor="brand">Brand</label>
-                    <input type="text" className="form-control" id="brand" name="brand" required />
-                </div>
-                <div className="form-group">
-                    <label htmlFor="category">Category</label>
-                    <input type="text" className="form-control" id="category" name="category" required />
-                </div>
-                <div className="form-group">
-                    <label htmlFor="imageURL">Image URL</label>
-                    <input type="url" className="form-control" id="imageURL" name="imageURL" required />
-                </div>
-                {customFields.map((field, index) => (
-                    <div className="form-group custom-field" key={index}>
-                        <label htmlFor={`customField${index}`}>Custom Field</label>
-                        <input type="text" className="form-control" id={`customField${index}`} name={`customField${index}`} />
-                    </div>
-                ))}
-                <button type="button" className="btn btn-secondary" onClick={addCustomField}>+ Add Custom Field</button>
-                <button type="submit" className="btn btn-primary">Submit</button>
-            </form>
-        </div>
-                </>}
+                {activeTab === "addProduct" && (
+                  <>
+                    <AddProductForm />
+                  </>
+                )}
                 {activeTab === "updateUserInfoTab" && <></>}
               </Card.Body>
             </Card>
@@ -243,10 +206,16 @@ const AdminModule = () => {
             </Toast>
           </ToastContainer>
         </>
-      ) :    <div className="d-flex justify-content-center">
-          <img src={Image} className="img-fluid" style={{ maxWidth: '55%' }} alt="Responsive" />
-          </div>
-      }
+      ) : (
+        <div className="d-flex justify-content-center">
+          <img
+            src={Image}
+            className="img-fluid"
+            style={{ maxWidth: "55%" }}
+            alt="Responsive"
+          />
+        </div>
+      )}
     </>
   );
 };
