@@ -1,15 +1,14 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
-import 'bootstrap/dist/css/bootstrap.min.css';
 
 import "./index.css";
-import Product from "./component/Product";
-import Products from "./component/ProductComp";
-// import Header  from "container/Header";
-// import Footer  from "container/Footer";
+import Cart from "./components/Cart";
+
 const App = () => (
-  <Products/>
-  
+  <div className="container">
+    <Cart/>
+    hii
+  </div>
 );
 const rootElement = document.getElementById("app")
 if (!rootElement) throw new Error("Failed to find the root element")
