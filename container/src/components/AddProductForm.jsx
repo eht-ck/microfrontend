@@ -1,13 +1,23 @@
 import { useState } from "react";
 import { Form, Button, Card, Container, Row, Col } from "react-bootstrap";
+import Toast from "react-bootstrap/Toast";
+import ToastContainer from "react-bootstrap/ToastContainer";
+
 
 const categories = ["TEA", "TEA_BLENDS", "TEA_ACCESSORIES", "GIFT_SETS"];
 
 const AddProductForm = () => {
   const [customFields, setCustomFields] = useState([]);
+  const [showToast, setShowToast] = useState(false);
+  const [toastMessage, setToastMessage] = useState("");
   const [formData, setFormData] = useState({
     price: "",
     stockQuantity: "",
+    name: "",
+    category: "",
+    imageURL: "",
+    description: "",
+    brand: "",
   });
 
   const addCustomField = () => {
@@ -25,25 +35,60 @@ const AddProductForm = () => {
     setFormData({ ...formData, [name]: value });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     if (formData.price <= 0 || formData.stockQuantity <= 0) {
       alert("Price and Stock Quantity must be greater than 0");
       return;
     }
-    // Handle form submission logic
-    console.log("Form submitted successfully", formData, customFields);
+
+    const token = document.cookie
+      .split("; ")
+      .find((row) => row.startsWith("token="))
+      ?.split("=")[1];
+
+    if (token) {
+      const customFieldsObject = customFields.reduce((obj, field) => {
+        obj[field.key] = field.value;
+        return obj;
+      }, {});
+
+      const config = {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({ ...formData, customFields: customFieldsObject }),
+      };
+
+      try {
+        const response = await fetch("http://localhost:8081/api/products", config);
+        setShowToast(true);
+        setToastMessage("Product Added to Database!!!!")
+        
+      } catch (error) {
+        console.error("Error submitting form", error);
+      }
+    } else {
+      alert("No token found");
+    }
   };
 
   return (
     <Container className="mt-5">
       <Card className="shadow-sm border-0">
         <Card.Body>
-          <h2 className="mb-4 text-center fw-bold">Add New Product</h2>
           <Form onSubmit={handleSubmit}>
             <Form.Group className="mb-3">
               <Form.Label>Product Name</Form.Label>
-              <Form.Control type="text" name="name" required />
+              <Form.Control
+                type="text"
+                name="name"
+                value={formData.name}
+                onChange={handleChange}
+                required
+              />
             </Form.Group>
 
             <Form.Group className="mb-3">
@@ -52,6 +97,8 @@ const AddProductForm = () => {
                 as="textarea"
                 rows={3}
                 name="description"
+                value={formData.description}
+                onChange={handleChange}
                 required
               />
             </Form.Group>
@@ -89,13 +136,24 @@ const AddProductForm = () => {
               <Col md={6}>
                 <Form.Group className="mb-3">
                   <Form.Label>Brand</Form.Label>
-                  <Form.Control type="text" name="brand" required />
+                  <Form.Control
+                    type="text"
+                    name="brand"
+                    value={formData.brand}
+                    onChange={handleChange}
+                    required
+                  />
                 </Form.Group>
               </Col>
               <Col md={6}>
                 <Form.Group className="mb-3">
                   <Form.Label>Category</Form.Label>
-                  <Form.Select name="category" required>
+                  <Form.Select
+                    name="category"
+                    value={formData.category}
+                    onChange={handleChange}
+                    required
+                  >
                     <option value="">Select Category</option>
                     {categories.map((category) => (
                       <option key={category} value={category}>
@@ -109,7 +167,13 @@ const AddProductForm = () => {
 
             <Form.Group className="mb-3">
               <Form.Label>Image URL</Form.Label>
-              <Form.Control type="url" name="imageURL" required />
+              <Form.Control
+                type="url"
+                name="imageURL"
+                value={formData.imageURL}
+                onChange={handleChange}
+                required
+              />
             </Form.Group>
 
             {customFields.map((field, index) => (
@@ -153,6 +217,16 @@ const AddProductForm = () => {
           </Form>
         </Card.Body>
       </Card>
+      <ToastContainer position="top-end" className="p-3">
+            <Toast
+              show={showToast}
+              onClose={() => setShowToast(false)}
+              delay={3000}
+              autohide
+            >
+              <Toast.Body>{toastMessage}</Toast.Body>
+            </Toast>
+          </ToastContainer>
     </Container>
   );
 };

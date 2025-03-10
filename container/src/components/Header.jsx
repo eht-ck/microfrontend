@@ -54,7 +54,7 @@ const Header = () => {
           </Nav.Link>
 
           {isLoggedIn ? (
-            <Nav.Link href="#cart">
+            <Nav.Link href="/cart">
               <FaShoppingCart />
             </Nav.Link>
           ) : (
@@ -63,7 +63,7 @@ const Header = () => {
             </Nav.Link>
           )}
           {isLoggedIn ? (
-            <Nav.Link href="#logout" onClick={handleLogout} className="btn btn-outline-danger">
+            <Nav.Link onClick={handleLogout} className="btn">
               <FaSignOutAlt /> Logout
             </Nav.Link>
           ) : (

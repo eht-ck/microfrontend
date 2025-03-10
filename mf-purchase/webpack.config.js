@@ -67,7 +67,8 @@ module.exports = (_, argv) => ({
       remotes: {},
       exposes: {
         "./Purchase" : "./src/components/Checkout.jsx",
-        "./Cart" : "./src/components/Cart.jsx"
+        "./Cart" : "./src/components/Cart.jsx",
+        "./UserOrderHistory" : "./src/components/UserOrderHistory.jsx",
       },
       shared: {
         ...deps,
