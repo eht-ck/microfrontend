@@ -3,6 +3,7 @@ import { useLocation } from "react-router-dom";
 import axios from "axios";
 import { Container, Row, Col, Image, Button, Card, Badge } from "react-bootstrap";
 import { FaPlus, FaMinus, FaGift, FaTshirt, FaMobileAlt } from "react-icons/fa"; 
+import { addToCart } from "../../api/api";
 
 const Pdp = () => {
   const location = useLocation();
@@ -19,6 +20,16 @@ const Pdp = () => {
       `http://localhost:8081/api/products/${productId}`
     );
     setProduct(response.data);
+  };
+
+  const handleAddToCart = async (productId) => {
+    try {
+      console.log("ADDING TO CART");
+      await addToCart(productId, quantities);
+      alert("ADDED TO CART");
+    } catch (error) {
+      console.error("Error adding to cart:", error);
+    }
   };
 
   useEffect(() => {
@@ -81,6 +92,19 @@ const Pdp = () => {
                 <h4>Price: ₹{product.price}</h4>
               )}
 
+              {product.customFields && (
+                <div className="mt-3">
+                  <h5>Additional Information:</h5>
+                  <ul>
+                    {Object.entries(product.customFields).map(([key, value]) => (
+                      <li key={key}>
+                        <strong>{key}:</strong> {value}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              )}
+
               <div className="d-flex justify-content-center align-items-center gap-2 my-3">
                 <Button
                   variant="outline-secondary"
@@ -98,7 +122,10 @@ const Pdp = () => {
                   <FaPlus />
                 </Button>
               </div>
-              <Button variant="success" className="w-100">
+              <Button variant="success" className="w-100" onClick={(e) => {
+                e.preventDefault();
+                handleAddToCart(product.id);
+              }}>
                 Add to Cart
               </Button>
             </Card.Body>

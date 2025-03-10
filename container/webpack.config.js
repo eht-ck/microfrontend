@@ -17,7 +17,8 @@ module.exports = (_, argv) => ({
   },
 
   devServer: {
-    port: 3000,
+    allowedHosts : "all",
+        port: 3000,
     historyApiFallback: true,
     watchFiles: [path.resolve(__dirname, 'src')],
     onListening: function (devServer) {

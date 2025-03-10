@@ -10,6 +10,8 @@ import {
 } from "react-bootstrap";
 import axios from "axios";
 import "./ProductComp.css";
+import { addToCart } from "../../api/api";
+
 
 const ProductComp = () => {
   const [selectedBrand, setSelectedBrand] = useState("");
@@ -22,7 +24,7 @@ const ProductComp = () => {
 
   const brands = ["Teagritty", "Tetly", "Nestle"];
   const categories = ["TEA", "TEA_BLENDS", "TEA_ACCESSORIES", "GIFT_SETS"];
-  const debounceTimeout = useRef(null); // Store debounce timeout reference
+  const debounceTimeout = useRef(null);  
 
   const fetchProducts = async (filters) => {
     try {
@@ -31,14 +33,38 @@ const ProductComp = () => {
         filters
       );
       setProducts(response.data);
+      const initialQuantities = {};
+      response.data.forEach((product) => {
+        initialQuantities[product.id] = 1;
+      });
+      setQuantities(initialQuantities);
     } catch (error) {
       console.error("Error fetching products:", error);
     }
   };
 
+  const [quantities, setQuantities] = useState({});
+
+  const handleAddToCart = async (productId) => {
+    try {
+      console.log("ADDING TO CART")
+      await addToCart(productId, quantities[productId]);
+     alert("ADDED TO CART");
+    } catch (error) {
+      console.error("Error adding to cart:", error);
+    }
+  };
+
+  const handleQuantityChange = (productId, amount) => {
+    setQuantities((prev) => ({
+      ...prev,
+      [productId]: Math.max(1, prev[productId] + amount),
+    }));
+  };
+
+
   useEffect(() => {
-    // Clear previous timeout if user types quickly
-    if (debounceTimeout.current) {
+     if (debounceTimeout.current) {
       clearTimeout(debounceTimeout.current);
     }
 
@@ -52,7 +78,7 @@ const ProductComp = () => {
       filters.sortDirection = sortDirection;
 
       fetchProducts(filters);
-    }, 500); // 500ms delay for debouncing
+    }, 500); 
 
     return () => clearTimeout(debounceTimeout.current);
   }, [
@@ -202,8 +228,37 @@ const ProductComp = () => {
                         )}
                         <Card.Text>Price: ₹{product.price}</Card.Text>
                       </Card.Body>
-                      <Card.Footer className="d-flex justify-content-center">
-                        <Button variant="success">Add to Cart</Button>
+                      <div className="d-flex justify-content-center align-items-center gap-2">
+                      <Button
+                        variant="outline-secondary"
+                        size="sm"
+                        onClick={(e) => {
+                          e.preventDefault();
+                          handleQuantityChange(product.id, -1);
+                        }}
+                      >
+                        -
+                      </Button>
+                      <span>{quantities[product.id]}</span>
+                      <Button
+                        variant="outline-secondary"
+                        size="sm"
+                        
+                        onClick={(e) => {
+                          e.preventDefault();
+                          handleQuantityChange(product.id, 1);
+                        }}
+                      >
+                        +
+                      </Button>
+                    </div>
+                      <Card.Footer className="d-flex justify-content-center mt-2">
+                        <Button variant="success" 
+                        onClick={(e) => {
+                          e.preventDefault();
+                          handleAddToCart(product.id);
+                        }}>
+                          Add to Cart</Button>
                       </Card.Footer>
                     </Card>
                   </a>

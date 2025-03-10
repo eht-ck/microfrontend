@@ -4,6 +4,7 @@ import Toast from "react-bootstrap/Toast";
 import ToastContainer from "react-bootstrap/ToastContainer";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import UserOrderHistory from "mf_purchase/UserOrderHistory"
 const UserProfile = () => {
   const [activeTab, setActiveTab] = useState("#userInfoTab");
   const [userInfo, setUserInfo] = useState({});
@@ -176,13 +177,19 @@ const UserProfile = () => {
                 </Nav.Link>
               </Nav.Item>
               <Nav.Item>
-                <Nav.Link eventKey="#orderHistory" disabled>
+                <Nav.Link eventKey="#orderHistory" >
                   Order History
                 </Nav.Link>
               </Nav.Item>
             </Nav>
           </Card.Header>
           <Card.Body>
+            {
+              activeTab === "#orderHistory" && (<>
+              <UserOrderHistory/>
+              </>)
+              
+            }
             {activeTab === "#userInfoTab" && (
               <>
                 <Card.Title className="text-center mb-4">

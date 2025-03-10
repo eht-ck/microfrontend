@@ -130,6 +130,44 @@ const Cart = () => {
     }
   };
 
+  const handleStripeCheckout = async () => {
+    try {
+      const config = tokenHeader();
+      let placeOrderDTO;
+      let finalPrice;
+      if (!selectedCartItem) {
+        placeOrderDTO = {
+          cartItemList: cart.cartItems.map((item) => item.cartItemId),
+        };
+        finalPrice = totalAmount;
+      } else {
+        placeOrderDTO = {
+          cartItemList: selectedCartItem.cartItemId,
+        };
+        finalPrice =
+          selectedCartItem.product.price *
+          selectedCartItem.quantity *
+          (1 - selectedCartItem.discount / 100);
+      }
+
+      const response = await axios.post(
+        "http://localhost:8082/api/order/stripeCheckout",
+        {
+          name: "Total Cart",
+          amount: finalPrice * 100,
+          currency: "INR",
+          quantity: 1,
+          orderDataJson: JSON.stringify(placeOrderDTO),
+        },
+        config
+      );
+
+      window.location.href = response.data.sessionUrl;
+    } catch (error) {
+      console.error("Error initiating Stripe checkout:", error);
+    }
+  };
+
   if (loading) {
     return <Spinner animation="border" />;
   }
@@ -167,8 +205,8 @@ const Cart = () => {
                       <Card.Body>
                         <Card.Title>{item.product.name}</Card.Title>
                         <Card.Text>
-                           Price: ₹{item.product.price} <br />
-                           Discount: {item.discount}%
+                          Price: ₹{item.product.price} <br />
+                          Discount: {item.discount}%
                         </Card.Text>
                         <Form inline>
                           <Button
@@ -179,9 +217,8 @@ const Cart = () => {
                             }
                           >
                             -
-                          </Button>
-                          {" "}{item.quantity} {" "}
-                          
+                          </Button>{" "}
+                          {item.quantity}{" "}
                           <Button
                             variant="secondary"
                             size="sm"
@@ -215,7 +252,7 @@ const Cart = () => {
               <Button variant="success" onClick={() => placeOrder()}>
                 Place Order for Whole Cart
               </Button>
-              <br/>
+              <br />
               <Button variant="danger" className="mt-2" onClick={clearCart}>
                 Clear Cart
               </Button>
@@ -224,78 +261,87 @@ const Cart = () => {
         </Col>
       </Row>
       <Modal show={showModal} onHide={handleCloseModal}>
-  <Modal.Header closeButton>
-    <Modal.Title>Confirm Your Order</Modal.Title>
-  </Modal.Header>
-  <Modal.Body>
-    <Row>
-      <Col md={6}>
-        <ListGroup>
-          {selectedCartItem ? (
-            <Card className="mb-3 shadow-sm rounded">
-              <ListGroup.Item key={selectedCartItem.cartItemId}>
-                <Row>
-                  <Col md={4}>
-                    <img
-                      src={selectedCartItem.product.imageURL}
-                      alt={selectedCartItem.product.name}
-                      className="img-fluid rounded"
-                    />
-                  </Col>
-                  <Col md={8}>
-                    <h5>{selectedCartItem.product.name}</h5>
-                    <p>Price: ₹{selectedCartItem.product.price}</p>
-                    <p>Quantity: {selectedCartItem.quantity}</p>
-                  </Col>
-                </Row>
-              </ListGroup.Item>
-            </Card>
-          ) : (
-            cart.cartItems.map((item) => (
-              <Card className="mb-3 shadow-sm rounded" key={item.cartItemId}>
-                <ListGroup.Item>
-                  <Row>
-                    <Col md={4}>
-                      <img
-                        src={item.product.imageURL}
-                        alt={item.product.name}
-                        className="img-fluid rounded"
-                      />
-                    </Col>
-                    <Col md={8}>
-                      <h5>{item.product.name}</h5>
-                      <p>Price: ₹{item.product.price}</p>
-                      <p>Quantity: {item.quantity}</p>
-                    </Col>
-                  </Row>
-                </ListGroup.Item>
-              </Card>
-            ))
-          )}
-        </ListGroup>
-      </Col>
-      <Col md={6}>
-        <p>Total Amount: ₹{totalAmount}</p>
-       
-        <Button
-          variant="success"
-          className="ml-2"
-          onClick={() =>
-            confirmOrder(
-              selectedCartItem ? selectedCartItem.cartItemId : null
-            )
-          }
-        >
-          Confirm Order
-        </Button>
-        <br/>
-        <Button variant="outline-secondary" onClick={handleCloseModal}>
-          Cancel
-        </Button>
-      </Col>
-    </Row>
-  </Modal.Body>
-</Modal>    </Container>
+        <Modal.Header closeButton>
+          <Modal.Title>Confirm Your Order</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <Row>
+            <Col md={6}>
+              <ListGroup>
+                {selectedCartItem ? (
+                  <Card className="mb-3 shadow-sm rounded">
+                    <ListGroup.Item key={selectedCartItem.cartItemId}>
+                      <Row>
+                        <Col md={4}>
+                          <img
+                            src={selectedCartItem.product.imageURL}
+                            alt={selectedCartItem.product.name}
+                            className="img-fluid rounded"
+                          />
+                        </Col>
+                        <Col md={8}>
+                          <h5>{selectedCartItem.product.name}</h5>
+                          <p>Price: ₹{selectedCartItem.product.price}</p>
+                          <p>Quantity: {selectedCartItem.quantity}</p>
+                        </Col>
+                      </Row>
+                    </ListGroup.Item>
+                  </Card>
+                ) : (
+                  cart.cartItems.map((item) => (
+                    <Card
+                      className="mb-3 shadow-sm rounded"
+                      key={item.cartItemId}
+                    >
+                      <ListGroup.Item>
+                        <Row>
+                          <Col md={4}>
+                            <img
+                              src={item.product.imageURL}
+                              alt={item.product.name}
+                              className="img-fluid rounded"
+                            />
+                          </Col>
+                          <Col md={8}>
+                            <h5>{item.product.name}</h5>
+                            <p>Price: ₹{item.product.price}</p>
+                            <p>Quantity: {item.quantity}</p>
+                          </Col>
+                        </Row>
+                      </ListGroup.Item>
+                    </Card>
+                  ))
+                )}
+              </ListGroup>
+            </Col>
+            <Col md={6}>
+              {selectedCartItem ? (
+                <p>
+                  Total Amount: ₹
+                  {selectedCartItem.product.price *
+                    selectedCartItem.quantity *
+                    (1 - selectedCartItem.discount / 100)}
+                </p>
+              ) : (
+                <p>Total Amount: ₹{totalAmount}</p>
+              )}
+
+              <Button
+                variant="success"
+                className="ml-2"
+                onClick={handleStripeCheckout}
+              >
+                Confirm Order
+              </Button>
+              <br />
+              <Button variant="outline-secondary" onClick={handleCloseModal}>
+                Cancel
+              </Button>
+            </Col>
+          </Row>
+        </Modal.Body>
+      </Modal>{" "}
+    </Container>
   );
 };
 

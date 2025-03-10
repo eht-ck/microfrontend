@@ -25,10 +25,22 @@ const addToCart = async (productId, quantity) => {
         const response = await axios.post(`http://localhost:8082/api/cart`,payload,tokenHeader());   
 
     }
+
+
    
 
+const getUserOrder = async () => {
+        try {
+            const response = await axios.get("http://localhost:8082/api/order/", tokenHeader());
+            const data = response.data;
+            console.log(data);
+            return data;
+        } catch (error) {
+            console.error("Error fetching user order:", error);
+        }
+};
+    
 
 
 
-
-export  {addToCart};
+export { addToCart, getUserOrder };

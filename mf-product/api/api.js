@@ -23,12 +23,20 @@ const addToCart = async (productId, quantity) => {
             quantity: quantity
         }
         const response = await axios.post(`http://localhost:8082/api/cart`,payload,tokenHeader());   
-
+        
     }
    
 
+    const fetchAllProducts = async () => {
+        try {
+          const response = await axios.post("http://localhost:8081/api/products/filter-and-search", {});
+          return response.data;
+        } catch (error) {
+          console.error("Error fetching products:", error);
+          throw error;
+        }
+      };
 
 
 
-
-export  {addToCart};
+export  {addToCart, fetchAllProducts};

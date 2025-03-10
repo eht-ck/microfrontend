@@ -9,6 +9,8 @@ import Image from "../../public/assets/4288d1.JPG";
 import { Form, Row, Col } from "react-bootstrap";
 import AddProductForm from "./AddProductForm";
 
+import ProductUpdate from "mf_product/ProductUpdate";
+
 const AdminModule = () => {
   const [activeTab, setActiveTab] = useState("userInfoTab");
   const [showToast, setShowToast] = useState(false);
@@ -117,13 +119,11 @@ const AdminModule = () => {
                     <Nav.Link eventKey="userInfoTab">All Users</Nav.Link>
                   </Nav.Item>
                   <Nav.Item>
-                    <Nav.Link eventKey="addProduct">ADD Products</Nav.Link>
+                    <Nav.Link eventKey="addProduct">Add Products</Nav.Link>
                   </Nav.Item>
+               
                   <Nav.Item>
-                    <Nav.Link eventKey="changePasswordTag">PRODUCTS</Nav.Link>
-                  </Nav.Item>
-                  <Nav.Item>
-                    <Nav.Link eventKey="updateUserInfoTab">ADD</Nav.Link>
+                    <Nav.Link eventKey="updateProduct">Update Product</Nav.Link>
                   </Nav.Item>
                   <Nav.Item>
                     <Nav.Link eventKey="orderHistory">Order History</Nav.Link>
@@ -191,7 +191,11 @@ const AdminModule = () => {
                     <AddProductForm />
                   </>
                 )}
-                {activeTab === "updateUserInfoTab" && <></>}
+                {activeTab === "updateProduct" && <>
+                
+                  <ProductUpdate/>
+                
+                </>}
               </Card.Body>
             </Card>
           </Container>

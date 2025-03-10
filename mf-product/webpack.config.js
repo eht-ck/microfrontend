@@ -73,6 +73,7 @@ module.exports = (_, argv) => ({
           "./Product" : "./src/component/Product.jsx",
           "./ProductComp" : "./src/component/ProductComp.jsx",
           "./PDP" : "./src/component/Pdp.jsx",
+          "./ProductUpdate": "./src/component/ProductUpdate.jsx",
 
       },
       shared: {

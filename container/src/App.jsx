@@ -15,6 +15,7 @@ import { Admin } from "./pages/Admin";
 import Products from "./pages/Products";
 import PdpPage from "./pages/PdpPage";
 import CartPage from "./pages/CartPage"
+import OrderComplete from "./pages/OrderComplete";
 const App = () => (
   <>
     <AuthProvider>
@@ -28,6 +29,7 @@ const App = () => (
           <Route path="product" element = {<Products/>} />
           <Route path="cart" element ={<CartPage/>}/>
           <Route path="product/:id" element ={<PdpPage/>}/>
+          <Route path="orderplaced" element ={<OrderComplete/>}/>
         </Routes>
       </BrowserRouter>
     </AuthProvider>

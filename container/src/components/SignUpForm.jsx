@@ -5,6 +5,9 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import Toast from "react-bootstrap/Toast";
 import ToastContainer from "react-bootstrap/ToastContainer";
+import SignUpImg from "../../public/assets/Signup.gif";
+import Image from "react-bootstrap/Image";
+import { Row, Col, Container } from 'react-bootstrap';
 
 const SignUpForm = () => {
   const [userName, setUserName] = useState("");
@@ -48,8 +51,7 @@ const SignUpForm = () => {
         payload
       );
       console.log("Signup Successfully: ", response.data);
-      setToastMessage("Signup Successfully!  Redirecting to Login Page");
-
+      setToastMessage("Signup Successfully! Redirecting to Login Page");
 
       setShowToast(true);
       setTimeout(() => {
@@ -65,65 +67,71 @@ const SignUpForm = () => {
       console.log("Signup Failed: ", error);
     }
   };
+
   return (
     <>
-      <div className="container d-flex vh-100">
-        <div className="row w-100 justify-content-center align-items-center">
-          <div className="col-10 col-md-8 col-lg-6 p-5 border border-success rounded">
-            <Form onSubmit={handleSubmitSignup} >
-              <div className="fst-italic brand-color mx-auto text-center">
-                TEA TREATS 🍃
-              </div>
-              <Form.Group controlId="formBasicUserName">
-                <Form.Label>UserName</Form.Label>
-                <Form.Control
-                  type="text"
-                  placeholder="Enter userName"
-                  value={userName}
-                  onChange={(e) => setUserName(e.target.value)}
-                />
-              </Form.Group>
+      <Container className="d-flex vh-100">
+        <Row className="w-100 justify-content-center align-items-center">
+          <Col xs={12} md={8} lg={6} className="p-5 border border-success rounded shadow-lg">
+            <Form onSubmit={handleSubmitSignup}>
+              <Row className="align-items-center">
+                <Col md={6} className="text-center mb-3 mb-md-0">
+                  <Image src={SignUpImg} fluid style={{ width: '200px', height: '200px' }} />
+                </Col>
+                <Col md={6}>
+                  <Form.Group controlId="formBasicUserName" className="mb-3">
+                    <Form.Label>UserName</Form.Label>
+                    <Form.Control
+                      type="text"
+                      placeholder="Enter userName"
+                      value={userName}
+                      onChange={(e) => setUserName(e.target.value)}
+                    />
+                  </Form.Group>
 
-              <Form.Group className="mb-3" controlId="formBasicPassword">
-                <Form.Label>Password</Form.Label>
-                <Form.Control
-                  type="password"
-                  placeholder="Password"
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                />
-                {passwordError && (
-                  <div className="text-danger">{passwordError}</div>
-                )}
-              </Form.Group>
+                  <Form.Group className="mb-3" controlId="formBasicPassword">
+            <Form.Label>Password</Form.Label>
+            <Form.Control
+              type="password"
+              placeholder="Password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+            />
+            {passwordError && (
+              <div className="text-danger">{passwordError}</div>
+            )}
+          </Form.Group>
 
-              <Form.Group className="mb-3" controlId="formBasicEmail">
-                <Form.Label>Email</Form.Label>
-                <Form.Control
-                  type="email"
-                  placeholder="Email"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                />
-              </Form.Group>
 
-              <Form.Group className="mb-3" controlId="formBasicAddress">
-                <Form.Label>Address</Form.Label>
-                <Form.Control
-                  type="text"
-                  placeholder="Address"
-                  value={address}
-                  onChange={(e) => setAddress(e.target.value)}
-                />
-              </Form.Group>
-              {formError && <div className="text-danger">{formError}</div>}
+                  <Form.Group className="mb-3" controlId="formBasicEmail">
+                    <Form.Label>Email</Form.Label>
+                    <Form.Control
+                      type="email"
+                      placeholder="Email"
+                      value={email}
+                      onChange={(e) => setEmail(e.target.value)}
+                    />
+                  </Form.Group>
 
-              <Button variant="success" type="submit">
-                SignUp
-              </Button>
+                  <Form.Group className="mb-3" controlId="formBasicAddress">
+                    <Form.Label>Address</Form.Label>
+                    <Form.Control
+                      type="text"
+                      placeholder="Address"
+                      value={address}
+                      onChange={(e) => setAddress(e.target.value)}
+                    />
+                  </Form.Group>
+                  {formError && <div className="text-danger">{formError}</div>}
+
+                  <Button variant="success" type="submit" className="w-100">
+                    SignUp
+                  </Button>
+                </Col>
+              </Row>
             </Form>
-          </div>
-        </div>
+          </Col>
+        </Row>
         <ToastContainer position="top-end" className="p-3">
           <Toast
             show={showToast}
@@ -137,7 +145,7 @@ const SignUpForm = () => {
             <Toast.Body>{toastMessage}</Toast.Body>
           </Toast>
         </ToastContainer>
-      </div>
+      </Container>
     </>
   );
 };

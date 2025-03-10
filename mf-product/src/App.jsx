@@ -5,10 +5,12 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import "./index.css";
 import Product from "./component/Product";
 import Products from "./component/ProductComp";
+import ProductUpdate from "./component/ProductUpdate";
 // import Header  from "container/Header";
 // import Footer  from "container/Footer";
 const App = () => (
-  <Products/>
+  // <Products/>
+  <ProductUpdate/>
   
 );
 const rootElement = document.getElementById("app")
