@@ -46,9 +46,8 @@ const Header = () => {
           </Nav>
         </Navbar.Collapse>
         <div className="d-flex align-items-center gap-3">
-          <Nav.Link href="#search">
-            <FaSearch />
-          </Nav.Link>
+        
+        
           <Nav.Link href="/admin">
             <GrUserAdmin />
           </Nav.Link>
