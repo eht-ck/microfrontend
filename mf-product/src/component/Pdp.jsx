@@ -45,6 +45,11 @@ const Pdp = () => {
     setQuantities((prev) => Math.max(1, prev + quantity)); 
   };
 
+  const handleQuantityInputChange = (value) => {
+    const quantity = Math.max(1, Number(value));
+    setQuantities(quantity);
+  };
+
   const getCategoryIcon = (category) => {
     switch (category) {
       case "GIFT_SETS":
@@ -59,7 +64,7 @@ const Pdp = () => {
   };
 
   return (
-    <Container className="mt-5 mb-3">
+    <Container className="mt-5 mb-0">
       <Row>
         <Col md={5}>
           <Image
@@ -113,7 +118,13 @@ const Pdp = () => {
                 >
                   <FaMinus />
                 </Button>
-                <span>{quantities}</span>
+                <input
+                  type="number"
+                  value={quantities}
+                  onChange={(e) => handleQuantityInputChange(e.target.value)}
+                  className="form-control text-center"
+                  style={{ width: "60px" }}
+                />
                 <Button
                   variant="outline-secondary"
                   size="sm"

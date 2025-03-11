@@ -41,6 +41,31 @@ const getUserOrder = async () => {
 };
     
 
+const getAllOrders = async (page = 0, size = 10) => {
+    try {
+        const response = await axios.get(`http://localhost:8082/api/order/all?page=${page}&size=${size}`, tokenHeader());
+        const data = response.data;
+        console.log(data);
+        return data;
+    } catch (error) {
+        console.error('Error fetching all orders:', error);
+    }
+};
 
 
-export { addToCart, getUserOrder };
+const updateOrderStatus = async (orderId, status) => {
+    try {
+        const response = await axios.patch(
+            'http://localhost:8082/api/order/status',
+            { orderId, status },
+            tokenHeader()
+        );
+        const data = response.data;
+        console.log(data);
+        return data;
+    } catch (error) {
+        console.error('Error updating order status:', error);
+    }
+};
+
+export { addToCart, getUserOrder, getAllOrders , updateOrderStatus};

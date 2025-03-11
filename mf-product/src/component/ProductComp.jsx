@@ -21,6 +21,8 @@ const ProductComp = () => {
   const [sortBy, setSortBy] = useState("name");
   const [sortDirection, setSortDirection] = useState("asc");
   const [products, setProducts] = useState([]);
+  const [searchKeyword, setSearchKeyword] = useState("");
+
 
   const brands = ["Teagritty", "Tetly", "Nestle"];
   const categories = ["TEA", "TEA_BLENDS", "TEA_ACCESSORIES", "GIFT_SETS"];
@@ -55,13 +57,7 @@ const ProductComp = () => {
     }
   };
 
-  const handleQuantityChange = (productId, amount) => {
-    setQuantities((prev) => ({
-      ...prev,
-      [productId]: Math.max(1, prev[productId] + amount),
-    }));
-  };
-
+ 
 
   useEffect(() => {
      if (debounceTimeout.current) {
@@ -74,6 +70,7 @@ const ProductComp = () => {
       if (selectedCategory) filters.category = selectedCategory;
       if (minPrice) filters.minPrice = minPrice;
       if (maxPrice) filters.maxPrice = maxPrice;
+      if (searchKeyword) filters.keyword = searchKeyword;
       filters.sortBy = sortBy;
       filters.sortDirection = sortDirection;
 
@@ -88,6 +85,7 @@ const ProductComp = () => {
     maxPrice,
     sortBy,
     sortDirection,
+    searchKeyword,
   ]);
 
   const handleBrandChange = (brand) => {
@@ -100,6 +98,20 @@ const ProductComp = () => {
     );
   };
 
+  const handleQuantityInputChange = (amount, productId) => {
+    setQuantities((prev) => ({
+      ...prev,
+      [productId]: Math.max(1,  amount),
+    }));
+  };
+  const handleQuantityChange = (productId, amount) => {
+    setQuantities((prev) => ({
+      ...prev,
+      [productId]: Math.max(1, prev[productId] + amount),
+    }));
+  };
+
+
   const clearFilters = () => {
     setSelectedBrand("");
     setSelectedCategory("");
@@ -107,6 +119,7 @@ const ProductComp = () => {
     setMaxPrice("");
     setSortBy("brand");
     setSortDirection("asc");
+    setSearchKeyword("");
   };
 
   return (
@@ -116,7 +129,17 @@ const ProductComp = () => {
           <Card className="p-3 shadow-sm">
             <Card.Body>
               <h5 className="mb-3">Filters</h5>
-
+              <Form.Group className="mb-3">
+                <Form.Label>
+                  <strong>Search</strong>
+                </Form.Label>
+                <Form.Control
+                  type="text"
+                  placeholder="Search products"
+                  value={searchKeyword}
+                  onChange={(e) => setSearchKeyword(e.target.value)}
+                />
+              </Form.Group>
               <Form.Group className="mb-3">
                 <Form.Label>
                   <strong>Brand</strong>
@@ -239,7 +262,14 @@ const ProductComp = () => {
                       >
                         -
                       </Button>
-                      <span>{quantities[product.id]}</span>
+                      <input
+                  type="number"
+                  value={quantities[product.id]}
+                  onClick={(e) => e.preventDefault()}
+                  onChange={(e) => handleQuantityInputChange(e.target.value, product.id)}
+                  className="form-control text-center"
+                  style={{ width: "60px" }}
+                />
                       <Button
                         variant="outline-secondary"
                         size="sm"

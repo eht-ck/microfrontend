@@ -6,7 +6,6 @@ import Toast from "react-bootstrap/Toast";
 import ToastContainer from "react-bootstrap/ToastContainer";
 import { addToCart } from "../../api/api";
 import "./ProductComp.css";
-import { Alert } from "bootstrap";
 
 const Product = () => {
   const [data, setData] = useState([]);
@@ -46,13 +45,23 @@ const Product = () => {
     }));
   };
 
+  const handleQuantityInputChange = (productId, value) => {
+    const quantity = Math.max(1, Number(value));
+    setQuantities((prev) => ({
+      ...prev,
+      [productId]: quantity,
+    }));
+  };
+
   const handleAddToCart = async (productId) => {
     try {
-      console.log("ADDING TO CART")
       await addToCart(productId, quantities[productId]);
-     alert("ADDED TO CART");
+      setToastMessage("Added to cart");
+      setShowToast(true);
     } catch (error) {
       console.error("Error adding to cart:", error);
+      setToastMessage("Error adding to cart");
+      setShowToast(true);
     }
   };
 
@@ -71,13 +80,15 @@ const Product = () => {
           <Toast.Body>{toastMessage}</Toast.Body>
         </Toast>
       </ToastContainer>
-      <div className="row mt-4">
-        
+      <div className="row">
         {data.map(
           (product) =>
-             (
+            product.featured && (
               <div key={product.id} className="col-md-3 mb-2">
-                <a href={`/product/${product.id}`} className="text-decoration-none">
+                <a
+                  href={`/product/${product.id}`}
+                  className="text-decoration-none"
+                >
                   <div className="card h-100 text-center">
                     <img
                       src={product.imageURL}
@@ -99,7 +110,19 @@ const Product = () => {
                       >
                         -
                       </Button>
-                      <span>{quantities[product.id]}</span>
+                      <input
+                        type="number"
+                        value={quantities[product.id]}
+                        onChange={(e) => {
+                         
+                          handleQuantityInputChange(product.id, e.target.value);
+                        }}
+                        onClick={(e) =>
+                          e.preventDefault()
+                        }
+                        className="form-control text-center"
+                        style={{ width: "60px" }}
+                      />
                       <Button
                         variant="outline-secondary"
                         size="sm"
@@ -129,7 +152,6 @@ const Product = () => {
             )
         )}
       </div>
-      
     </div>
   );
 };
