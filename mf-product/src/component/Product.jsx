@@ -72,9 +72,10 @@ const Product = () => {
         </Toast>
       </ToastContainer>
       <div className="row mt-4">
+        
         {data.map(
           (product) =>
-            product.featured && (
+             (
               <div key={product.id} className="col-md-3 mb-2">
                 <a href={`/product/${product.id}`} className="text-decoration-none">
                   <div className="card h-100 text-center">

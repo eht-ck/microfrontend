@@ -2,3 +2,8 @@
   --banner-green: #2e524a;
   --navbar-green: #BAC9AC;
 }
+
+html, body {
+  max-width: 100%;
+  overflow-x: hidden;
+}
