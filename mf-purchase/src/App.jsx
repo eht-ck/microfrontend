@@ -5,10 +5,11 @@ import "./index.css";
 import Cart from "./components/Cart";
 import UserOrderHistory from "./components/UserOrderHistory";
 import 'bootstrap/dist/css/bootstrap.min.css';
+import AllOrderHistory from "./components/AllOrderHistory";
  
 const App = () => (
   <div className="container">
-     hii
+     <AllOrderHistory/>
   </div>
 );
 const rootElement = document.getElementById("app")

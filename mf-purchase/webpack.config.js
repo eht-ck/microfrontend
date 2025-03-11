@@ -69,6 +69,7 @@ module.exports = (_, argv) => ({
         "./Purchase" : "./src/components/Checkout.jsx",
         "./Cart" : "./src/components/Cart.jsx",
         "./UserOrderHistory" : "./src/components/UserOrderHistory.jsx",
+        "./AllOrderHistory" : "./src/components/AllOrderHistory.jsx"
       },
       shared: {
         ...deps,
