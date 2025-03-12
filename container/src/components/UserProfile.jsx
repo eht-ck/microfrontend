@@ -1,31 +1,27 @@
 import React, { useState, useEffect } from "react";
 import { Card, Nav, Button, Form, Row, Col, Container } from "react-bootstrap";
-import Toast from "react-bootstrap/Toast";
-import ToastContainer from "react-bootstrap/ToastContainer";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import UserProfileGif from "../../public/assets/UserProfile.gif"
-import ResetPass from "../../public/assets/resetpass.gif"
-import UpdateProfile from "../../public/assets/updateProfile.gif"
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import UserProfileGif from "../../public/assets/UserProfile.gif";
+import ResetPass from "../../public/assets/resetpass.gif";
+import UpdateProfile from "../../public/assets/updateProfile.gif";
+import UserOrderHistory from "mf_purchase/UserOrderHistory";
 
-import UserOrderHistory from "mf_purchase/UserOrderHistory"
 const UserProfile = () => {
   const [activeTab, setActiveTab] = useState("#userInfoTab");
   const [userInfo, setUserInfo] = useState({});
-  const [showToast, setShowToast] = useState(false);
-  const [toastMessage, setToastMessage] = useState("");
   const [error, setError] = useState("");
   const [oldPassword, setOldPassword] = useState("");
   const [passwordError, setPasswordError] = useState("");
   const [updatedUserName, setUpdatedUserName] = useState(userInfo.userName);
   const [address, setAddress] = useState(userInfo.address);
   const [email, setEmail] = useState(userInfo.email);
-  const[toastType, setToastType] = useState("");
-  const[confirmNewPassword, setConfirmNewPassword] = useState("");
-
+  const [confirmNewPassword, setConfirmNewPassword] = useState("");
+  const [newPassword, setNewPassword] = useState("");
   const navigate = useNavigate();
 
-  const [newPassword, setNewPassword] = useState("");
   const getUserDetail = async () => {
     try {
       const token = document.cookie
@@ -65,18 +61,18 @@ const UserProfile = () => {
   const handleTabSelect = (eventKey) => {
     setActiveTab(eventKey);
   };
+
   const passwordRegex =
     /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
 
   const handlePasswordChange = async (e) => {
     try {
       setPasswordError("");
-      console.log("CHANGING PASSWORD");
       e.preventDefault();
-      if(newPassword.localeCompare(confirmNewPassword)!=0 ){
+      if (newPassword.localeCompare(confirmNewPassword) !== 0) {
         setPasswordError(
           "New Password doesn't match with the confirm password!"
-        )
+        );
         return;
       }
       if (!passwordRegex.test(newPassword)) {
@@ -99,17 +95,12 @@ const UserProfile = () => {
           oldPassword: oldPassword,
           newPassword: newPassword,
         };
-        console.log(payload);
         const response = await axios.put(
           "http://localhost:8080/api/user/change-password",
           payload,
           config
         );
-        setToastMessage(
-          "Password Changed Successfully, Redirecting to Login!!!"
-        );
-        setShowToast(true);
-        setToastType("success");
+        toast.success("Password Changed Successfully, Redirecting to Login!!!");
         document.cookie = "token=; Max-Age=0; path=/;";
 
         setTimeout(() => {
@@ -120,9 +111,7 @@ const UserProfile = () => {
       const errorMessage = error.response
         ? error.response.data
         : "Unable to change Password";
-      setShowToast(true);
-
-      setToastMessage(errorMessage);
+      toast.error(errorMessage);
     }
   };
 
@@ -135,7 +124,6 @@ const UserProfile = () => {
         email: email,
         address: address,
       };
-      console.log(payload);
 
       const token = document.cookie
         .split("; ")
@@ -146,29 +134,28 @@ const UserProfile = () => {
         const config = {
           headers: { Authorization: `Bearer ${token}` },
         };
-        console.log("MAKING CALL");
         const response = await axios.put(
           "http://localhost:8080/api/user/update",
           payload,
           config
         );
-        console.log(response.data);
         const updatedData = await axios.get(
           "http://localhost:8080/api/user",
           config
         );
         setUserInfo(updatedData.data);
-        setToastMessage("Updated the information successfully!!!");
-        showToast(true);
-        setTimeout(() => {}, 3000);
+        toast.success("Updated the information successfully!!!");
       }
     } catch (error) {
-      console.log(error);
+      toast.error("Failed to update information.");
     }
   };
+
   return (
     <>
       <Container>
+      <ToastContainer/>
+
         <Card className="my-5">
           <Card.Header className="d-flex justify-content-center">
             <Nav
@@ -360,17 +347,7 @@ const UserProfile = () => {
           </Card.Body>
         </Card>
       </Container>
-      <ToastContainer position="top-end" className="p-3">
-        <Toast
-          show={showToast}
-          onClose={() => setShowToast(false)}
-          delay={3000}
-          autohide
-          className={toastType === 'success' ? 'bg-success text-white' : 'bg-danger text-white'}
-        >
-          <Toast.Body>{toastMessage}</Toast.Body>
-        </Toast>
-      </ToastContainer>
+      
 
       <br />
     </>

@@ -3,17 +3,14 @@ import Form from "react-bootstrap/Form";
 import Image from "react-bootstrap/Image";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
- import axios from "axios";
-import Toast from "react-bootstrap/Toast";
-import ToastContainer from "react-bootstrap/ToastContainer";
+import axios from "axios";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import FingerprintGif from "../../public/assets/Fingerprint.gif";
+
 const Login = () => {
   const [userName, setUserName] = useState("");
   const [password, setPassword] = useState("");
-  const [toastMessage, setToastMessage] = useState("");
-  const [showToast, setShowToast] = useState(false);
-  const[toastType, setToastType] = useState("");
-
   const navigate = useNavigate();
 
   const handleSubmitLogin = async (event) => {
@@ -32,33 +29,27 @@ const Login = () => {
       const token = response.data;
       document.cookie = `token=${token}; Max-age=432000; path=/; domain=localhost; SameSite=None; Secure`;
       console.log("Login Successfully: ", response.data);
-      setToastMessage(
-        "User Login Successfully!! Redirecting to Product Page "
-      );
+      toast.success("User Login Successfully");
 
-      setShowToast(true);
-      setToastType("success")
       setTimeout(() => {
         navigate("/product");
-      }, 3000);
+      }, 1000);
     } catch (error) {
       const errorMessage = error.response
         ? error.response.data
         : "Login Failed";
-      setToastMessage(errorMessage);
-      setShowToast(true);
-  
+      toast.error(errorMessage);
     }
   };
 
   return (
     <>
-
+      <ToastContainer />
       <div className="container d-flex vh-100">
         <div className="row w-100 justify-content-center align-items-center">
           <div className="col-12 col-md-10 col-lg-8 p-5 border border-success rounded d-flex shadow-lg">
             <div className="col-5 d-flex justify-content-center align-items-center">
-              <Image src={FingerprintGif} fluid  style={{ width: '200px', height: '200px' }} />
+              <Image src={FingerprintGif} fluid style={{ width: '200px', height: '200px' }} />
             </div>
             <div className="col-7">
               <Form onSubmit={handleSubmitLogin}>
@@ -91,22 +82,9 @@ const Login = () => {
           </div>
         </div>
       </div>
-      <ToastContainer position="top-end" className="p-3">
-        <Toast
-          show={showToast}
-          onClose={() => setShowToast(false)}
-          delay={3000}
-          autohide
-          className={toastType === 'success' ? 'bg-success text-white' : 'bg-danger text-white'}
-        >
-          <Toast.Body>{toastMessage}</Toast.Body>
-        </Toast>
-      </ToastContainer>
-
-
-
     </>
   );
 };
+
 
 export default Login;
