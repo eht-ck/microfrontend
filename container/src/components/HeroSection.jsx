@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import "./HeroSection.css"; // Custom styles for animation
 import Image3 from "../../public/assets/hero_croped.JPG";
+import Image1 from "../../public/assets/bt_2.jpg"
 
 function HeroSection() {
   const [animate, setAnimate] = useState(false);
@@ -16,7 +17,7 @@ function HeroSection() {
      <div className="position-absolute w-100 h-100 bg-dark opacity-50"></div>
   
      <img
-      src={Image3}
+      src={Image1}
       alt="Hero"
       className="img-fluid w-100 h-100 object-fit-cover"
     />

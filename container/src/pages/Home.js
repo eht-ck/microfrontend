@@ -15,12 +15,13 @@ const Home = () => {
       <AnnouncementBanner />
       <Header />
       <HeroSection />
+      
+      <About />
       <ErrorBoundary>
         <Suspense fallback={<div>Loading Products .....</div>}>
           <Product />
         </Suspense>
       </ErrorBoundary>
-      <About />
       <Footer />
     </>
   );

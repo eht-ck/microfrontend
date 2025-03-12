@@ -47,10 +47,11 @@ const Header = () => {
         </Navbar.Collapse>
         <div className="d-flex align-items-center gap-3">
         
-        
+         { isLoggedIn && 
           <Nav.Link href="/admin">
             <GrUserAdmin />
           </Nav.Link>
+}
 
           {isLoggedIn ? (
             <Nav.Link href="/cart">
