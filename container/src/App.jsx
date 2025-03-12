@@ -7,8 +7,7 @@ const Product = React.lazy(() => import("mf_product/Product"));
 
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import SignIn from "./pages/SignIn";
-import AuthProvider from "./context/AuthContext";
-import SignUp from "./pages/SignUp";
+ import SignUp from "./pages/SignUp";
 
 import UserModule from "./pages/UserModule";
 import { Admin } from "./pages/Admin";
@@ -18,8 +17,7 @@ import CartPage from "./pages/CartPage"
 import OrderComplete from "./pages/OrderComplete";
 const App = () => (
   <>
-    <AuthProvider>
-      <BrowserRouter>
+       <BrowserRouter>
         <Routes>
           <Route index element={<Home />} />
           <Route path="login" element={<SignIn />} />
@@ -32,8 +30,7 @@ const App = () => (
           <Route path="orderplaced" element ={<OrderComplete/>}/>
         </Routes>
       </BrowserRouter>
-    </AuthProvider>
-  </>
+   </>
 );
 const rootElement = document.getElementById("app");
 if (!rootElement) throw new Error("Failed to find the root element");

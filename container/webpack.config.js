@@ -37,6 +37,7 @@ module.exports = (_, argv) => ({
       })
     }
   },
+  
 
   module: {
     rules: [

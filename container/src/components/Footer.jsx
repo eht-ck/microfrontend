@@ -20,10 +20,10 @@ const Footer = () => {
             <h5 className="text-uppercase">Links</h5>
             <ul className="list-unstyled mb-0">
               <li>
-                <a href="#home" className="text-white">Home</a>
+                <a href="/" className="text-white">Home</a>
               </li>
               <li>
-                <a href="#products" className="text-white">Products</a>
+                <a href="/product" className="text-white">Products</a>
               </li>
               <li>
                 <a href="#contact" className="text-white">Contact</a>
@@ -63,7 +63,7 @@ const Footer = () => {
         </Row>
       </Container>
       <div className="text-center p-3" style={{ backgroundColor: '#2e524a' }}>
-        © 2025 TEA TREATS. All rights reserved.
+      © {new Date().getFullYear()} TEA TREATS. All rights reserved.
       </div>
     </footer>
   );

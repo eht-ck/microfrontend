@@ -1,8 +1,9 @@
-import { useState } from "react";
+import { use, useState } from "react";
 import { Form, Button, Card, Container, Row, Col } from "react-bootstrap";
 import Toast from "react-bootstrap/Toast";
 import ToastContainer from "react-bootstrap/ToastContainer";
 
+import { FaPlus, FaCheck } from "react-icons/fa";
 
 const categories = ["TEA", "TEA_BLENDS", "TEA_ACCESSORIES", "GIFT_SETS"];
 
@@ -10,6 +11,7 @@ const AddProductForm = () => {
   const [customFields, setCustomFields] = useState([]);
   const [showToast, setShowToast] = useState(false);
   const [toastMessage, setToastMessage] = useState("");
+  const[toastType, setToastType] = useState("");
   const [formData, setFormData] = useState({
     price: "",
     stockQuantity: "",
@@ -63,10 +65,13 @@ const AddProductForm = () => {
       };
 
       try {
-        const response = await fetch("http://localhost:8081/api/products", config);
+        const response = await fetch(
+          "http://localhost:8081/api/products",
+          config
+        );
         setShowToast(true);
-        setToastMessage("Product Added to Database!!!!")
-        
+        setToastMessage("Product Added to Database!!!!");
+        setToastType("success")
       } catch (error) {
         console.error("Error submitting form", error);
       }
@@ -76,9 +81,9 @@ const AddProductForm = () => {
   };
 
   return (
-    <Container className="mt-5">
+    <Container className="mt-1">
       <Card className="shadow-sm border-0">
-        <Card.Body>
+        <Card.Body className="">
           <Form onSubmit={handleSubmit}>
             <Form.Group className="mb-3">
               <Form.Label>Product Name</Form.Label>
@@ -88,6 +93,7 @@ const AddProductForm = () => {
                 value={formData.name}
                 onChange={handleChange}
                 required
+                className="border-success"
               />
             </Form.Group>
 
@@ -100,6 +106,7 @@ const AddProductForm = () => {
                 value={formData.description}
                 onChange={handleChange}
                 required
+                className="border-success"
               />
             </Form.Group>
 
@@ -114,6 +121,7 @@ const AddProductForm = () => {
                     onChange={handleChange}
                     min="1"
                     required
+                    className="border-success"
                   />
                 </Form.Group>
               </Col>
@@ -127,6 +135,7 @@ const AddProductForm = () => {
                     onChange={handleChange}
                     min="1"
                     required
+                    className="border-success"
                   />
                 </Form.Group>
               </Col>
@@ -142,6 +151,7 @@ const AddProductForm = () => {
                     value={formData.brand}
                     onChange={handleChange}
                     required
+                    className="border-success"
                   />
                 </Form.Group>
               </Col>
@@ -153,6 +163,7 @@ const AddProductForm = () => {
                     value={formData.category}
                     onChange={handleChange}
                     required
+                    className="border-success"
                   >
                     <option value="">Select Category</option>
                     {categories.map((category) => (
@@ -173,6 +184,7 @@ const AddProductForm = () => {
                 value={formData.imageURL}
                 onChange={handleChange}
                 required
+                className="border-success"
               />
             </Form.Group>
 
@@ -187,6 +199,7 @@ const AddProductForm = () => {
                       handleCustomFieldChange(index, "key", e.target.value)
                     }
                     required
+                    className="border-success"
                   />
                 </Col>
                 <Col md={5}>
@@ -198,35 +211,37 @@ const AddProductForm = () => {
                       handleCustomFieldChange(index, "value", e.target.value)
                     }
                     required
+                    className="border-success"
                   />
                 </Col>
               </Row>
             ))}
 
             <Button
-              variant="outline-secondary"
+              variant="outline-success"
               className="w-100 mb-3"
               onClick={addCustomField}
             >
-              + Add Custom Field
+              <FaPlus /> Add Custom Field
             </Button>
 
-            <Button type="submit" variant="primary" className="w-100">
-              Submit
+            <Button type="submit" variant="success" className="w-100">
+              <FaCheck /> Submit
             </Button>
           </Form>
         </Card.Body>
       </Card>
       <ToastContainer position="top-end" className="p-3">
-            <Toast
-              show={showToast}
-              onClose={() => setShowToast(false)}
-              delay={3000}
-              autohide
-            >
-              <Toast.Body>{toastMessage}</Toast.Body>
-            </Toast>
-          </ToastContainer>
+        <Toast
+          show={showToast}
+          onClose={() => setShowToast(false)}
+          delay={3000}
+          autohide
+          className={toastType === 'success' ? 'bg-success text-white' : 'bg-danger text-white'}
+        >
+          <Toast.Body>{toastMessage}</Toast.Body>
+        </Toast>
+      </ToastContainer>
     </Container>
   );
 };

@@ -4,6 +4,10 @@ import Toast from "react-bootstrap/Toast";
 import ToastContainer from "react-bootstrap/ToastContainer";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import UserProfileGif from "../../public/assets/UserProfile.gif"
+import ResetPass from "../../public/assets/resetpass.gif"
+import UpdateProfile from "../../public/assets/updateProfile.gif"
+
 import UserOrderHistory from "mf_purchase/UserOrderHistory"
 const UserProfile = () => {
   const [activeTab, setActiveTab] = useState("#userInfoTab");
@@ -16,6 +20,8 @@ const UserProfile = () => {
   const [updatedUserName, setUpdatedUserName] = useState(userInfo.userName);
   const [address, setAddress] = useState(userInfo.address);
   const [email, setEmail] = useState(userInfo.email);
+  const[toastType, setToastType] = useState("");
+  const[confirmNewPassword, setConfirmNewPassword] = useState("");
 
   const navigate = useNavigate();
 
@@ -67,6 +73,12 @@ const UserProfile = () => {
       setPasswordError("");
       console.log("CHANGING PASSWORD");
       e.preventDefault();
+      if(newPassword.localeCompare(confirmNewPassword)!=0 ){
+        setPasswordError(
+          "New Password doesn't match with the confirm password!"
+        )
+        return;
+      }
       if (!passwordRegex.test(newPassword)) {
         setPasswordError(
           "Password must contain at least 1 lowercase, 1 uppercase, 1 digit, 1 special character, and be at least 8 characters long."
@@ -97,6 +109,7 @@ const UserProfile = () => {
           "Password Changed Successfully, Redirecting to Login!!!"
         );
         setShowToast(true);
+        setToastType("success");
         document.cookie = "token=; Max-Age=0; path=/;";
 
         setTimeout(() => {
@@ -191,107 +204,159 @@ const UserProfile = () => {
               
             }
             {activeTab === "#userInfoTab" && (
-              <>
-                <Card.Title className="text-center mb-4">
-                  User Information
-                </Card.Title>
-                <Row className="mb-3">
-                  <Col md={6}>
-                    <Card className="p-3 shadow-sm">
-                      <Card.Text>
-                        <strong>Username:</strong> {userInfo.userName}
-                      </Card.Text>
-                    </Card>
-                  </Col>
-                  <Col md={6}>
-                    <Card className="p-3 shadow-sm">
-                      <Card.Text>
-                        <strong>Email:</strong> {userInfo.email}
-                      </Card.Text>
-                    </Card>
-                  </Col>
-                </Row>
-                <Row>
-                  <Col md={12}>
-                    <Card className="p-3 shadow-sm">
-                      <Card.Text>
-                        <strong> Delivery Address:</strong> {userInfo.address}
-                      </Card.Text>
-                    </Card>
-                  </Col>
-                </Row>
-              </>
-            )}
-            {activeTab === "#changePasswordTag" && (
-              <>
-                <Card.Title>Change Password</Card.Title>
-                <Form onSubmit={handlePasswordChange}>
-                  <Form.Group controlId="formCurrentPassword">
-                    <Form.Label>Current Password</Form.Label>
-                    <Form.Control
-                      type="password"
-                      name="currentPassword"
-                      value={oldPassword}
-                      onChange={(e) => setOldPassword(e.target.value)}
-                    />
-                  </Form.Group>
-                  <Form.Group controlId="formNewPassword">
-                    <Form.Label>New Password</Form.Label>
-                    <Form.Control
-                      type="password"
-                      name="newPassword"
-                      value={newPassword}
-                      onChange={(e) => setNewPassword(e.target.value)}
-                    />
-                  </Form.Group>
-                  {passwordError && (
-                    <div className="text-danger">{passwordError}</div>
-                  )}
+  <>
+    <Card className="mb-4 p-3 shadow-sm">
+    <div className="d-flex justify-content-center">
+  <Card.Img
+    variant="top"
+    src={UserProfileGif}
+    alt="User Info GIF"
+    style={{ width: '25%', height: 'auto' }}
+  />
+</div>
+      <Card.Body>
+        <Card.Title className="text-center mb-4">
+          User Information
+        </Card.Title>
+        <Row className="mb-3">
+          <Col md={6}>
+            <Card className="p-3 shadow-sm">
+              <Card.Text>
+                <strong>Username:</strong> {userInfo.userName}
+              </Card.Text>
+            </Card>
+          </Col>
+          <Col md={6}>
+            <Card className="p-3 shadow-sm">
+              <Card.Text>
+                <strong>Email:</strong> {userInfo.email}
+              </Card.Text>
+            </Card>
+          </Col>
+        </Row>
+        <Row>
+          <Col md={12}>
+            <Card className="p-3 shadow-sm">
+              <Card.Text>
+                <strong>Delivery Address:</strong> {userInfo.address}
+              </Card.Text>
+            </Card>
+          </Col>
+        </Row>
+      </Card.Body>
+    </Card>
+  </>
+)}
+           {activeTab === "#changePasswordTag" && (
+  <>
+  <div className="d-flex justify-content-center">
+    <Card.Title>Change Password</Card.Title>
+    </div>
+    <Row className="align-items-center">
+      <Col md={4} className="d-flex justify-content-center">
+        <Card.Img
+          variant="top"
+          src={ResetPass}
+          alt="User Info GIF"
+          style={{ width: '100%', height: 'auto' }}
+        />
+      </Col>
+      <Col md={8}>
+        <Form onSubmit={handlePasswordChange}>
+          <Form.Group controlId="formCurrentPassword">
+            <Form.Label>Current Password</Form.Label>
+            <Form.Control
+              type="password"
+              name="currentPassword"
+              value={oldPassword}
+              onChange={(e) => setOldPassword(e.target.value)}
+            />
+          </Form.Group>
+          <Form.Group controlId="formNewPassword">
+            <Form.Label>New Password</Form.Label>
+            <Form.Control
+              type="password"
+              name="newPassword"
+              value={newPassword}
+              onChange={(e) => setNewPassword(e.target.value)}
+            />
+          </Form.Group>
+          <Form.Group controlId="formConfirmNewPassword">
+            <Form.Label>Confirm Password</Form.Label>
+            <Form.Control
+              type="password"
+              name="confirmNewPassword"
+              value={confirmNewPassword}
+              onChange={(e) => setConfirmNewPassword(e.target.value)}
+            />
+          </Form.Group>
+          {passwordError && (
+            <div className="text-danger">{passwordError}</div>
+          )}
+          <div className="mt-3 d-flex justify-content-center">
+          <Button variant="success" type="submit">
+            Change Password
+          </Button>
+          </div>
+        </Form>
+      </Col>
+    </Row>
+  </>
+)}
 
-                  <Button variant="success" type="submit">
-                    Change Password
-                  </Button>
-                </Form>
-              </>
-            )}
-            {activeTab === "#updateUserInfoTab" && (
-              <>
-                <Card.Title>Update Information</Card.Title>
-                <Form onSubmit={handleUpdateInfo}>
-                  <Form.Group controlId="formName">
-                    <Form.Label>UserName</Form.Label>
-                    <Form.Control
-                      type="text"
-                      name="name"
-                      value={updatedUserName}
-                      // onChange={(e) => setUpdatedUserName(e.target.value)}
-                      disabled
-                    />
-                  </Form.Group>
-                  <Form.Group controlId="formEmail">
-                    <Form.Label>Email</Form.Label>
-                    <Form.Control
-                      type="email"
-                      name="email"
-                      value={email}
-                      onChange={(e) => setEmail(e.target.value)}
-                    />
-                  </Form.Group>
-                  <Form.Group controlId="formAddress">
-                    <Form.Label>Delivery Address</Form.Label>
-                    <Form.Control
-                      type="text"
-                      name="address"
-                      value={address}
-                      onChange={(e) => setAddress(e.target.value)}
-                    />
-                  </Form.Group>
-                  <Button variant="success" type="submit">
+{activeTab === "#updateUserInfoTab" && (
+  <>
+  <div className="d-flex justify-content-center">
+    <Card.Title>Update Information</Card.Title>
+    </div>
+    <Row className="align-items-center">
+      <Col md={4} className="d-flex justify-content-center">
+        <Card.Img
+          variant="top"
+          src={UpdateProfile}
+          alt="User Info GIF"
+          style={{ width: '100%', height: 'auto' }}
+        />
+      </Col>
+      <Col md={8}>
+        <Form onSubmit={handleUpdateInfo}>
+          <Form.Group controlId="formName">
+            <Form.Label>UserName</Form.Label>
+            <Form.Control
+              type="text"
+              name="name"
+              value={updatedUserName}
+              disabled
+            />
+          </Form.Group>
+          <Form.Group controlId="formEmail">
+            <Form.Label>Email</Form.Label>
+            <Form.Control
+              type="email"
+              name="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+            />
+          </Form.Group>
+          <Form.Group controlId="formAddress">
+            <Form.Label>Delivery Address</Form.Label>
+            <Form.Control
+              type="text"
+              name="address"
+              value={address}
+              onChange={(e) => setAddress(e.target.value)}
+            />
+          </Form.Group>
+          <div className="mt-2 d-flex justify-content-center">
+          <Button variant="success" type="submit">
                     Update Information
                   </Button>
-                </Form>
-              </>
-            )}
+                  </div>
+        </Form>
+      </Col>
+    </Row>
+  </>
+)}
           </Card.Body>
         </Card>
       </Container>
@@ -301,10 +366,12 @@ const UserProfile = () => {
           onClose={() => setShowToast(false)}
           delay={3000}
           autohide
+          className={toastType === 'success' ? 'bg-success text-white' : 'bg-danger text-white'}
         >
           <Toast.Body>{toastMessage}</Toast.Body>
         </Toast>
       </ToastContainer>
+
       <br />
     </>
   );

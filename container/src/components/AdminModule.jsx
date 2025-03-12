@@ -16,6 +16,8 @@ const AdminModule = () => {
   const [activeTab, setActiveTab] = useState("orderHistory");
   const [showToast, setShowToast] = useState(false);
   const [toastMessage, setToastMessage] = useState("");
+  const[toastType, setToastType] = useState("");
+
   const [allUsers, setAllUsers] = useState([]);
   const [isAdmin, setIsAdmin] = useState(true);
 

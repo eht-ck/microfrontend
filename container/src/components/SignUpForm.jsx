@@ -1,14 +1,9 @@
 import React, { useState } from "react";
-import Button from "react-bootstrap/Button";
-import Form from "react-bootstrap/Form";
+import { Button, Form, Image, Row, Col, Container, Card, Toast, ToastContainer } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
-import Toast from "react-bootstrap/Toast";
-import ToastContainer from "react-bootstrap/ToastContainer";
 import SignUpImg from "../../public/assets/Signup.gif";
-import Image from "react-bootstrap/Image";
-import { Row, Col, Container } from 'react-bootstrap';
-
+ 
 const SignUpForm = () => {
   const [userName, setUserName] = useState("");
   const [password, setPassword] = useState("");
@@ -18,136 +13,128 @@ const SignUpForm = () => {
   const [formError, setFormError] = useState("");
   const [showToast, setShowToast] = useState(false);
   const [toastMessage, setToastMessage] = useState("");
-
+  const [toastType, setToastType] = useState("");
   const navigate = useNavigate();
-
+ 
   const handleSubmitSignup = async (event) => {
     event.preventDefault();
-
+    setPasswordError("");
+    setFormError("");
+ 
     if (!userName || !password || !email || !address) {
       setFormError("All fields must be filled.");
       return;
     }
-
-    const passwordRegex =
-      /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+    if (userName.length < 5) {
+      setFormError("Username must be at least 5 characters long.");
+      return;
+    }
+    if (address.length < 10) {
+      setFormError("Address must be at least 10 characters long.");
+      return;
+    }
+ 
+    const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
     if (!passwordRegex.test(password)) {
       setPasswordError(
         "Password must contain at least 1 lowercase, 1 uppercase, 1 digit, 1 special character, and be at least 8 characters long."
       );
       return;
     }
-
+ 
     try {
-      const payload = {
-        userName: userName,
-        password: password,
-        email: email,
-        address: address,
-      };
-
-      const response = await axios.post(
-        "http://localhost:8080/api/user/signup",
-        payload
-      );
-      console.log("Signup Successfully: ", response.data);
-      setToastMessage("Signup Successfully! Redirecting to Login Page");
-
+      const payload = { userName, password, email, address };
+const response = await axios.post("http://localhost:8080/api/user/signup", payload);
+      document.cookie = `token=${response.data}; Max-age=432000; path=/; domain=localhost; SameSite=None; Secure`;
+ 
+      setToastMessage("Signup Successfully!");
+      setToastType("success");
       setShowToast(true);
-      setTimeout(() => {
-        navigate("/login");
-      }, 3000);
+ 
+      setTimeout(() => navigate("/product"), 2000);
     } catch (error) {
       setShowToast(true);
-
-      const errorMessage = error.response
-        ? error.response.data
-        : "Signup Failed";
-      setToastMessage(errorMessage);
-      console.log("Signup Failed: ", error);
+      setToastMessage(error.response ? error.response.data : "Signup Failed");
+      setToastType("danger");
     }
   };
-
+ 
   return (
     <>
-      <Container className="d-flex vh-100">
-        <Row className="w-100 justify-content-center align-items-center">
-          <Col xs={12} md={8} lg={6} className="p-5 border border-success rounded shadow-lg">
+      <Container className="d-flex justify-content-center align-items-center vh-100">
+        <Card className="p-4 shadow-lg rounded-4" style={{ maxWidth: "550px", width: "100%" }}>
+          <Card.Body>
+            <Row className="align-items-center">
+              <Col className="text-center mb-3">
+                <Image src={SignUpImg} fluid style={{ width: "150px", height: "150px" }} />
+              </Col>
+            </Row>
             <Form onSubmit={handleSubmitSignup}>
-              <Row className="align-items-center">
-                <Col md={6} className="text-center mb-3 mb-md-0">
-                  <Image src={SignUpImg} fluid style={{ width: '200px', height: '200px' }} />
-                </Col>
-                <Col md={6}>
-                  <Form.Group controlId="formBasicUserName" className="mb-3">
-                    <Form.Label>UserName</Form.Label>
-                    <Form.Control
-                      type="text"
-                      placeholder="Enter userName"
-                      value={userName}
-                      onChange={(e) => setUserName(e.target.value)}
-                    />
-                  </Form.Group>
-
-                  <Form.Group className="mb-3" controlId="formBasicPassword">
-            <Form.Label>Password</Form.Label>
-            <Form.Control
-              type="password"
-              placeholder="Password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-            />
-            {passwordError && (
-              <div className="text-danger">{passwordError}</div>
-            )}
-          </Form.Group>
-
-
-                  <Form.Group className="mb-3" controlId="formBasicEmail">
-                    <Form.Label>Email</Form.Label>
-                    <Form.Control
-                      type="email"
-                      placeholder="Email"
-                      value={email}
-                      onChange={(e) => setEmail(e.target.value)}
-                    />
-                  </Form.Group>
-
-                  <Form.Group className="mb-3" controlId="formBasicAddress">
-                    <Form.Label>Address</Form.Label>
-                    <Form.Control
-                      type="text"
-                      placeholder="Address"
-                      value={address}
-                      onChange={(e) => setAddress(e.target.value)}
-                    />
-                  </Form.Group>
-                  {formError && <div className="text-danger">{formError}</div>}
-
-                  <Button variant="success" type="submit" className="w-100">
-                    SignUp
-                  </Button>
-                </Col>
-              </Row>
+              <Form.Group controlId="formBasicUserName" className="mb-3">
+                <Form.Label>Username</Form.Label>
+                <Form.Control
+                  type="text"
+                  placeholder="Enter username"
+                  value={userName}
+                  onChange={(e) => setUserName(e.target.value)}
+                />
+              </Form.Group>
+ 
+              <Form.Group controlId="formBasicEmail" className="mb-3">
+                <Form.Label>Email</Form.Label>
+                <Form.Control
+                  type="email"
+                  placeholder="Enter email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                />
+              </Form.Group>
+ 
+              <Form.Group controlId="formBasicAddress" className="mb-3">
+                <Form.Label>Address</Form.Label>
+                <Form.Control
+                  type="text"
+                  placeholder="Enter address"
+                  value={address}
+                  onChange={(e) => setAddress(e.target.value)}
+                />
+              </Form.Group>
+ 
+              <Form.Group controlId="formBasicPassword" className="mb-3">
+                <Form.Label>Password</Form.Label>
+                <Form.Control
+                  type="password"
+                  placeholder="Enter password"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                />
+                {passwordError && <div className="text-danger small mt-1">{passwordError}</div>}
+              </Form.Group>
+ 
+              {formError && <div className="text-danger small mb-3">{formError}</div>}
+ 
+              <Button variant="success" type="submit" className="w-100 rounded-3">
+                Sign Up
+              </Button>
             </Form>
-          </Col>
-        </Row>
-        <ToastContainer position="top-end" className="p-3">
-          <Toast
-            show={showToast}
-            onClose={() => setShowToast(false)}
-            delay={3000}
-            autohide
-          >
-            <Toast.Header>
-              <small>Just now</small>
-            </Toast.Header>
-            <Toast.Body>{toastMessage}</Toast.Body>
-          </Toast>
-        </ToastContainer>
+          </Card.Body>
+        </Card>
       </Container>
+ 
+      {/* Toast Notification */}
+      <ToastContainer position="top-end" className="p-3">
+        <Toast
+          show={showToast}
+          onClose={() => setShowToast(false)}
+          delay={3000}
+          autohide
+          className={`text-white ${toastType === "success" ? "bg-success" : "bg-danger"}`}
+        >
+          <Toast.Body>{toastMessage}</Toast.Body>
+        </Toast>
+      </ToastContainer>
     </>
   );
 };
-
+ 
 export default SignUpForm;

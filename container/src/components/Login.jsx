@@ -12,6 +12,8 @@ const Login = () => {
   const [password, setPassword] = useState("");
   const [toastMessage, setToastMessage] = useState("");
   const [showToast, setShowToast] = useState(false);
+  const[toastType, setToastType] = useState("");
+
   const navigate = useNavigate();
 
   const handleSubmitLogin = async (event) => {
@@ -28,13 +30,14 @@ const Login = () => {
         payload
       );
       const token = response.data;
-      document.cookie = `token=${token}; path=/; domain=localhost; SameSite=None; Secure`;
+      document.cookie = `token=${token}; Max-age=432000; path=/; domain=localhost; SameSite=None; Secure`;
       console.log("Login Successfully: ", response.data);
       setToastMessage(
         "User Login Successfully!! Redirecting to Product Page "
       );
 
       setShowToast(true);
+      setToastType("success")
       setTimeout(() => {
         navigate("/product");
       }, 3000);
@@ -44,6 +47,7 @@ const Login = () => {
         : "Login Failed";
       setToastMessage(errorMessage);
       setShowToast(true);
+  
     }
   };
 
@@ -91,11 +95,16 @@ const Login = () => {
         <Toast
           show={showToast}
           onClose={() => setShowToast(false)}
-                   autohide
+          delay={3000}
+          autohide
+          className={toastType === 'success' ? 'bg-success text-white' : 'bg-danger text-white'}
         >
           <Toast.Body>{toastMessage}</Toast.Body>
         </Toast>
       </ToastContainer>
+
+
+
     </>
   );
 };
