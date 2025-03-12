@@ -1,12 +1,14 @@
 import axios from "axios"
-const tokenHeader = () =>{
+ 
 
+const tokenHeader = () =>{
+ 
     const token = document.cookie
         .split("; ")
         .find((row) => row.startsWith("token="))
         ?.split("=")[1];
 
-     
+        
         const config = {
           headers: { Authorization: `Bearer ${token}` },
         };

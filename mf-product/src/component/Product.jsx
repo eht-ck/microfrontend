@@ -70,6 +70,7 @@ const Product = () => {
 
   return (
     <div className="container-fluid mx-10">
+      <h2 className="d-flex justify-content-center"> Top selling Products</h2>
       <ToastContainer position="top-end" className="p-3">
         <Toast
           show={showToast}
@@ -80,7 +81,7 @@ const Product = () => {
           <Toast.Body>{toastMessage}</Toast.Body>
         </Toast>
       </ToastContainer>
-      <div className="row">
+      <div className="row mt-1">
         {data.map(
           (product) =>
             product.featured && (

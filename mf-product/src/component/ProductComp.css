@@ -5,7 +5,8 @@
     border: 1px solid rgba(232, 245, 233, 0.4);  
     border-radius: 12px;  
     box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);  
-     transition: all 0.3s ease-in-out;
+    transition: all 0.3s ease-in-out;
+ 
   }
    
    .glassy-card:hover {
@@ -13,3 +14,9 @@
     transform: translateY(-5px);  
     box-shadow: 0 12px 24px rgba(0, 0, 0, 0.2);
   }
+
+
+.img-css{
+  width: 300px;  
+  height: 350px;  
+}

@@ -75,7 +75,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
                   Order ID: {order.orderId}
                 </span>
                 <span className="text-muted">Total: ₹{order.totalAmount}</span>
-                {getStatusBadge(order)}
+                {getStatusBadge(order) }
               </div>
             </Accordion.Header>
             <Accordion.Body>

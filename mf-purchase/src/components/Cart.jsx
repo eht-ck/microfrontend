@@ -11,6 +11,7 @@ import {
   Form,
   Modal,
 } from "react-bootstrap";
+import { Alert } from "bootstrap";
 
 const tokenHeader = () => {
   const token = document.cookie
@@ -71,6 +72,21 @@ const Cart = () => {
     }
   };
 
+  const checkStock = async (cartItemId = null) => {
+    try {
+      const config = tokenHeader();
+      const data = cartItemId ? { cartItemList: [cartItemId] } : {};
+      const response = await axios.post(
+        "http://localhost:8082/api/order/stockCheck",
+        data,
+        config
+      );
+      return response.data;
+    } catch (error) {
+      console.error("Error checking stock:", error);
+      return null;
+    }
+  };
   const changeQuantity = async (cartItemId, quantity) => {
     try {
       const config = tokenHeader();
@@ -105,7 +121,17 @@ const Cart = () => {
   const handleShowModal = () => setShowModal(true);
   const handleCloseModal = () => setShowModal(false);
 
-  const placeOrder = (cartItemId = null) => {
+  const placeOrder = async (cartItemId = null) => {
+    const outOfStockItems = await checkStock(cartItemId);
+    console.log(outOfStockItems);
+    if (outOfStockItems && outOfStockItems.length > 0) {
+      alert(outOfStockItems);
+      //   <Alert  variant="danger">
+      //     {outOfStockItems}
+      // </Alert>
+      return;
+    }
+
     if (cartItemId) {
       const item = cart.cartItems.find(
         (item) => item.cartItemId === cartItemId

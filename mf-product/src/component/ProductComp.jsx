@@ -235,12 +235,12 @@ const ProductComp = () => {
                       <Card.Img
                         variant="top"
                         src={product.imageURL}
-                        className="card-img-top img-fluid"
+                        className="card-img-top img-fluid img-css"
                         alt={product.name}
-                        style={{
-                          maxHeight: "350px",
-                          objectFit: "cover",
-                        }}
+                        // style={{
+                        //   maxHeight: "350px",
+                        //   objectFit: "cover",
+                        // }}
                       />
                       <Card.Body>
                         <Card.Title>{product.name}</Card.Title>
