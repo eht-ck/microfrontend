@@ -1,22 +1,18 @@
 import React, { useState, useEffect } from "react";
 import { Card, Nav, Button, Container, Table } from "react-bootstrap";
-import Toast from "react-bootstrap/Toast";
-import ToastContainer from "react-bootstrap/ToastContainer";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { FaTrash, FaBan, FaUserShield } from "react-icons/fa";
 import Image from "../../public/assets/4288d1.JPG";
 import { Form, Row, Col } from "react-bootstrap";
 import AddProductForm from "./AddProductForm";
-
 import ProductUpdate from "mf_product/ProductUpdate";
 import AllOrderHistory from "mf_purchase/AllOrderHistory";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const AdminModule = () => {
   const [activeTab, setActiveTab] = useState("orderHistory");
-  const [showToast, setShowToast] = useState(false);
-  const [toastMessage, setToastMessage] = useState("");
-  const[toastType, setToastType] = useState("");
 
   const [allUsers, setAllUsers] = useState([]);
   const [isAdmin, setIsAdmin] = useState(true);
@@ -24,9 +20,6 @@ const AdminModule = () => {
   const handleTabSelect = (eventKey) => {
     setActiveTab(eventKey);
   };
-
-  const [customFields, setCustomFields] = useState([]);
- 
 
   const getAllUsers = async () => {
     try {
@@ -67,37 +60,37 @@ const AdminModule = () => {
     };
     return config;
   };
+
   const handleDeleteUser = async (userId) => {
     const config = getToken();
-    const response = await axios.delete(
+    await axios.delete(
       `http://localhost:8080/api/user/delete/${userId}`,
       config
     );
     getAllUsers();
-    console.log(`Delete user with ID: ${userId}`);
+    toast.success(`Deleted user with ID: ${userId}`);
   };
 
   const handleBlockUser = async (userId) => {
     const config = getToken();
-    const response = await axios.put(
+    await axios.put(
       `http://localhost:8080/api/user/block-user/${userId}`,
       {},
       config
     );
     getAllUsers();
-    console.log(`Block user with ID: ${userId}`);
+    toast.warning(`Blocked user with ID: ${userId}`);
   };
 
   const handleMakeAdmin = async (userId) => {
     const config = getToken();
-    const response = await axios.patch(
+    await axios.patch(
       `http://localhost:8080/api/user/update/role/${userId}`,
       { role: "ADMIN" },
       config
     );
     getAllUsers();
-
-    console.log(`Make user with ID: ${userId} an admin`);
+    toast.info(`Made user with ID: ${userId} an admin`);
   };
 
   return (
@@ -121,11 +114,9 @@ const AdminModule = () => {
                   <Nav.Item>
                     <Nav.Link eventKey="addProduct">Add Products</Nav.Link>
                   </Nav.Item>
-               
                   <Nav.Item>
                     <Nav.Link eventKey="updateProduct">Update Product</Nav.Link>
                   </Nav.Item>
-                  
                 </Nav>
               </Card.Header>
               <Card.Body>
@@ -171,7 +162,7 @@ const AdminModule = () => {
                               </Button>
                               <Button
                                 variant="info"
-                                disabled={user.roles == "ADMIN"}
+                                disabled={user.roles === "ADMIN"}
                                 onClick={() => handleMakeAdmin(user.userId)}
                                 className="m-2"
                               >
@@ -184,33 +175,13 @@ const AdminModule = () => {
                     </tbody>
                   </Table>
                 )}
-                {activeTab === "addProduct" && (
-                  <>
-                    <AddProductForm />
-                  </>
-                )}
-                {activeTab === "updateProduct" && <>
-                
-                  <ProductUpdate/>
-                
-                </>}
-                {activeTab ==="orderHistory" && <>
-                
-                <AllOrderHistory/>
-                </>}
+                {activeTab === "addProduct" && <AddProductForm />}
+                {activeTab === "updateProduct" && <ProductUpdate />}
+                {activeTab === "orderHistory" && <AllOrderHistory />}
               </Card.Body>
             </Card>
           </Container>
-          <ToastContainer position="top-end" className="p-3">
-            <Toast
-              show={showToast}
-              onClose={() => setShowToast(false)}
-              delay={3000}
-              autohide
-            >
-              <Toast.Body>{toastMessage}</Toast.Body>
-            </Toast>
-          </ToastContainer>
+          <ToastContainer position="top-end" className="p-3" />
         </>
       ) : (
         <div className="d-flex justify-content-center">
