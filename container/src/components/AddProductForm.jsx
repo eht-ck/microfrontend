@@ -1,17 +1,13 @@
-import { use, useState } from "react";
+import { useState } from "react";
 import { Form, Button, Card, Container, Row, Col } from "react-bootstrap";
-import Toast from "react-bootstrap/Toast";
-import ToastContainer from "react-bootstrap/ToastContainer";
-
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import { FaPlus, FaCheck } from "react-icons/fa";
 
 const categories = ["TEA", "TEA_BLENDS", "TEA_ACCESSORIES", "GIFT_SETS"];
 
 const AddProductForm = () => {
   const [customFields, setCustomFields] = useState([]);
-  const [showToast, setShowToast] = useState(false);
-  const [toastMessage, setToastMessage] = useState("");
-  const[toastType, setToastType] = useState("");
   const [formData, setFormData] = useState({
     price: "",
     stockQuantity: "",
@@ -40,7 +36,7 @@ const AddProductForm = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (formData.price <= 0 || formData.stockQuantity <= 0) {
-      alert("Price and Stock Quantity must be greater than 0");
+      toast.error("Price and Stock Quantity must be greater than 0");
       return;
     }
 
@@ -69,19 +65,23 @@ const AddProductForm = () => {
           "http://localhost:8081/api/products",
           config
         );
-        setShowToast(true);
-        setToastMessage("Product Added to Database!!!!");
-        setToastType("success")
+        if (response.ok) {
+          toast.success("Product Added to Database!!!!");
+        } else {
+          toast.error("Failed to add product.");
+        }
       } catch (error) {
+        toast.error("Error submitting form");
         console.error("Error submitting form", error);
       }
     } else {
-      alert("No token found");
+      toast.error("No token found");
     }
   };
 
   return (
     <Container className="mt-1">
+      <ToastContainer/>
       <Card className="shadow-sm border-0">
         <Card.Body className="">
           <Form onSubmit={handleSubmit}>
@@ -231,17 +231,8 @@ const AddProductForm = () => {
           </Form>
         </Card.Body>
       </Card>
-      <ToastContainer position="top-end" className="p-3">
-        <Toast
-          show={showToast}
-          onClose={() => setShowToast(false)}
-          delay={3000}
-          autohide
-          className={toastType === 'success' ? 'bg-success text-white' : 'bg-danger text-white'}
-        >
-          <Toast.Body>{toastMessage}</Toast.Body>
-        </Toast>
-      </ToastContainer>
+     
+     
     </Container>
   );
 };

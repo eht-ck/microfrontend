@@ -2,9 +2,9 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import "bootstrap/dist/css/bootstrap.min.css";
 import Button from "react-bootstrap/Button";
-import Toast from "react-bootstrap/Toast";
-import ToastContainer from "react-bootstrap/ToastContainer";
 import { addToCart } from "../../api/api";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import "./ProductComp.css";
 
 const Product = () => {
@@ -12,8 +12,6 @@ const Product = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [quantities, setQuantities] = useState({});
-  const [showToast, setShowToast] = useState(false);
-  const [toastMessage, setToastMessage] = useState("");
 
   const getProduct = async () => {
     try {
@@ -56,12 +54,10 @@ const Product = () => {
   const handleAddToCart = async (productId) => {
     try {
       await addToCart(productId, quantities[productId]);
-      setToastMessage("Added to cart");
-      setShowToast(true);
+      toast.success("Added to cart successfully!");
     } catch (error) {
+      toast.error("Error adding to cart.");
       console.error("Error adding to cart:", error);
-      setToastMessage("Error adding to cart");
-      setShowToast(true);
     }
   };
 
@@ -70,17 +66,8 @@ const Product = () => {
 
   return (
     <div className="container-fluid mx-10">
-      <h2 className="d-flex justify-content-center"> Top selling Products</h2>
-      <ToastContainer position="top-end" className="p-3">
-        <Toast
-          show={showToast}
-          onClose={() => setShowToast(false)}
-          delay={3000}
-          autohide
-        >
-          <Toast.Body>{toastMessage}</Toast.Body>
-        </Toast>
-      </ToastContainer>
+      <ToastContainer />
+      <h2 className="d-flex justify-content-center">Top selling Products</h2>
       <div className="row mt-1">
         {data.map(
           (product) =>
@@ -115,12 +102,9 @@ const Product = () => {
                         type="number"
                         value={quantities[product.id]}
                         onChange={(e) => {
-                         
                           handleQuantityInputChange(product.id, e.target.value);
                         }}
-                        onClick={(e) =>
-                          e.preventDefault()
-                        }
+                        onClick={(e) => e.preventDefault()}
                         className="form-control text-center"
                         style={{ width: "60px" }}
                       />
