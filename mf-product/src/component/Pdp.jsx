@@ -11,8 +11,6 @@ import {
   Badge,
 } from "react-bootstrap";
 import {
-  FaPlus,
-  FaMinus,
   FaGift,
   FaTshirt,
   FaMobileAlt,
@@ -63,10 +61,6 @@ const Pdp = () => {
 
   const discountPrice =
     product.category === "GIFT_SETS" ? product.price * 0.9 : product.price;
-
-  const handleQuantityChange = (quantity) => {
-    setQuantities((prev) => Math.max(1, prev + quantity));
-  };
 
   const handleQuantityInputChange = (value) => {
     const quantity = Math.max(1, Number(value));
@@ -123,11 +117,10 @@ const Pdp = () => {
                     10% OFF
                   </Badge>
                 )}
-               
-                  <Badge bg="danger" className="ms-2">
-                    Limited Stock
-                  </Badge>
-                
+
+                <Badge bg="danger" className="ms-2">
+                  Limited Stock
+                </Badge>
               </Card.Title>
               <Card.Subtitle className="mb-2 text-muted">
                 {product.brand}
@@ -187,27 +180,13 @@ const Pdp = () => {
                 </Col>
               </Row>
               <div className="d-flex justify-content-center align-items-center gap-2 my-3">
-                <Button
-                  variant="outline-secondary"
-                  size="sm"
-                  onClick={() => handleQuantityChange(-1)}
-                >
-                  <FaMinus />
-                </Button>
                 <input
-                  type="number"
+                  type="text"
                   value={quantities}
                   onChange={(e) => handleQuantityInputChange(e.target.value)}
                   className="form-control text-center"
                   style={{ width: "60px" }}
                 />
-                <Button
-                  variant="outline-secondary"
-                  size="sm"
-                  onClick={() => handleQuantityChange(1)}
-                >
-                  <FaPlus />
-                </Button>
               </div>
               <Button
                 variant="success"
