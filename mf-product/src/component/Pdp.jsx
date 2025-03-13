@@ -202,7 +202,7 @@ const Pdp = () => {
                   value={quantities}
                   onChange={(e) => handleQuantityInputChange(e.target.value)}
                   className="form-control text-center"
-                  style={{ width: "60px" }}
+                  style={{ width: "40px" }}
                 />
                 <Button
                   variant="outline-secondary"

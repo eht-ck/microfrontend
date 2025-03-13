@@ -27,11 +27,10 @@ const tokenHeader = () => {
   return config;
 };
 
-
 const handleQuantityInputChange = (amount, productId) => {
   setQuantities((prev) => ({
     ...prev,
-    [productId]: Math.max(1,  amount),
+    [productId]: Math.max(1, amount),
   }));
 };
 
@@ -104,8 +103,8 @@ const Cart = () => {
         {},
         config
       );
-  
-       setCart((prevCart) => {
+
+      setCart((prevCart) => {
         const updatedCartItems = prevCart.cartItems.map((item) =>
           item.cartItemId === cartItemId ? { ...item, quantity } : item
         );
@@ -122,7 +121,7 @@ const Cart = () => {
     const outOfStockItems = await checkStock(cartItemId);
     console.log(outOfStockItems);
     if (outOfStockItems && outOfStockItems.length > 0) {
-      toast.error(outOfStockItems)
+      toast.error(outOfStockItems);
       return;
     }
 
@@ -197,13 +196,13 @@ const Cart = () => {
   }
 
   const totalAmount = cart.cartItems.reduce(
-    (total, item) => total + item.product.price * item.quantity,
+    (total, item) => total + item.product.price * item.quantity *(1 - item.discount / 100),
     0
   );
 
   return (
     <Container className="mt-4">
-      <ToastContainer/>
+      <ToastContainer />
       <h2>Shopping Cart</h2>
       <Row>
         <Col md={8}>
@@ -226,10 +225,23 @@ const Cart = () => {
                       <Card.Body>
                         <Card.Title>{item.product.name}</Card.Title>
                         <Card.Text>
-                          Price: ₹{item.product.price} <br />
-                          Discount: {item.discount}%
+                          Price: ₹
+                          {(
+                            item.product.price *
+                            (1 - item.discount / 100)
+                          ).toFixed(2)} <br/>
+                          Brand: {
+                              item.product.brand
+                          } <br/>
+                          Category : {
+                            item.product.category
+                          }
+                        </Card.Text>
+                        <Card.Text>
+                        
                         </Card.Text>
                         <Form inline>
+                          Quantity: {" "}
                           <Button
                             variant="secondary"
                             size="sm"
@@ -240,7 +252,6 @@ const Cart = () => {
                             -
                           </Button>{" "}
                           {item.quantity}{" "}
-                          
                           <Button
                             variant="secondary"
                             size="sm"
@@ -303,7 +314,7 @@ const Cart = () => {
                         </Col>
                         <Col md={8}>
                           <h5>{selectedCartItem.product.name}</h5>
-                          <p>Price: ₹{selectedCartItem.product.price}</p>
+                          <p>Price: ₹{selectedCartItem.product.price*(1 - selectedCartItem.discount / 100)}</p>
                           <p>Quantity: {selectedCartItem.quantity}</p>
                         </Col>
                       </Row>

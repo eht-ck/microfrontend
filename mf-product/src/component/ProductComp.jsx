@@ -13,8 +13,7 @@ import "./ProductComp.css";
 import { addToCart } from "../../api/api";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-
-const ProductComp = () => {
+ const ProductComp = () => {
   const [selectedBrand, setSelectedBrand] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("");
   const [minPrice, setMinPrice] = useState("");
@@ -24,10 +23,9 @@ const ProductComp = () => {
   const [products, setProducts] = useState([]);
   const [searchKeyword, setSearchKeyword] = useState("");
 
-
   const brands = ["Teagritty", "Tetly", "Nestle"];
   const categories = ["TEA", "TEA_BLENDS", "TEA_ACCESSORIES", "GIFT_SETS"];
-  const debounceTimeout = useRef(null);  
+  const debounceTimeout = useRef(null);
 
   const fetchProducts = async (filters) => {
     try {
@@ -58,10 +56,8 @@ const ProductComp = () => {
     }
   };
 
- 
-
   useEffect(() => {
-     if (debounceTimeout.current) {
+    if (debounceTimeout.current) {
       clearTimeout(debounceTimeout.current);
     }
 
@@ -76,7 +72,7 @@ const ProductComp = () => {
       filters.sortDirection = sortDirection;
 
       fetchProducts(filters);
-    }, 500); 
+    }, 500);
 
     return () => clearTimeout(debounceTimeout.current);
   }, [
@@ -102,7 +98,7 @@ const ProductComp = () => {
   const handleQuantityInputChange = (amount, productId) => {
     setQuantities((prev) => ({
       ...prev,
-      [productId]: Math.max(1,  amount),
+      [productId]: Math.max(1, amount),
     }));
   };
   const handleQuantityChange = (productId, amount) => {
@@ -111,7 +107,6 @@ const ProductComp = () => {
       [productId]: Math.max(1, prev[productId] + amount),
     }));
   };
-
 
   const clearFilters = () => {
     setSelectedBrand("");
@@ -124,9 +119,8 @@ const ProductComp = () => {
   };
 
   return (
-    
     <Container fluid className="my-4">
-      <ToastContainer/>
+      <ToastContainer />
       <Row>
         <Col md={3}>
           <Card className="p-3 shadow-sm">
@@ -229,7 +223,7 @@ const ProductComp = () => {
           <Row>
             {products.length > 0 ? (
               products.map((product) => (
-                <Col key={product.id} md={4} className="mb-4">
+                <Col key={product.id} md={4}  className="mb-4">
                   <a
                     href={`/product/${product.id}`}
                     className="text-decoration-none"
@@ -240,10 +234,6 @@ const ProductComp = () => {
                         src={product.imageURL}
                         className="card-img-top img-fluid img-css"
                         alt={product.name}
-                        // style={{
-                        //   maxHeight: "350px",
-                        //   objectFit: "cover",
-                        // }}
                       />
                       <Card.Body>
                         <Card.Title>{product.name}</Card.Title>
@@ -255,43 +245,50 @@ const ProductComp = () => {
                         <Card.Text>Price: ₹{product.price}</Card.Text>
                       </Card.Body>
                       <div className="d-flex justify-content-center align-items-center gap-2">
-                      <Button
-                        variant="outline-secondary"
-                        size="sm"
-                        onClick={(e) => {
-                          e.preventDefault();
-                          handleQuantityChange(product.id, -1);
-                        }}
-                      >
-                        -
-                      </Button>
-                      <input
-                  type="text"
-                  value={quantities[product.id]}
-                  onClick={(e) => e.preventDefault()}
-                  onChange={(e) => handleQuantityInputChange(e.target.value, product.id)}
-                  className="form-control text-center"
-                  style={{ width: "60px" }}
-                />
-                      <Button
-                        variant="outline-secondary"
-                        size="sm"
-                        
-                        onClick={(e) => {
-                          e.preventDefault();
-                          handleQuantityChange(product.id, 1);
-                        }}
-                      >
-                        +
-                      </Button>
-                    </div>
+                        <Button
+                          variant="outline-secondary"
+                          size="sm"
+                          onClick={(e) => {
+                            e.preventDefault();
+                            handleQuantityChange(product.id, -1);
+                          }}
+                        >
+                          -
+                        </Button>
+                        <input
+                          type="text"
+                          value={quantities[product.id]}
+                          onClick={(e) => e.preventDefault()}
+                          onChange={(e) =>
+                            handleQuantityInputChange(
+                              e.target.value,
+                              product.id
+                            )
+                          }
+                          className="form-control text-center"
+                          style={{ width: "40px" }}
+                        />
+                        <Button
+                          variant="outline-secondary"
+                          size="sm"
+                          onClick={(e) => {
+                            e.preventDefault();
+                            handleQuantityChange(product.id, 1);
+                          }}
+                        >
+                          +
+                        </Button>
+                      </div>
                       <Card.Footer className="d-flex justify-content-center mt-2">
-                        <Button variant="success" 
-                        onClick={(e) => {
-                          e.preventDefault();
-                          handleAddToCart(product.id);
-                        }}>
-                          Add to Cart</Button>
+                        <Button
+                          variant="success"
+                          onClick={(e) => {
+                            e.preventDefault();
+                            handleAddToCart(product.id);
+                          }}
+                        >
+                          Add to Cart
+                        </Button>
                       </Card.Footer>
                     </Card>
                   </a>
@@ -299,9 +296,10 @@ const ProductComp = () => {
               ))
             ) : (
               <Col>
-                <Card className="p-3 text-center shadow-sm glassy-card">
+                <Card className="p-3 text-center shadow-sm  ">
                   <Card.Body>
-                    <h5>No products found</h5>
+
+                                      <h5>No products found</h5>
                     <p>Try adjusting the filters</p>
                   </Card.Body>
                 </Card>

@@ -1,14 +1,16 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, Suspense, lazy } from "react";
 import { Card, Nav, Button, Container, Table } from "react-bootstrap";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { FaTrash, FaBan, FaUserShield } from "react-icons/fa";
-import Image from "../../public/assets/4288d1.JPG";
+import forbidden from "../../public/assets/forbidden.gif";
 import { Form, Row, Col } from "react-bootstrap";
 import AddProductForm from "./AddProductForm";
-import ProductUpdate from "mf_product/ProductUpdate";
-import AllOrderHistory from "mf_purchase/AllOrderHistory";
+const ProductUpdate = lazy(() => import("mf_product/ProductUpdate"));
+const AllOrderHistory = lazy(() => import("mf_purchase/AllOrderHistory"));
 import { ToastContainer, toast } from "react-toastify";
+import ErrorBoundary from "./ErrorBoundary";
+
 import "react-toastify/dist/ReactToastify.css";
 
 const AdminModule = () => {
@@ -143,7 +145,7 @@ const AdminModule = () => {
                               <Button
                                 variant="danger"
                                 disabled={
-                                  user.deleted || user.userName === "chandresh"
+                                  user.deleted || user.userName === "adminck"
                                 }
                                 onClick={() => handleDeleteUser(user.userId)}
                                 className="m-2"
@@ -153,7 +155,7 @@ const AdminModule = () => {
                               <Button
                                 variant="warning"
                                 disabled={
-                                  user.blocked || user.userName === "chandresh"
+                                  user.blocked || user.userName === "adminck"
                                 }
                                 onClick={() => handleBlockUser(user.userId)}
                                 className="m-2"
@@ -176,8 +178,23 @@ const AdminModule = () => {
                   </Table>
                 )}
                 {activeTab === "addProduct" && <AddProductForm />}
-                {activeTab === "updateProduct" && <ProductUpdate />}
-                {activeTab === "orderHistory" && <AllOrderHistory />}
+
+                {activeTab === "updateProduct" && (
+                  <ErrorBoundary>
+                    <Suspense fallback={<div>Loading...</div>}>
+                      {" "}
+                      <ProductUpdate />{" "}
+                    </Suspense>
+                  </ErrorBoundary>
+                )}
+                {activeTab === "orderHistory" && (
+                  <ErrorBoundary>
+                    <Suspense fallback={<div>Loading...</div>}>
+                      {" "}
+                      <AllOrderHistory />{" "}
+                    </Suspense>
+                  </ErrorBoundary>
+                )}
               </Card.Body>
             </Card>
           </Container>
@@ -186,9 +203,10 @@ const AdminModule = () => {
       ) : (
         <div className="d-flex justify-content-center">
           <img
-            src={Image}
+            src={forbidden}
             className="img-fluid"
-            style={{ maxWidth: "55%" }}
+            height="500px"
+            width="500px"
             alt="Responsive"
           />
         </div>

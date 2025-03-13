@@ -1,4 +1,5 @@
-import React from 'react'
+import React, { Suspense, lazy } from "react";
+import ErrorBoundary from "../components/ErrorBoundary";
 import Header from '../components/Header'
 import Footer from '../components/Footer'
 import AnnouncementBanner from '../components/AnnouncementBanner';
@@ -10,7 +11,13 @@ const PdpPage = () => {
     <>
     <AnnouncementBanner/>
     <Header/>
+  <ErrorBoundary>
+      <Suspense fallback={<div>Loading...</div>}>
+        
   <Pdp/>
+  
+      </Suspense>
+    </ErrorBoundary>
   <Product/>
     <Footer/>
     
