@@ -11,7 +11,8 @@ import {
 import axios from "axios";
 import "./ProductComp.css";
 import { addToCart } from "../../api/api";
-
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const ProductComp = () => {
   const [selectedBrand, setSelectedBrand] = useState("");
@@ -49,10 +50,10 @@ const ProductComp = () => {
 
   const handleAddToCart = async (productId) => {
     try {
-      console.log("ADDING TO CART")
       await addToCart(productId, quantities[productId]);
-     alert("ADDED TO CART");
+      toast.success("Added to cart successfully!");
     } catch (error) {
+      toast.error("Error adding to cart. Make sure you are logged in.");
       console.error("Error adding to cart:", error);
     }
   };
@@ -123,7 +124,9 @@ const ProductComp = () => {
   };
 
   return (
+    
     <Container fluid className="my-4">
+      <ToastContainer/>
       <Row>
         <Col md={3}>
           <Card className="p-3 shadow-sm">
@@ -263,7 +266,7 @@ const ProductComp = () => {
                         -
                       </Button>
                       <input
-                  type="number"
+                  type="text"
                   value={quantities[product.id]}
                   onClick={(e) => e.preventDefault()}
                   onChange={(e) => handleQuantityInputChange(e.target.value, product.id)}

@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useLocation } from "react-router-dom";
+import { ToastContainer, toast } from "react-toastify";
+
 import axios from "axios";
 import {
   Container,
@@ -45,8 +47,9 @@ const Pdp = () => {
     try {
       console.log("ADDING TO CART");
       await addToCart(productId, quantities);
-      alert("ADDED TO CART");
+      toast.success("Added to cart successfully!!")
     } catch (error) {
+      toast.error("Error adding to cart. Make sure you are logged in.")
       console.error("Error adding to cart:", error);
     }
   };
@@ -105,6 +108,7 @@ const Pdp = () => {
 
   return (
     <Container className="mt-5 mb-5">
+      <ToastContainer/>
       <Row>
         <Col md={5}>
           <Image
@@ -123,11 +127,10 @@ const Pdp = () => {
                     10% OFF
                   </Badge>
                 )}
-               
-                  <Badge bg="danger" className="ms-2">
-                    Limited Stock
-                  </Badge>
-                
+
+                <Badge bg="danger" className="ms-2">
+                  Limited Stock
+                </Badge>
               </Card.Title>
               <Card.Subtitle className="mb-2 text-muted">
                 {product.brand}
@@ -195,7 +198,7 @@ const Pdp = () => {
                   <FaMinus />
                 </Button>
                 <input
-                  type="number"
+                  type="text"
                   value={quantities}
                   onChange={(e) => handleQuantityInputChange(e.target.value)}
                   className="form-control text-center"

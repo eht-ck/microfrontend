@@ -196,7 +196,7 @@ const ProductUpdate = () => {
               <Form.Group controlId="formProductStockQuantity">
                 <Form.Label>Stock Quantity</Form.Label>
                 <Form.Control
-                  type="number"
+                  type="text"
                   name="stockQuantity"
                   value={currentProduct.stockQuantity}
                   onChange={handleChange}

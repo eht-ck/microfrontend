@@ -56,7 +56,7 @@ const Product = () => {
       await addToCart(productId, quantities[productId]);
       toast.success("Added to cart successfully!");
     } catch (error) {
-      toast.error("Error adding to cart.");
+      toast.error("Error adding to cart. Make sure you are logged in.");
       console.error("Error adding to cart:", error);
     }
   };
@@ -99,7 +99,7 @@ const Product = () => {
                         -
                       </Button>
                       <input
-                        type="number"
+                        type="text"
                         value={quantities[product.id]}
                         onChange={(e) => {
                           handleQuantityInputChange(product.id, e.target.value);
