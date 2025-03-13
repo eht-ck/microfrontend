@@ -11,7 +11,8 @@ import {
   Form,
   Modal,
 } from "react-bootstrap";
-import { Alert } from "bootstrap";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const tokenHeader = () => {
   const token = document.cookie
@@ -24,6 +25,14 @@ const tokenHeader = () => {
   };
 
   return config;
+};
+
+
+const handleQuantityInputChange = (amount, productId) => {
+  setQuantities((prev) => ({
+    ...prev,
+    [productId]: Math.max(1,  amount),
+  }));
 };
 
 const Cart = () => {
@@ -95,29 +104,17 @@ const Cart = () => {
         {},
         config
       );
-
-      // Refresh cart data
-      const response = await axios.get(
-        "http://localhost:8082/api/cart/",
-        config
-      );
-      const cartData = response.data;
-
-      const productDetails = await Promise.all(
-        cartData.cartItems.map(async (item) => {
-          const productResponse = await axios.get(
-            `http://localhost:8081/api/products/${item.productId}`
-          );
-          return { ...item, product: productResponse.data };
-        })
-      );
-
-      setCart({ ...cartData, cartItems: productDetails });
+  
+       setCart((prevCart) => {
+        const updatedCartItems = prevCart.cartItems.map((item) =>
+          item.cartItemId === cartItemId ? { ...item, quantity } : item
+        );
+        return { ...prevCart, cartItems: updatedCartItems };
+      });
     } catch (error) {
       console.error("Error changing quantity:", error);
     }
   };
-
   const handleShowModal = () => setShowModal(true);
   const handleCloseModal = () => setShowModal(false);
 
@@ -125,10 +122,7 @@ const Cart = () => {
     const outOfStockItems = await checkStock(cartItemId);
     console.log(outOfStockItems);
     if (outOfStockItems && outOfStockItems.length > 0) {
-      alert(outOfStockItems);
-      //   <Alert  variant="danger">
-      //     {outOfStockItems}
-      // </Alert>
+      toast.error(outOfStockItems)
       return;
     }
 
@@ -209,6 +203,7 @@ const Cart = () => {
 
   return (
     <Container className="mt-4">
+      <ToastContainer/>
       <h2>Shopping Cart</h2>
       <Row>
         <Col md={8}>
@@ -245,6 +240,7 @@ const Cart = () => {
                             -
                           </Button>{" "}
                           {item.quantity}{" "}
+                          
                           <Button
                             variant="secondary"
                             size="sm"
