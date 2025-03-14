@@ -13,7 +13,8 @@ import {
 } from "react-bootstrap";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-
+import { FaShoppingCart } from 'react-icons/fa';
+import emptycart from "../../public/assests/Empty.gif"
 const tokenHeader = () => {
   const token = document.cookie
     .split("; ")
@@ -25,13 +26,6 @@ const tokenHeader = () => {
   };
 
   return config;
-};
-
-const handleQuantityInputChange = (amount, productId) => {
-  setQuantities((prev) => ({
-    ...prev,
-    [productId]: Math.max(1, amount),
-  }));
 };
 
 const Cart = () => {
@@ -95,7 +89,10 @@ const Cart = () => {
       return null;
     }
   };
+
   const changeQuantity = async (cartItemId, quantity) => {
+    if (quantity < 1) return;  
+
     try {
       const config = tokenHeader();
       await axios.patch(
@@ -114,6 +111,27 @@ const Cart = () => {
       console.error("Error changing quantity:", error);
     }
   };
+
+  const deleteCartItem = async (cartItemId) => {
+    try {
+      const config = tokenHeader();
+      await axios.patch(
+        `http://localhost:8082/api/cart/${cartItemId}/quantity/0`,
+        {},
+        config
+      );
+
+      setCart((prevCart) => {
+        const updatedCartItems = prevCart.cartItems.filter(
+          (item) => item.cartItemId !== cartItemId
+        );
+        return { ...prevCart, cartItems: updatedCartItems };
+      });
+    } catch (error) {
+      console.error("Error deleting cart item:", error);
+    }
+  };
+
   const handleShowModal = () => setShowModal(true);
   const handleCloseModal = () => setShowModal(false);
 
@@ -135,19 +153,7 @@ const Cart = () => {
     }
     handleShowModal();
   };
-
-  const confirmOrder = async (cartItemId = null) => {
-    try {
-      const config = tokenHeader();
-      const data = cartItemId ? { cartItemList: [cartItemId] } : {};
-      await axios.post("http://localhost:8082/api/order/", data, config);
-      // Optionally, clear the cart after placing the order
-      setCart(null);
-      handleCloseModal();
-    } catch (error) {
-      console.error("Error placing order:", error);
-    }
-  };
+ 
 
   const handleStripeCheckout = async () => {
     try {
@@ -191,21 +197,39 @@ const Cart = () => {
     return <Spinner animation="border" />;
   }
 
-  if (!cart) {
-    return <div>Your cart is empty.</div>;
+  if (!cart || cart.cartItems.length === 0) {
+    return (
+      <Container className="mt-4 mb-4">
+        <Card className="text-center">
+          <Card.Body>
+           <img src={emptycart} height="400px" width="400px"/>
+            <Card.Title>Your cart is empty</Card.Title>
+            <Card.Text>
+              Looks like you haven't added anything to your cart yet.
+            </Card.Text>
+            <Button variant="success" href="/product">
+              Continue Shopping
+            </Button>
+          </Card.Body>
+        </Card>
+      </Container>
+    );
   }
-
   const totalAmount = cart.cartItems.reduce(
-    (total, item) => total + item.product.price * item.quantity *(1 - item.discount / 100),
+    (total, item) =>
+      total + item.product.price * item.quantity * (1 - item.discount / 100),
     0
   );
+  console.log(cart)
 
   return (
-    <Container className="mt-4">
+  
+    <Container className="mt-4 overflow-auto">
+      
       <ToastContainer />
-      <h2>Shopping Cart</h2>
+      <h2 className="d-flex justify-content-center mb-1">Shopping Cart</h2>
       <Row>
-        <Col md={8}>
+        <Col md={8}  >
           <ListGroup>
             {cart.cartItems.map((item) => (
               <ListGroup.Item
@@ -229,19 +253,13 @@ const Cart = () => {
                           {(
                             item.product.price *
                             (1 - item.discount / 100)
-                          ).toFixed(2)} <br/>
-                          Brand: {
-                              item.product.brand
-                          } <br/>
-                          Category : {
-                            item.product.category
-                          }
-                        </Card.Text>
-                        <Card.Text>
-                        
+                          ).toFixed(2)}{" "}
+                          <br />
+                          Brand: {item.product.brand} <br />
+                          Category: {item.product.category}
                         </Card.Text>
                         <Form inline>
-                          Quantity: {" "}
+                          Quantity:{" "}
                           <Button
                             variant="secondary"
                             size="sm"
@@ -262,6 +280,13 @@ const Cart = () => {
                             +
                           </Button>
                         </Form>
+                        <Button
+                          variant="danger"
+                          className="mt-2 mx-2 "
+                          onClick={() => deleteCartItem(item.cartItemId)}
+                        >
+                          Delete
+                        </Button>
                         <Button
                           variant="success"
                           className="mt-2"
@@ -299,7 +324,7 @@ const Cart = () => {
         </Modal.Header>
         <Modal.Body>
           <Row>
-            <Col md={6}>
+            <Col md={7}>
               <ListGroup>
                 {selectedCartItem ? (
                   <Card className="mb-3 shadow-sm rounded">
@@ -314,8 +339,14 @@ const Cart = () => {
                         </Col>
                         <Col md={8}>
                           <h5>{selectedCartItem.product.name}</h5>
-                          <p>Price: ₹{selectedCartItem.product.price*(1 - selectedCartItem.discount / 100)}</p>
-                          <p>Quantity: {selectedCartItem.quantity}</p>
+                           
+                            Price: ₹
+                            {(
+                              selectedCartItem.product.price *
+                              (1 - selectedCartItem.discount / 100)
+                            ).toFixed(2)}
+                          <br/>
+                          Quantity: {selectedCartItem.quantity}
                         </Col>
                       </Row>
                     </ListGroup.Item>
@@ -337,8 +368,14 @@ const Cart = () => {
                           </Col>
                           <Col md={8}>
                             <h5>{item.product.name}</h5>
-                            <p>Price: ₹{item.product.price}</p>
-                            <p>Quantity: {item.quantity}</p>
+                            <p>
+                              Price: ₹
+                              {(
+                                item.product.price *
+                                (1 - item.discount / 100)
+                              ).toFixed(2)}
+                             <br/>
+                             Quantity: {item.quantity}</p>
                           </Col>
                         </Row>
                       </ListGroup.Item>
@@ -347,33 +384,43 @@ const Cart = () => {
                 )}
               </ListGroup>
             </Col>
-            <Col md={6}>
-              {selectedCartItem ? (
-                <p>
-                  Total Amount: ₹
-                  {selectedCartItem.product.price *
-                    selectedCartItem.quantity *
-                    (1 - selectedCartItem.discount / 100)}
-                </p>
-              ) : (
-                <p>Total Amount: ₹{totalAmount}</p>
-              )}
-
-              <Button
-                variant="success"
-                className="ml-2"
-                onClick={handleStripeCheckout}
-              >
-                Confirm Order
-              </Button>
-              <br />
-              <Button variant="outline-secondary" onClick={handleCloseModal}>
-                Cancel
-              </Button>
+            <Col md={5}>
+              <div className="d-flex flex-column align-items-center">
+                {selectedCartItem ? (
+                  <>
+                    <p>
+                      Total Amount: ₹
+                      {(
+                        selectedCartItem.product.price *
+                        selectedCartItem.quantity *
+                        (1 - selectedCartItem.discount / 100)
+                      ).toFixed(2)}
+                    </p>
+                    <Button
+                      variant="success"
+                      className="mt-1"
+                      onClick={handleStripeCheckout}
+                    >
+                      Confirm Order
+                    </Button>
+                  </>
+                ) : (
+                  <>
+                    <p>Total Amount: ₹{totalAmount.toFixed(2)}</p>
+                    <Button
+                      variant="success"
+                      className="mt-1"
+                      onClick={handleStripeCheckout}
+                    >
+                      Confirm Order
+                    </Button>
+                  </>
+                )}
+              </div>
             </Col>
           </Row>
         </Modal.Body>
-      </Modal>{" "}
+      </Modal>
     </Container>
   );
 };

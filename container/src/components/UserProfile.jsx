@@ -149,7 +149,8 @@ const UserProfile = () => {
         toast.success("Updated the information successfully!!!");
       }
     } catch (error) {
-      toast.error("Failed to update information.");
+      console.log(error)
+      toast.error(error.response.data);
     }
   };
 
