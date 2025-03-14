@@ -17,8 +17,8 @@ This project consists of three microfrontends:
 1. **Clone the repository:**
 
     ```bash
-    git clone <repository-url>
-    cd <repository-directory>
+    git clone https://github.com/eht-ck/microfrontend
+    cd microfrontend
     ```
 
 2. **Install dependencies for each microfrontend:**
