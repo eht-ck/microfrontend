@@ -26,10 +26,10 @@ const Footer = () => {
                 <a href="/product" className="text-white">Products</a>
               </li>
               <li>
-                <a href="#contact" className="text-white">Contact</a>
+                <a href="/contact" className="text-white">Contact</a>
               </li>
               <li>
-                <a href="#about" className="text-white">About Us</a>
+                <a href="/aboutus" className="text-white">About Us</a>
               </li>
             </ul>
           </Col>

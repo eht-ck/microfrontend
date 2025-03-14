@@ -36,9 +36,9 @@ const Login = () => {
       }, 1000);
     } catch (error) {
       const errorMessage = error.response
-        ? error.response.data
-        : "Login Failed";
-      toast.error(errorMessage);
+      ? error.response.data.replace("An unexpected error occurred: ", "")
+      : "Login Failed";
+    toast.error(errorMessage);
     }
   };
 

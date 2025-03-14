@@ -45,10 +45,12 @@ const Product = () => {
 
   const handleQuantityInputChange = (productId, value) => {
     const quantity = Math.max(1, Number(value));
+    if(!isNaN(quantity)){
     setQuantities((prev) => ({
       ...prev,
       [productId]: quantity,
     }));
+  }
   };
 
   const handleAddToCart = async (productId) => {

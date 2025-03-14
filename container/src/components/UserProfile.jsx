@@ -107,7 +107,7 @@ const UserProfile = () => {
 
         setTimeout(() => {
           navigate("/login");
-        }, 3000);
+        }, );
       }
     } catch (error) {
       const errorMessage = error.response

@@ -96,10 +96,11 @@ import "react-toastify/dist/ReactToastify.css";
   };
 
   const handleQuantityInputChange = (amount, productId) => {
+    if(!isNaN(amount)){
     setQuantities((prev) => ({
       ...prev,
       [productId]: Math.max(1, amount),
-    }));
+    }));}
   };
   const handleQuantityChange = (productId, amount) => {
     setQuantities((prev) => ({
@@ -223,7 +224,7 @@ import "react-toastify/dist/ReactToastify.css";
           <Row>
             {products.length > 0 ? (
               products.map((product) => (
-                <Col key={product.id} md={4}  className="mb-4">
+                <Col key={product.id} md={4} className="mb-4">
                   <a
                     href={`/product/${product.id}`}
                     className="text-decoration-none"
