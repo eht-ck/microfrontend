@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-
+import server from "../../public/assets/server.gif"
 class ErrorBoundary extends Component {
     constructor(props) {
         super(props);
@@ -16,7 +16,9 @@ class ErrorBoundary extends Component {
 
     render() {
         if (this.state.hasError) {
-             return <h1>Failed to load the product component. Please try again later.</h1>;
+             return <>
+             <div className="d-flex justify-content-center">
+             <img src={server} width="500px" height="500px"/></div></>;
         }
 
         return this.props.children; 

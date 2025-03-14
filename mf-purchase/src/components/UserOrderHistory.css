@@ -1,0 +1,24 @@
+.tea-accordion .accordion-button {
+    background-color: #AFE1AF !important;
+    border: none;
+    font-weight: bold;
+    color: #3E2723;
+  }
+  
+  .tea-card {
+    background: linear-gradient(135deg, #AFE1AF 35%, #acdf87 100%);
+    border-radius: 10px;
+   }
+  
+  .tea-item {
+    background-color: #C8E6C9;
+    border-radius: 8px;
+    margin-bottom: 5px;
+  }
+  
+  .tea-item:hover {
+    background-color: #FFF9C4;
+  }
+
+
+  

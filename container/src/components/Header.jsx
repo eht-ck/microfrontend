@@ -41,8 +41,8 @@ const Header = () => {
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="mx-auto">
             <Nav.Link href="/product">Products</Nav.Link>
-            <Nav.Link href="#features">Contact</Nav.Link>
-            <Nav.Link href="#pricing">About Us</Nav.Link>
+            <Nav.Link href="/contact">Contact</Nav.Link>
+            <Nav.Link href="/aboutus">About Us</Nav.Link>
           </Nav>
         </Navbar.Collapse>
         <div className="d-flex align-items-center gap-3">

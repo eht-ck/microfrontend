@@ -8,3 +8,57 @@ html, body {
   overflow-x: hidden;
 }
 
+.full-width-image {
+  width: 100%;
+  height: auto;
+}
+
+.overlay-text {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+}
+
+
+
+.about-tea-treats {
+  background-color: #343a40;
+  color: white;
+  padding: 5rem 0;
+  background-image: url('https://teagritty.com/cdn/shop/articles/tg_c9.png?v=1740640337');
+  background-size: cover;
+  background-position: center;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.about-tea-treats .content {
+  background-color: rgba(0, 0, 0, 0.5);
+  border-radius: 10px;
+  padding: 2rem;
+}
+
+.about-tea-treats h1 {
+  font-size: 3rem;
+}
+
+.about-tea-treats .lead {
+  font-size: 1.25rem;
+}
+
+.about-tea-treats .list-unstyled {
+  list-style: none;
+  padding: 0;
+}
+
+.about-tea-treats .list-unstyled li {
+  margin-bottom: 0.5rem;
+}
+
+
+.about-tea-treats-style
+{ background-color: 'rgba(0, 0, 0, 0.5)'; border-radius: '10px' }

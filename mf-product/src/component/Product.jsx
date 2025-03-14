@@ -45,10 +45,12 @@ const Product = () => {
 
   const handleQuantityInputChange = (productId, value) => {
     const quantity = Math.max(1, Number(value));
+    if(!isNaN(quantity)){
     setQuantities((prev) => ({
       ...prev,
       [productId]: quantity,
     }));
+  }
   };
 
   const handleAddToCart = async (productId) => {
@@ -67,12 +69,12 @@ const Product = () => {
   return (
     <div className="container-fluid mx-10">
       <ToastContainer />
-      <h2 className="d-flex justify-content-center">Top selling Products</h2>
-      <div className="row mt-1">
+      <h2 className="d-flex justify-content-center mb02">Top selling Products</h2>
+      <div className="row ">
         {data.map(
           (product) =>
             product.featured && (
-              <div key={product.id} className="col-md-3 mb-2">
+              <div key={product.id} className="col-md-3 mb-2 ">
                 <a
                   href={`/product/${product.id}`}
                   className="text-decoration-none"
@@ -106,7 +108,7 @@ const Product = () => {
                         }}
                         onClick={(e) => e.preventDefault()}
                         className="form-control text-center"
-                        style={{ width: "60px" }}
+                        style={{ width: "40px" }}
                       />
                       <Button
                         variant="outline-secondary"

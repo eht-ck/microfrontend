@@ -7,10 +7,12 @@ import "react-toastify/dist/ReactToastify.css";
 import UserProfileGif from "../../public/assets/userProfile.gif";
 import ResetPass from "../../public/assets/resetpass.gif";
 import UpdateProfile from "../../public/assets/updateProfile.gif";
-import UserOrderHistory from "mf_purchase/UserOrderHistory";
+import { Suspense, lazy } from "react";
+import ErrorBoundary from "./ErrorBoundary";
 
+const UserOrderHistory = lazy(() => import("mf_purchase/UserOrderHistory"));
 const UserProfile = () => {
-  const [activeTab, setActiveTab] = useState("#userInfoTab");
+  const [activeTab, setActiveTab] = useState("#orderHistory");
   const [userInfo, setUserInfo] = useState({});
   const [error, setError] = useState("");
   const [oldPassword, setOldPassword] = useState("");
@@ -105,7 +107,7 @@ const UserProfile = () => {
 
         setTimeout(() => {
           navigate("/login");
-        }, 3000);
+        }, );
       }
     } catch (error) {
       const errorMessage = error.response
@@ -182,11 +184,15 @@ const UserProfile = () => {
             </Nav>
           </Card.Header>
           <Card.Body>
-            {activeTab === "#orderHistory" && (
-              <>
-                <UserOrderHistory />
-              </>
-            )}
+            <ErrorBoundary>
+              <Suspense fallback={<div>Loading...</div>}>
+                {activeTab === "#orderHistory" && (
+                  <>
+                    <UserOrderHistory />
+                  </>
+                )}
+              </Suspense>
+            </ErrorBoundary>
             {activeTab === "#userInfoTab" && (
               <>
                 <Card className="mb-4 p-3 shadow-sm">

@@ -71,9 +71,13 @@ const Pdp = () => {
     setQuantities((prev) => Math.max(1, prev + quantity));
   };
 
-  const handleQuantityInputChange = (value) => {
+  const handleQuantityInputChange = (event) => {
+    let value = event.target.value;
+    setQuantities("")
+    if(!isNaN(value)){
     const quantity = Math.max(1, Number(value));
     setQuantities(quantity);
+    }
   };
 
   const getCategoryIcon = (category) => {
@@ -200,7 +204,8 @@ const Pdp = () => {
                 <input
                   type="text"
                   value={quantities}
-                  onChange={(e) => handleQuantityInputChange(e.target.value)}
+                  onChange={handleQuantityInputChange}
+                  // onChange={(e) => handleQuantityInputChange(e.target.value)}
                   className="form-control text-center"
                   style={{ width: "60px" }}
                 />
