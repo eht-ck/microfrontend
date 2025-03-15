@@ -87,7 +87,7 @@ This project consists of three microfrontends:
 2. **Initialize a new React project:**
 
     ```bash
-    npx create-react-app .
+    npx create-mf-app@1.1.8 .
     ```
 
 3. **Configure Webpack Module Federation:**
