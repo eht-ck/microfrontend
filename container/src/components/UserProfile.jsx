@@ -107,7 +107,7 @@ const UserProfile = () => {
 
         setTimeout(() => {
           navigate("/login");
-        }, );
+        });
       }
     } catch (error) {
       const errorMessage = error.response
@@ -119,6 +119,15 @@ const UserProfile = () => {
 
   const handleUpdateInfo = async (e) => {
     e.preventDefault();
+
+    if (!email) {
+      toast.error("Email cannot be left empty!!!");
+      return;
+    }
+    if (!address) {
+      toast.error("Address cannot be empty!!!");
+      return;
+    }
 
     try {
       const payload = {
@@ -149,7 +158,7 @@ const UserProfile = () => {
         toast.success("Updated the information successfully!!!");
       }
     } catch (error) {
-      console.log(error)
+      console.log(error);
       toast.error(error.response.data);
     }
   };

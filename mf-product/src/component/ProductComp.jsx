@@ -13,7 +13,11 @@ import "./ProductComp.css";
 import { addToCart } from "../../api/api";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
- const ProductComp = () => {
+import { useNavigate } from "react-router-dom";
+
+const ProductComp = () => {
+  const navigate = useNavigate();
+
   const [selectedBrand, setSelectedBrand] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("");
   const [minPrice, setMinPrice] = useState("");
@@ -23,7 +27,7 @@ import "react-toastify/dist/ReactToastify.css";
   const [products, setProducts] = useState([]);
   const [searchKeyword, setSearchKeyword] = useState("");
 
-  const brands = ["Teagritty", "Tetly", "Nestle"];
+  const brands = ["Teagritty", "Tetly", "TeaCupsFull"];
   const categories = ["TEA", "TEA_BLENDS", "TEA_ACCESSORIES", "GIFT_SETS"];
   const debounceTimeout = useRef(null);
 
@@ -52,6 +56,11 @@ import "react-toastify/dist/ReactToastify.css";
       toast.success("Added to cart successfully!");
     } catch (error) {
       toast.error("Error adding to cart. Make sure you are logged in.");
+      if (
+        error.response.data.message ===
+        "Invalid compact JWT string: Compact JWSs must contain exactly 2 period characters, and compact JWEs must contain exactly 4.  Found: 0"
+      )
+        navigate("/login");
       console.error("Error adding to cart:", error);
     }
   };
@@ -96,11 +105,12 @@ import "react-toastify/dist/ReactToastify.css";
   };
 
   const handleQuantityInputChange = (amount, productId) => {
-    if(!isNaN(amount)){
-    setQuantities((prev) => ({
-      ...prev,
-      [productId]: Math.max(1, amount),
-    }));}
+    if (!isNaN(amount)) {
+      setQuantities((prev) => ({
+        ...prev,
+        [productId]: Math.max(1, amount),
+      }));
+    }
   };
   const handleQuantityChange = (productId, amount) => {
     setQuantities((prev) => ({
@@ -267,7 +277,7 @@ import "react-toastify/dist/ReactToastify.css";
                             )
                           }
                           className="form-control text-center"
-                          style={{ width: "40px" }}
+                          style={{ width: "60px" }}
                         />
                         <Button
                           variant="outline-secondary"
@@ -299,8 +309,7 @@ import "react-toastify/dist/ReactToastify.css";
               <Col>
                 <Card className="p-3 text-center shadow-sm  ">
                   <Card.Body>
-
-                                      <h5>No products found</h5>
+                    <h5>No products found</h5>
                     <p>Try adjusting the filters</p>
                   </Card.Body>
                 </Card>

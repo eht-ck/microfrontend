@@ -85,8 +85,7 @@ const UserOrderHistory = () => {
                           <small className="text-muted d-block">Quantity: {item.quantity}</small>
                         </div>
                         <div className="text-end">
-                          <span className="fw-bold">₹{item.price}
--{item.discount}%</span>
+  ₹{(item.price - (item.price * item.discount / 100)).toFixed(2)}
                         </div>
                       </ListGroup.Item>
                     ))}

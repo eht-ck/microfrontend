@@ -4,8 +4,7 @@ import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
 import {
   FaShoppingCart,
-  FaSearch,
-  FaSignInAlt,
+   FaSignInAlt,
   FaSignOutAlt,
 } from "react-icons/fa";
 import "../index.css";
@@ -46,12 +45,11 @@ const Header = () => {
           </Nav>
         </Navbar.Collapse>
         <div className="d-flex align-items-center gap-3">
-        
-         { isLoggedIn && 
-          <Nav.Link href="/admin">
-            <GrUserAdmin />
-          </Nav.Link>
-}
+          {isLoggedIn && (
+            <Nav.Link href="/admin">
+              <GrUserAdmin />
+            </Nav.Link>
+          )}
 
           {isLoggedIn ? (
             <Nav.Link href="/cart">

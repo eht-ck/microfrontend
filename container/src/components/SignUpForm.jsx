@@ -142,7 +142,7 @@ const SignUpForm = () => {
         </Card>
       </Container>
 
-      <ToastContainer position="top-end" className="p-3" />
+      <ToastContainer />
     </>
   );
 };
