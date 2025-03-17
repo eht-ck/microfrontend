@@ -63,7 +63,7 @@ const AddProductForm = () => {
       try {
         const response = await fetch(
           "http://localhost:8081/api/products",
-          config
+          config,
         );
         if (response.ok) {
           toast.success("Product Added to Database!!!!");
@@ -81,7 +81,7 @@ const AddProductForm = () => {
 
   return (
     <Container className="mt-1">
-      <ToastContainer/>
+      <ToastContainer />
       <Card className="shadow-sm border-0">
         <Card.Body className="">
           <Form onSubmit={handleSubmit}>
@@ -231,8 +231,6 @@ const AddProductForm = () => {
           </Form>
         </Card.Body>
       </Card>
-     
-     
     </Container>
   );
 };

@@ -2,7 +2,15 @@ import React, { useEffect, useState } from "react";
 import { getUserOrder } from "../../api/api";
 import Accordion from "react-bootstrap/Accordion";
 import { Badge, Card, ListGroup } from "react-bootstrap";
-import { FaBoxOpen, FaCalendarAlt, FaMapMarkerAlt, FaShoppingCart, FaCheckCircle, FaLeaf, FaMugHot } from "react-icons/fa";
+import {
+  FaBoxOpen,
+  FaCalendarAlt,
+  FaMapMarkerAlt,
+  FaShoppingCart,
+  FaCheckCircle,
+  FaLeaf,
+  FaMugHot,
+} from "react-icons/fa";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./UserOrderHistory.css"; // Import the CSS file
 
@@ -38,7 +46,10 @@ const UserOrderHistory = () => {
 
   return (
     <div className="container mt-5">
-      <h2 className="text-center mb-4 text-success " style={{ fontWeight: "bold", fontFamily: "'Playfair Display', serif" }}>
+      <h2
+        className="text-center mb-4 text-success "
+        style={{ fontWeight: "bold", fontFamily: "'Playfair Display', serif" }}
+      >
         <FaBoxOpen className="me-2" /> Your Orders
       </h2>
 
@@ -52,7 +63,8 @@ const UserOrderHistory = () => {
             <Accordion.Header>
               <div className="w-100 d-flex flex-column flex-md-row justify-content-between align-items-md-center    ">
                 <span className="fw-bold ">
-                  <FaCheckCircle className="text-success me-2" /> Order ID: {order.orderId}
+                  <FaCheckCircle className="text-success me-2" /> Order ID:{" "}
+                  {order.orderId}
                 </span>
                 <span className=" ">Total: ₹{order.totalAmount}</span>
                 {getStatusBadge(order.status)}
@@ -63,7 +75,8 @@ const UserOrderHistory = () => {
                 <Card.Body>
                   <p className="mb-2 text-dark">
                     <FaCalendarAlt className="me-2 text-success" />
-                    <strong>Order Date:</strong> {new Date(order.orderDate).toLocaleString()}
+                    <strong>Order Date:</strong>{" "}
+                    {new Date(order.orderDate).toLocaleString()}
                   </p>
                   <p className="mb-3 text-dark">
                     <FaMapMarkerAlt className="me-2 text-danger" />
@@ -81,11 +94,19 @@ const UserOrderHistory = () => {
                         className="d-flex justify-content-between align-items-center tea-item"
                       >
                         <div>
-                          <span className="fw-semibold">{item.productName}</span>
-                          <small className="text-muted d-block">Quantity: {item.quantity}</small>
+                          <span className="fw-semibold">
+                            {item.productName}
+                          </span>
+                          <small className="text-muted d-block">
+                            Quantity: {item.quantity}
+                          </small>
                         </div>
                         <div className="text-end">
-  ₹{(item.price - (item.price * item.discount / 100)).toFixed(2)}
+                          ₹
+                          {(
+                            item.price -
+                            (item.price * item.discount) / 100
+                          ).toFixed(2)}
                         </div>
                       </ListGroup.Item>
                     ))}

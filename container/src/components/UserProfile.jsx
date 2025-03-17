@@ -39,7 +39,7 @@ const UserProfile = () => {
         try {
           const response = await axios.get(
             "http://localhost:8080/api/user",
-            config
+            config,
           );
           setUserInfo(response.data);
           setAddress(response.data.address);
@@ -73,13 +73,13 @@ const UserProfile = () => {
       e.preventDefault();
       if (newPassword.localeCompare(confirmNewPassword) !== 0) {
         setPasswordError(
-          "New Password doesn't match with the confirm password!"
+          "New Password doesn't match with the confirm password!",
         );
         return;
       }
       if (!passwordRegex.test(newPassword)) {
         setPasswordError(
-          "Password must contain at least 1 lowercase, 1 uppercase, 1 digit, 1 special character, and be at least 8 characters long."
+          "Password must contain at least 1 lowercase, 1 uppercase, 1 digit, 1 special character, and be at least 8 characters long.",
         );
         return;
       }
@@ -100,7 +100,7 @@ const UserProfile = () => {
         const response = await axios.put(
           "http://localhost:8080/api/user/change-password",
           payload,
-          config
+          config,
         );
         toast.success("Password Changed Successfully, Redirecting to Login!!!");
         document.cookie = "token=; Max-Age=0; path=/;";
@@ -148,11 +148,11 @@ const UserProfile = () => {
         const response = await axios.put(
           "http://localhost:8080/api/user/update",
           payload,
-          config
+          config,
         );
         const updatedData = await axios.get(
           "http://localhost:8080/api/user",
-          config
+          config,
         );
         setUserInfo(updatedData.data);
         toast.success("Updated the information successfully!!!");

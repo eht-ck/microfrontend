@@ -24,7 +24,7 @@ const Login = () => {
 
       const response = await axios.post(
         "http://localhost:8080/api/user/login",
-        payload
+        payload,
       );
       const token = response.data;
       document.cookie = `token=${token}; Max-age=432000; path=/; domain=localhost; SameSite=None; Secure`;

@@ -1,6 +1,6 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
-import 'bootstrap/dist/css/bootstrap.min.css';
+import "bootstrap/dist/css/bootstrap.min.css";
 
 import "./index.css";
 import Product from "./component/Product";
@@ -10,12 +10,11 @@ import ProductUpdate from "./component/ProductUpdate";
 // import Footer  from "container/Footer";
 const App = () => (
   // <Products/>
-  <ProductUpdate/>
-  
+  <ProductUpdate />
 );
-const rootElement = document.getElementById("app")
-if (!rootElement) throw new Error("Failed to find the root element")
+const rootElement = document.getElementById("app");
+if (!rootElement) throw new Error("Failed to find the root element");
 
-const root = ReactDOM.createRoot(rootElement)
+const root = ReactDOM.createRoot(rootElement);
 
-root.render(<App />)
+root.render(<App />);

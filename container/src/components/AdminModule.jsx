@@ -37,7 +37,7 @@ const AdminModule = () => {
 
         const response = await axios.get(
           "http://localhost:8080/api/user/all",
-          config
+          config,
         );
         setAllUsers(response.data);
       }
@@ -67,7 +67,7 @@ const AdminModule = () => {
     const config = getToken();
     await axios.delete(
       `http://localhost:8080/api/user/delete/${userId}`,
-      config
+      config,
     );
     getAllUsers();
     toast.success(`Deleted user with ID: ${userId}`);
@@ -78,7 +78,7 @@ const AdminModule = () => {
     await axios.put(
       `http://localhost:8080/api/user/block-user/${userId}`,
       {},
-      config
+      config,
     );
     getAllUsers();
     toast.warning(`Blocked user with ID: ${userId}`);
@@ -89,7 +89,7 @@ const AdminModule = () => {
     await axios.patch(
       `http://localhost:8080/api/user/update/role/${userId}`,
       { role: "ADMIN" },
-      config
+      config,
     );
     getAllUsers();
     toast.info(`Made user with ID: ${userId} an admin`);

@@ -42,7 +42,7 @@ const AllOrderHistory = () => {
   const handleStatusChange = async (orderId, newStatus) => {
     await updateOrderStatus(orderId, newStatus);
     const updatedOrders = orders.map((order) =>
-      order.orderId === orderId ? { ...order, status: newStatus } : order
+      order.orderId === orderId ? { ...order, status: newStatus } : order,
     );
     setOrders(updatedOrders);
   };

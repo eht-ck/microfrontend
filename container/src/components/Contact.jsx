@@ -68,11 +68,10 @@ const Contact = () => {
                 <a href="mailto:sales@teatreats.com">sales@teatreats.com</a>
               </p>
               <a href="mailto:sales@teatreats.com?subject=Regarding Sales Query">
-
-              <Button variant="success" className="mt-2 w-100" >
-                Contact Us
+                <Button variant="success" className="mt-2 w-100">
+                  Contact Us
                 </Button>
-                </a>
+              </a>
             </Card>
           </Col>
         </Row>

@@ -1,8 +1,8 @@
-import React, { useState, useEffect } from 'react';
-import axios from 'axios';
-import { useTable, useFilters, useGlobalFilter } from 'react-table';
-import { Table, Button, Form, Modal } from 'react-bootstrap';
-import { FaEdit, FaTrash } from 'react-icons/fa';
+import React, { useState, useEffect } from "react";
+import axios from "axios";
+import { useTable, useFilters, useGlobalFilter } from "react-table";
+import { Table, Button, Form, Modal } from "react-bootstrap";
+import { FaEdit, FaTrash } from "react-icons/fa";
 
 const tokenHeader = () => {
   const token = document.cookie
@@ -29,7 +29,11 @@ const ProductUpdate = () => {
 
   const fetchProducts = async () => {
     try {
-      const response = await axios.post("http://localhost:8081/api/products/filter-and-search", {}, tokenHeader());
+      const response = await axios.post(
+        "http://localhost:8081/api/products/filter-and-search",
+        {},
+        tokenHeader(),
+      );
       setProducts(response.data);
     } catch (error) {
       console.error("Error fetching products:", error);
@@ -38,7 +42,10 @@ const ProductUpdate = () => {
 
   const handleDelete = async (productId) => {
     try {
-      await axios.delete(`http://localhost:8081/api/products/${productId}`, tokenHeader());
+      await axios.delete(
+        `http://localhost:8081/api/products/${productId}`,
+        tokenHeader(),
+      );
       fetchProducts();
     } catch (error) {
       console.error("Error deleting product:", error);
@@ -48,7 +55,11 @@ const ProductUpdate = () => {
   const handleUpdate = async () => {
     if (validateForm()) {
       try {
-        await axios.patch(`http://localhost:8081/api/products/update/${currentProduct.id}`, currentProduct, tokenHeader());
+        await axios.patch(
+          `http://localhost:8081/api/products/update/${currentProduct.id}`,
+          currentProduct,
+          tokenHeader(),
+        );
         fetchProducts();
         setShowModal(false);
       } catch (error) {
@@ -60,9 +71,12 @@ const ProductUpdate = () => {
   const validateForm = () => {
     const errors = {};
     if (!currentProduct.name) errors.name = "Name is required";
-    if (!currentProduct.description) errors.description = "Description is required";
-    if (!currentProduct.price || currentProduct.price <= 0) errors.price = "Price must be greater than 0";
-    if (!currentProduct.stockQuantity || currentProduct.stockQuantity < 1) errors.stockQuantity = "Stock quantity must be at least 1";
+    if (!currentProduct.description)
+      errors.description = "Description is required";
+    if (!currentProduct.price || currentProduct.price <= 0)
+      errors.price = "Price must be greater than 0";
+    if (!currentProduct.stockQuantity || currentProduct.stockQuantity < 1)
+      errors.stockQuantity = "Stock quantity must be at least 1";
     if (!currentProduct.category) errors.category = "Category is required";
 
     setFormErrors(errors);
@@ -83,27 +97,34 @@ const ProductUpdate = () => {
 
   const columns = React.useMemo(
     () => [
-      { Header: 'ID', accessor: 'id' },
-      { Header: 'Name', accessor: 'name' },
-      { Header: 'Description', accessor: 'description' },
-      { Header: 'Price', accessor: 'price' },
-      { Header: 'Stock Quantity', accessor: 'stockQuantity' },
-      { Header: 'Category', accessor: 'category' },
+      { Header: "ID", accessor: "id" },
+      { Header: "Name", accessor: "name" },
+      { Header: "Description", accessor: "description" },
+      { Header: "Price", accessor: "price" },
+      { Header: "Stock Quantity", accessor: "stockQuantity" },
+      { Header: "Category", accessor: "category" },
       {
-        Header: 'Actions',
+        Header: "Actions",
         Cell: ({ row }) => (
           <>
-           <Button variant="warning" onClick={() => openModal(row.original)} className='mb-2'>
-              <FaEdit /> 
+            <Button
+              variant="warning"
+              onClick={() => openModal(row.original)}
+              className="mb-2"
+            >
+              <FaEdit />
             </Button>
-            <Button variant="danger" onClick={() => handleDelete(row.original.id)}>
-              <FaTrash /> 
+            <Button
+              variant="danger"
+              onClick={() => handleDelete(row.original.id)}
+            >
+              <FaTrash />
             </Button>
           </>
         ),
       },
     ],
-    []
+    [],
   );
 
   const {
@@ -117,7 +138,7 @@ const ProductUpdate = () => {
 
   return (
     <div className="container mt-5">
-       <Form.Control
+      <Form.Control
         type="text"
         placeholder="Search"
         onChange={(e) => setGlobalFilter(e.target.value)}
@@ -125,21 +146,21 @@ const ProductUpdate = () => {
       />
       <Table {...getTableProps()} striped bordered hover>
         <thead>
-          {headerGroups.map(headerGroup => (
+          {headerGroups.map((headerGroup) => (
             <tr {...headerGroup.getHeaderGroupProps()}>
-              {headerGroup.headers.map(column => (
-                <th {...column.getHeaderProps()}>{column.render('Header')}</th>
+              {headerGroup.headers.map((column) => (
+                <th {...column.getHeaderProps()}>{column.render("Header")}</th>
               ))}
             </tr>
           ))}
         </thead>
         <tbody {...getTableBodyProps()}>
-          {rows.map(row => {
+          {rows.map((row) => {
             prepareRow(row);
             return (
               <tr {...row.getRowProps()}>
-                {row.cells.map(cell => (
-                  <td {...cell.getCellProps()}>{cell.render('Cell')}</td>
+                {row.cells.map((cell) => (
+                  <td {...cell.getCellProps()}>{cell.render("Cell")}</td>
                 ))}
               </tr>
             );
@@ -160,7 +181,7 @@ const ProductUpdate = () => {
                   type="text"
                   name="name"
                   value={currentProduct.name}
-                 onClick={handleChange}
+                  onClick={handleChange}
                   isInvalid={!!formErrors.name}
                 />
                 <Form.Control.Feedback type="invalid">

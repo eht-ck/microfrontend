@@ -1,11 +1,11 @@
 const HtmlWebPackPlugin = require("html-webpack-plugin");
 const ModuleFederationPlugin = require("webpack/lib/container/ModuleFederationPlugin");
-const path = require('path');
-const Dotenv = require('dotenv-webpack');
+const path = require("path");
+const Dotenv = require("dotenv-webpack");
 
 const deps = require("./package.json").dependencies;
 
-const printCompilationMessage = require('./compilation.config.js');
+const printCompilationMessage = require("./compilation.config.js");
 
 module.exports = (_, argv) => ({
   output: {
@@ -17,27 +17,26 @@ module.exports = (_, argv) => ({
   },
 
   devServer: {
-    allowedHosts : "all",
-        port: 3000,
+    allowedHosts: "all",
+    port: 3000,
     historyApiFallback: true,
-    watchFiles: [path.resolve(__dirname, 'src')],
+    watchFiles: [path.resolve(__dirname, "src")],
     onListening: function (devServer) {
-      const port = devServer.server.address().port
+      const port = devServer.server.address().port;
 
-      printCompilationMessage('compiling', port)
+      printCompilationMessage("compiling", port);
 
-      devServer.compiler.hooks.done.tap('OutputMessagePlugin', (stats) => {
+      devServer.compiler.hooks.done.tap("OutputMessagePlugin", (stats) => {
         setImmediate(() => {
           if (stats.hasErrors()) {
-            printCompilationMessage('failure', port)
+            printCompilationMessage("failure", port);
           } else {
-            printCompilationMessage('success', port)
+            printCompilationMessage("success", port);
           }
-        })
-      })
-    }
+        });
+      });
+    },
   },
-  
 
   module: {
     rules: [
@@ -61,17 +60,13 @@ module.exports = (_, argv) => ({
       },
       {
         test: /\.scss$/,
-        use: [
-          'style-loader',
-          'css-loader',
-          'sass-loader'
-        ],
+        use: ["style-loader", "css-loader", "sass-loader"],
       },
       {
         test: /\.(png|jpe?g|gif)$/i,
         use: [
           {
-            loader: 'file-loader',
+            loader: "file-loader",
           },
         ],
       },
@@ -83,14 +78,10 @@ module.exports = (_, argv) => ({
       name: "container",
       filename: "remoteEntry.js",
       remotes: {
-          mf_product : "mf_product@http://localhost:3001/remoteEntry.js",
-          mf_purchase :  "mf_purchase@http://localhost:3002/remoteEntry.js"
-          
+        mf_product: "mf_product@http://localhost:3001/remoteEntry.js",
+        mf_purchase: "mf_purchase@http://localhost:3002/remoteEntry.js",
       },
-      exposes: {
-       
-            
-      },
+      exposes: {},
       shared: {
         ...deps,
         react: {
@@ -106,6 +97,6 @@ module.exports = (_, argv) => ({
     new HtmlWebPackPlugin({
       template: "./src/index.html",
     }),
-    new Dotenv()
+    new Dotenv(),
   ],
 });

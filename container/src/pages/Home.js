@@ -1,5 +1,5 @@
-import React, {Suspense} from "react";
-import ErrorBoundary from "../components/ErrorBoundary"; 
+import React, { Suspense } from "react";
+import ErrorBoundary from "../components/ErrorBoundary";
 
 import Header from "../components/Header";
 import Footer from "../components/Footer";
@@ -15,7 +15,7 @@ const Home = () => {
       <AnnouncementBanner />
       <Header />
       <HeroSection />
-      
+
       <About />
       <ErrorBoundary>
         <Suspense fallback={<div>Loading Products .....</div>}>

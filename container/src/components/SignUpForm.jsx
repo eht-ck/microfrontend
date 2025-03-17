@@ -45,7 +45,7 @@ const SignUpForm = () => {
       /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
     if (!passwordRegex.test(password)) {
       setPasswordError(
-        "Password must contain at least 1 lowercase, 1 uppercase, 1 digit, 1 special character, and be at least 8 characters long."
+        "Password must contain at least 1 lowercase, 1 uppercase, 1 digit, 1 special character, and be at least 8 characters long.",
       );
       return;
     }
@@ -54,7 +54,7 @@ const SignUpForm = () => {
       const payload = { userName, password, email, address };
       const response = await axios.post(
         "http://localhost:8080/api/user/signup",
-        payload
+        payload,
       );
       document.cookie = `token=${response.data}; Max-age=432000; path=/; domain=localhost; SameSite=None; Secure`;
 

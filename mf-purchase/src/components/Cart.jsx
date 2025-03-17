@@ -13,8 +13,8 @@ import {
 } from "react-bootstrap";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { FaShoppingCart } from 'react-icons/fa';
-import emptycart from "../../public/assests/Empty.gif"
+import { FaShoppingCart } from "react-icons/fa";
+import emptycart from "../../public/assests/Empty.gif";
 const tokenHeader = () => {
   const token = document.cookie
     .split("; ")
@@ -40,17 +40,17 @@ const Cart = () => {
         const config = tokenHeader();
         const response = await axios.get(
           "http://localhost:8082/api/cart/",
-          config
+          config,
         );
         const cartData = response.data;
 
         const productDetails = await Promise.all(
           cartData.cartItems.map(async (item) => {
             const productResponse = await axios.get(
-              `http://localhost:8081/api/products/${item.productId}`
+              `http://localhost:8081/api/products/${item.productId}`,
             );
             return { ...item, product: productResponse.data };
-          })
+          }),
         );
 
         setCart({ ...cartData, cartItems: productDetails });
@@ -81,7 +81,7 @@ const Cart = () => {
       const response = await axios.post(
         "http://localhost:8082/api/order/stockCheck",
         data,
-        config
+        config,
       );
       return response.data;
     } catch (error) {
@@ -91,19 +91,19 @@ const Cart = () => {
   };
 
   const changeQuantity = async (cartItemId, quantity) => {
-    if (quantity < 1) return;  
+    if (quantity < 1) return;
 
     try {
       const config = tokenHeader();
       await axios.patch(
         `http://localhost:8082/api/cart/${cartItemId}/quantity/${quantity}`,
         {},
-        config
+        config,
       );
 
       setCart((prevCart) => {
         const updatedCartItems = prevCart.cartItems.map((item) =>
-          item.cartItemId === cartItemId ? { ...item, quantity } : item
+          item.cartItemId === cartItemId ? { ...item, quantity } : item,
         );
         return { ...prevCart, cartItems: updatedCartItems };
       });
@@ -118,12 +118,12 @@ const Cart = () => {
       await axios.patch(
         `http://localhost:8082/api/cart/${cartItemId}/quantity/0`,
         {},
-        config
+        config,
       );
 
       setCart((prevCart) => {
         const updatedCartItems = prevCart.cartItems.filter(
-          (item) => item.cartItemId !== cartItemId
+          (item) => item.cartItemId !== cartItemId,
         );
         return { ...prevCart, cartItems: updatedCartItems };
       });
@@ -145,7 +145,7 @@ const Cart = () => {
 
     if (cartItemId) {
       const item = cart.cartItems.find(
-        (item) => item.cartItemId === cartItemId
+        (item) => item.cartItemId === cartItemId,
       );
       setSelectedCartItem(item);
     } else {
@@ -153,7 +153,6 @@ const Cart = () => {
     }
     handleShowModal();
   };
- 
 
   const handleStripeCheckout = async () => {
     try {
@@ -184,7 +183,7 @@ const Cart = () => {
           quantity: 1,
           orderDataJson: JSON.stringify(placeOrderDTO),
         },
-        config
+        config,
       );
 
       window.location.href = response.data.sessionUrl;
@@ -202,7 +201,7 @@ const Cart = () => {
       <Container className="mt-4 mb-4">
         <Card className="text-center">
           <Card.Body>
-           <img src={emptycart} height="400px" width="400px"/>
+            <img src={emptycart} height="400px" width="400px" />
             <Card.Title>Your cart is empty</Card.Title>
             <Card.Text>
               Looks like you haven't added anything to your cart yet.
@@ -218,18 +217,16 @@ const Cart = () => {
   const totalAmount = cart.cartItems.reduce(
     (total, item) =>
       total + item.product.price * item.quantity * (1 - item.discount / 100),
-    0
+    0,
   );
-  console.log(cart)
+  console.log(cart);
 
   return (
-  
     <Container className="mt-4 overflow-auto">
-      
       <ToastContainer />
       <h2 className="d-flex justify-content-center mb-1">Shopping Cart</h2>
       <Row>
-        <Col md={8}  className="mb-2">
+        <Col md={8} className="mb-2">
           <ListGroup>
             {cart.cartItems.map((item) => (
               <ListGroup.Item
@@ -339,13 +336,12 @@ const Cart = () => {
                         </Col>
                         <Col md={8}>
                           <h5>{selectedCartItem.product.name}</h5>
-                           
-                            Price: ₹
-                            {(
-                              selectedCartItem.product.price *
-                              (1 - selectedCartItem.discount / 100)
-                            ).toFixed(2)}
-                          <br/>
+                          Price: ₹
+                          {(
+                            selectedCartItem.product.price *
+                            (1 - selectedCartItem.discount / 100)
+                          ).toFixed(2)}
+                          <br />
                           Quantity: {selectedCartItem.quantity}
                         </Col>
                       </Row>
@@ -374,8 +370,9 @@ const Cart = () => {
                                 item.product.price *
                                 (1 - item.discount / 100)
                               ).toFixed(2)}
-                             <br/>
-                             Quantity: {item.quantity}</p>
+                              <br />
+                              Quantity: {item.quantity}
+                            </p>
                           </Col>
                         </Row>
                       </ListGroup.Item>

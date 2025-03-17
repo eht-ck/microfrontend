@@ -1,13 +1,13 @@
 import React from "react";
 import { Container, Row, Col } from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
- 
+
 const AboutTeaTreats = () => {
   return (
     <div
       className="bg-dark text-white py-5 d-flex align-items-center justify-content-center vh-100"
       style={{
-background: `url('https://teagritty.com/cdn/shop/articles/tg_c9.png?v=1740640337') center/cover no-repeat`,
+        background: `url('https://teagritty.com/cdn/shop/articles/tg_c9.png?v=1740640337') center/cover no-repeat`,
       }}
     >
       <Container>
@@ -44,5 +44,5 @@ background: `url('https://teagritty.com/cdn/shop/articles/tg_c9.png?v=1740640337
     </div>
   );
 };
- 
+
 export default AboutTeaTreats;
