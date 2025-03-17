@@ -20,7 +20,7 @@ const Product = () => {
     try {
       const response = await axios.post(
         "http://localhost:8081/api/products/filter-and-search",
-        {}
+        {},
       );
       setData(response.data);
       const initialQuantities = {};
@@ -147,7 +147,7 @@ const Product = () => {
                   </div>
                 </a>
               </div>
-            )
+            ),
         )}
       </div>
     </div>

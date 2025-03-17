@@ -35,7 +35,7 @@ const ProductComp = () => {
     try {
       const response = await axios.post(
         "http://localhost:8081/api/products/filter-and-search",
-        filters
+        filters,
       );
       setProducts(response.data);
       const initialQuantities = {};
@@ -100,7 +100,7 @@ const ProductComp = () => {
 
   const handleCategoryChange = (category) => {
     setSelectedCategory((prevCategory) =>
-      prevCategory === category ? "" : category
+      prevCategory === category ? "" : category,
     );
   };
 
@@ -273,7 +273,7 @@ const ProductComp = () => {
                           onChange={(e) =>
                             handleQuantityInputChange(
                               e.target.value,
-                              product.id
+                              product.id,
                             )
                           }
                           className="form-control text-center"

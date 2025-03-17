@@ -8,7 +8,7 @@ const UserModule = () => {
     <>
       <Header />
       <UserProfile />
-      
+
       <Footer />
     </>
   );

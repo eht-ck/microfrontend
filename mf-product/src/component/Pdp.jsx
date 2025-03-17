@@ -24,9 +24,6 @@ import {
 import { addToCart } from "../../api/api";
 import { useNavigate } from "react-router-dom";
 
-
-
-
 const Pdp = () => {
   const navigate = useNavigate();
 
@@ -42,7 +39,7 @@ const Pdp = () => {
 
   const getProduct = async () => {
     const response = await axios.get(
-      `http://localhost:8081/api/products/${productId}`
+      `http://localhost:8081/api/products/${productId}`,
     );
     setProduct(response.data);
   };
@@ -174,7 +171,7 @@ const Pdp = () => {
                             <li key={key}>
                               <strong>{key}:</strong> {value}
                             </li>
-                          )
+                          ),
                       )}
                     </ul>
                   </div>

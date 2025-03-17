@@ -6,7 +6,7 @@ import AnnouncementBanner from "../components/AnnouncementBanner";
 const ContactUs = () => {
   return (
     <>
-    <AnnouncementBanner/>
+      <AnnouncementBanner />
       <Header />
       <Contact />
       <Footer />

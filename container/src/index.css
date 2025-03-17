@@ -1,9 +1,10 @@
-:root{
+:root {
   --banner-green: #2e524a;
-  --navbar-green: #BAC9AC;
+  --navbar-green: #bac9ac;
 }
 
-html, body {
+html,
+body {
   max-width: 100%;
   overflow-x: hidden;
 }
@@ -21,13 +22,11 @@ html, body {
   text-align: center;
 }
 
-
-
 .about-tea-treats {
   background-color: #343a40;
   color: white;
   padding: 5rem 0;
-  background-image: url('https://teagritty.com/cdn/shop/articles/tg_c9.png?v=1740640337');
+  background-image: url("https://teagritty.com/cdn/shop/articles/tg_c9.png?v=1740640337");
   background-size: cover;
   background-position: center;
   height: 100vh;
@@ -59,6 +58,7 @@ html, body {
   margin-bottom: 0.5rem;
 }
 
-
-.about-tea-treats-style
-{ background-color: 'rgba(0, 0, 0, 0.5)'; border-radius: '10px' }
+.about-tea-treats-style {
+  background-color: "rgba(0, 0, 0, 0.5)";
+  border-radius: "10px";
+}

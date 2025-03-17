@@ -1,11 +1,11 @@
 const HtmlWebPackPlugin = require("html-webpack-plugin");
 const ModuleFederationPlugin = require("webpack/lib/container/ModuleFederationPlugin");
-const path = require('path');
-const Dotenv = require('dotenv-webpack');
+const path = require("path");
+const Dotenv = require("dotenv-webpack");
 
 const deps = require("./package.json").dependencies;
 
-const printCompilationMessage = require('./compilation.config.js');
+const printCompilationMessage = require("./compilation.config.js");
 
 module.exports = (_, argv) => ({
   output: {
@@ -19,22 +19,22 @@ module.exports = (_, argv) => ({
   devServer: {
     port: 3001,
     historyApiFallback: true,
-    watchFiles: [path.resolve(__dirname, 'src')],
+    watchFiles: [path.resolve(__dirname, "src")],
     onListening: function (devServer) {
-      const port = devServer.server.address().port
+      const port = devServer.server.address().port;
 
-      printCompilationMessage('compiling', port)
+      printCompilationMessage("compiling", port);
 
-      devServer.compiler.hooks.done.tap('OutputMessagePlugin', (stats) => {
+      devServer.compiler.hooks.done.tap("OutputMessagePlugin", (stats) => {
         setImmediate(() => {
           if (stats.hasErrors()) {
-            printCompilationMessage('failure', port)
+            printCompilationMessage("failure", port);
           } else {
-            printCompilationMessage('success', port)
+            printCompilationMessage("success", port);
           }
-        })
-      })
-    }
+        });
+      });
+    },
   },
 
   module: {
@@ -65,16 +65,13 @@ module.exports = (_, argv) => ({
       name: "mf_product",
       filename: "remoteEntry.js",
       remotes: {
-
         // container: "container@http://localhost:3000/remoteEntry.js",
       },
       exposes: {
-
-          "./Product" : "./src/component/Product.jsx",
-          "./ProductComp" : "./src/component/ProductComp.jsx",
-          "./PDP" : "./src/component/Pdp.jsx",
-          "./ProductUpdate": "./src/component/ProductUpdate.jsx",
-
+        "./Product": "./src/component/Product.jsx",
+        "./ProductComp": "./src/component/ProductComp.jsx",
+        "./PDP": "./src/component/Pdp.jsx",
+        "./ProductUpdate": "./src/component/ProductUpdate.jsx",
       },
       shared: {
         ...deps,
@@ -91,6 +88,6 @@ module.exports = (_, argv) => ({
     new HtmlWebPackPlugin({
       template: "./src/index.html",
     }),
-    new Dotenv()
+    new Dotenv(),
   ],
 });
