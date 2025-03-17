@@ -6,8 +6,11 @@ import { addToCart } from "../../api/api";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import "./ProductComp.css";
+import { useNavigate } from "react-router-dom";
 
 const Product = () => {
+  const navigate = useNavigate();
+
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -45,12 +48,12 @@ const Product = () => {
 
   const handleQuantityInputChange = (productId, value) => {
     const quantity = Math.max(1, Number(value));
-    if(!isNaN(quantity)){
-    setQuantities((prev) => ({
-      ...prev,
-      [productId]: quantity,
-    }));
-  }
+    if (!isNaN(quantity)) {
+      setQuantities((prev) => ({
+        ...prev,
+        [productId]: quantity,
+      }));
+    }
   };
 
   const handleAddToCart = async (productId) => {
@@ -58,7 +61,13 @@ const Product = () => {
       await addToCart(productId, quantities[productId]);
       toast.success("Added to cart successfully!");
     } catch (error) {
-      toast.error("Error adding to cart. Make sure you are logged in.");
+      toast.error("Error adding to cart.");
+      console.log();
+      if (
+        error.response.data.message ===
+        "Invalid compact JWT string: Compact JWSs must contain exactly 2 period characters, and compact JWEs must contain exactly 4.  Found: 0"
+      )
+        navigate("/login");
       console.error("Error adding to cart:", error);
     }
   };
@@ -69,7 +78,9 @@ const Product = () => {
   return (
     <div className="container-fluid mx-10">
       <ToastContainer />
-      <h2 className="d-flex justify-content-center mb02">Top selling Products</h2>
+      <h2 className="d-flex justify-content-center mb02">
+        Top selling Products
+      </h2>
       <div className="row ">
         {data.map(
           (product) =>
@@ -108,7 +119,7 @@ const Product = () => {
                         }}
                         onClick={(e) => e.preventDefault()}
                         className="form-control text-center"
-                        style={{ width: "40px" }}
+                        style={{ width: "60px" }}
                       />
                       <Button
                         variant="outline-secondary"

@@ -167,7 +167,7 @@ const Cart = () => {
         finalPrice = totalAmount;
       } else {
         placeOrderDTO = {
-          cartItemList: selectedCartItem.cartItemId,
+          cartItemList: [selectedCartItem.cartItemId],
         };
         finalPrice =
           selectedCartItem.product.price *
@@ -229,7 +229,7 @@ const Cart = () => {
       <ToastContainer />
       <h2 className="d-flex justify-content-center mb-1">Shopping Cart</h2>
       <Row>
-        <Col md={8}  >
+        <Col md={8}  className="mb-2">
           <ListGroup>
             {cart.cartItems.map((item) => (
               <ListGroup.Item

@@ -1,35 +1,43 @@
 import React from "react";
-import Container from 'react-bootstrap/Container';
-import Row from 'react-bootstrap/Row';
-import Col from 'react-bootstrap/Col';
-import { FaFacebook, FaTwitter, FaInstagram } from 'react-icons/fa';
- 
+import Container from "react-bootstrap/Container";
+import Row from "react-bootstrap/Row";
+import Col from "react-bootstrap/Col";
+import { FaFacebook, FaTwitter, FaInstagram } from "react-icons/fa";
+
 const Footer = () => {
   return (
     <footer className="bg-dark text-white text-center text-lg-start">
       <Container className="p-4">
         <Row>
           <Col lg={6} md={12} className="mb-4 mb-md-0">
-          
             <h5 className="text-uppercase">TEA TREATS 🍃</h5>
             <p>
-              Enjoy the finest selection of teas and treats from around the world.
+              Enjoy the finest selection of teas and treats from around the
+              world.
             </p>
           </Col>
           <Col lg={3} md={6} className="mb-4 mb-md-0">
             <h5 className="text-uppercase">Links</h5>
             <ul className="list-unstyled mb-0">
               <li>
-                <a href="/" className="text-white">Home</a>
+                <a href="/" className="text-white">
+                  Home
+                </a>
               </li>
               <li>
-                <a href="/product" className="text-white">Products</a>
+                <a href="/product" className="text-white">
+                  Products
+                </a>
               </li>
               <li>
-                <a href="/contact" className="text-white">Contact</a>
+                <a href="/contact" className="text-white">
+                  Contact
+                </a>
               </li>
               <li>
-                <a href="/aboutus" className="text-white">About Us</a>
+                <a href="/aboutus" className="text-white">
+                  About Us
+                </a>
               </li>
             </ul>
           </Col>
@@ -37,13 +45,19 @@ const Footer = () => {
             <h5 className="text-uppercase">Contact</h5>
             <ul className="list-unstyled mb-0">
               <li>
-                <a href="mailto:info@teatreats.com" className="text-white">info@teatreats.com</a>
+                <a href="mailto:info@teatreats.com" className="text-white">
+                  info@teatreats.com
+                </a>
               </li>
               <li>
-                <a href="tel:+1234567890" className="text-white">+1 234 567 890</a>
+                <a href="tel:+1234567890" className="text-white">
+                  +1 234 567 890
+                </a>
               </li>
               <li>
-                <a href="#location" className="text-white">Our Location</a>
+                <a href="#location" className="text-white">
+                  Our Location
+                </a>
               </li>
             </ul>
           </Col>
@@ -62,8 +76,8 @@ const Footer = () => {
           </Col>
         </Row>
       </Container>
-      <div className="text-center p-3" style={{ backgroundColor: '#2e524a' }}>
-      © {new Date().getFullYear()} TEA TREATS. All rights reserved.
+      <div className="text-center p-3" style={{ backgroundColor: "#2e524a" }}>
+        © {new Date().getFullYear()} TEA TREATS. All rights reserved.
       </div>
     </footer>
   );

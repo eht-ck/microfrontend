@@ -16,16 +16,20 @@ import {
   FaPlus,
   FaMinus,
   FaGift,
-  FaTshirt,
-  FaMobileAlt,
   FaLeaf,
   FaGlobe,
   FaCheckCircle,
   FaTimesCircle,
 } from "react-icons/fa";
 import { addToCart } from "../../api/api";
+import { useNavigate } from "react-router-dom";
+
+
+
 
 const Pdp = () => {
+  const navigate = useNavigate();
+
   const location = useLocation();
   const url = location.pathname;
 
@@ -47,9 +51,13 @@ const Pdp = () => {
     try {
       console.log("ADDING TO CART");
       await addToCart(productId, quantities);
-      toast.success("Added to cart successfully!!")
+      toast.success("Added to cart successfully!!");
     } catch (error) {
-      toast.error("Error adding to cart. Make sure you are logged in.")
+      if (
+        error.response.data.message ===
+        "Invalid compact JWT string: Compact JWSs must contain exactly 2 period characters, and compact JWEs must contain exactly 4.  Found: 0"
+      )
+        navigate("/login");
       console.error("Error adding to cart:", error);
     }
   };
@@ -73,10 +81,9 @@ const Pdp = () => {
 
   const handleQuantityInputChange = (event) => {
     let value = event.target.value;
-    setQuantities("")
-    if(!isNaN(value)){
-    const quantity = Math.max(1, Number(value));
-    setQuantities(quantity);
+    if (!isNaN(value)) {
+      const quantity = Math.max(1, Number(value));
+      setQuantities(quantity);
     }
   };
 
@@ -84,10 +91,6 @@ const Pdp = () => {
     switch (category) {
       case "GIFT_SETS":
         return <FaGift className="me-2" />;
-      case "CLOTHING":
-        return <FaTshirt className="me-2" />;
-      case "ELECTRONICS":
-        return <FaMobileAlt className="me-2" />;
       default:
         return null;
     }
@@ -112,7 +115,7 @@ const Pdp = () => {
 
   return (
     <Container className="mt-5 mb-5">
-      <ToastContainer/>
+      <ToastContainer />
       <Row>
         <Col md={5}>
           <Image
@@ -131,10 +134,11 @@ const Pdp = () => {
                     10% OFF
                   </Badge>
                 )}
-
-                <Badge bg="danger" className="ms-2">
-                  Limited Stock
-                </Badge>
+                {product.stockQuantity < 500 && (
+                  <Badge bg="danger" className="ms-2">
+                    Limited Stock
+                  </Badge>
+                )}
               </Card.Title>
               <Card.Subtitle className="mb-2 text-muted">
                 {product.brand}
@@ -164,35 +168,65 @@ const Pdp = () => {
                     <h5>Additional Information:</h5>
                     <ul>
                       {Object.entries(product.customFields).map(
-                        ([key, value]) => (
-                          <li key={key}>
-                            <strong>{key}:</strong> {value}
-                          </li>
-                        )
+                        ([key, value]) =>
+                          key &&
+                          value && (
+                            <li key={key}>
+                              <strong>{key}:</strong> {value}
+                            </li>
+                          )
                       )}
                     </ul>
                   </div>
                 )}
-              <Row className="mt-4">
-                <Col md={6} className="text-center px-2">
-                  <FaCheckCircle size={30} className="text-success" />
-                  <p>No Artificial Flavour</p>
-                </Col>
-                <Col md={6} className="text-center">
-                  <FaTimesCircle size={30} className="text-success" />
-                  <p>No Tea Dust</p>
-                </Col>
-              </Row>
-              <Row className="mt-2">
-                <Col md={6} className="text-center">
-                  <FaLeaf size={30} className="text-success" />
-                  <p>Whole Leaf Tea</p>
-                </Col>
-                <Col md={6} className="text-center">
-                  <FaGlobe size={30} className="text-success" />
-                  <p>Worldwide Delivery</p>
-                </Col>
-              </Row>
+
+              {product.category === "TEA_ACCESSORIES" ? (
+                <>
+                  <Row className="mt-4">
+                    <Col md={6} className="text-center px-2">
+                      <FaCheckCircle size={30} className="text-success" />
+                      <p>High-Quality Materials</p>
+                    </Col>
+                    <Col md={6} className="text-center">
+                      <FaTimesCircle size={30} className="text-success" />
+                      <p>No Harmful Chemicals</p>
+                    </Col>
+                  </Row>
+                  <Row className="mt-2">
+                    <Col md={6} className="text-center">
+                      <FaLeaf size={30} className="text-success" />
+                      <p>Eco-Friendly</p>
+                    </Col>
+                    <Col md={6} className="text-center">
+                      <FaGlobe size={30} className="text-success" />
+                      <p>Worldwide Delivery</p>
+                    </Col>
+                  </Row>{" "}
+                </>
+              ) : (
+                <>
+                  <Row className="mt-4">
+                    <Col md={6} className="text-center px-2">
+                      <FaCheckCircle size={30} className="text-success" />
+                      <p>No Artificial Flavour</p>
+                    </Col>
+                    <Col md={6} className="text-center">
+                      <FaTimesCircle size={30} className="text-success" />
+                      <p>No Tea Dust</p>
+                    </Col>
+                  </Row>
+                  <Row className="mt-2">
+                    <Col md={6} className="text-center">
+                      <FaLeaf size={30} className="text-success" />
+                      <p>Whole Leaf Tea</p>
+                    </Col>
+                    <Col md={6} className="text-center">
+                      <FaGlobe size={30} className="text-success" />
+                      <p>Worldwide Delivery</p>
+                    </Col>
+                  </Row>
+                </>
+              )}
               <div className="d-flex justify-content-center align-items-center gap-2 my-3">
                 <Button
                   variant="outline-secondary"
@@ -205,7 +239,6 @@ const Pdp = () => {
                   type="text"
                   value={quantities}
                   onChange={handleQuantityInputChange}
-                  // onChange={(e) => handleQuantityInputChange(e.target.value)}
                   className="form-control text-center"
                   style={{ width: "60px" }}
                 />

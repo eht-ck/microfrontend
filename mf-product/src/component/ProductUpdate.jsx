@@ -93,7 +93,7 @@ const ProductUpdate = () => {
         Header: 'Actions',
         Cell: ({ row }) => (
           <>
-           <Button variant="warning" onClick={() => openModal(row.original)}>
+           <Button variant="warning" onClick={() => openModal(row.original)} className='mb-2'>
               <FaEdit /> 
             </Button>
             <Button variant="danger" onClick={() => handleDelete(row.original.id)}>

@@ -36,9 +36,9 @@ const Login = () => {
       }, 1000);
     } catch (error) {
       const errorMessage = error.response
-      ? error.response.data.replace("An unexpected error occurred: ", "")
-      : "Login Failed";
-    toast.error(errorMessage);
+        ? error.response.data.replace("An unexpected error occurred: ", "")
+        : "Login Failed";
+      toast.error(errorMessage);
     }
   };
 
@@ -49,7 +49,11 @@ const Login = () => {
         <div className="row w-100 justify-content-center align-items-center">
           <div className="col-12 col-md-10 col-lg-8 p-5 border border-success rounded d-flex shadow-lg">
             <div className="col-5 d-flex justify-content-center align-items-center">
-              <Image src={FingerprintGif} fluid style={{ width: '200px', height: '200px' }} />
+              <Image
+                src={FingerprintGif}
+                fluid
+                style={{ width: "200px", height: "200px" }}
+              />
             </div>
             <div className="col-7">
               <Form onSubmit={handleSubmitLogin}>
@@ -85,6 +89,5 @@ const Login = () => {
     </>
   );
 };
-
 
 export default Login;

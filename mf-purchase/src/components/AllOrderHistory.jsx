@@ -2,7 +2,13 @@ import React, { useEffect, useState } from "react";
 import { getAllOrders, updateOrderStatus } from "../../api/api";
 import Accordion from "react-bootstrap/Accordion";
 import { Badge, Card, ListGroup, Dropdown, Pagination } from "react-bootstrap";
-import { FaBoxOpen, FaCalendarAlt, FaMapMarkerAlt, FaShoppingCart, FaCheckCircle } from "react-icons/fa";
+import {
+  FaBoxOpen,
+  FaCalendarAlt,
+  FaMapMarkerAlt,
+  FaShoppingCart,
+  FaCheckCircle,
+} from "react-icons/fa";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./UserOrderHistory.css"; // Import the CSS file
 
@@ -35,7 +41,7 @@ const AllOrderHistory = () => {
 
   const handleStatusChange = async (orderId, newStatus) => {
     await updateOrderStatus(orderId, newStatus);
-    const updatedOrders = orders.map(order =>
+    const updatedOrders = orders.map((order) =>
       order.orderId === orderId ? { ...order, status: newStatus } : order
     );
     setOrders(updatedOrders);
@@ -43,19 +49,22 @@ const AllOrderHistory = () => {
 
   const getStatusBadge = (order) => {
     const statusColors = {
-      DELIVERED: 'success',
-      PROCESSING: 'warning',
-      PENDING: 'info',
-      CANCELLED: 'danger',
+      DELIVERED: "success",
+      PENDING: "info",
+      CANCELLED: "danger",
     };
     return (
-      <Dropdown onSelect={(eventKey) => handleStatusChange(order.orderId, eventKey)}>
-        <Dropdown.Toggle variant={statusColors[order.status] || 'secondary'} className="px-3 py-2">
+      <Dropdown
+        onSelect={(eventKey) => handleStatusChange(order.orderId, eventKey)}
+      >
+        <Dropdown.Toggle
+          variant={statusColors[order.status] || "secondary"}
+          className="px-3 py-2"
+        >
           {order.status}
         </Dropdown.Toggle>
         <Dropdown.Menu>
           <Dropdown.Item eventKey="DELIVERED">DELIVERED</Dropdown.Item>
-          <Dropdown.Item eventKey="PROCESSING">PROCESSING</Dropdown.Item>
           <Dropdown.Item eventKey="PENDING">PENDING</Dropdown.Item>
           <Dropdown.Item eventKey="CANCELLED">CANCELLED</Dropdown.Item>
         </Dropdown.Menu>
@@ -65,7 +74,10 @@ const AllOrderHistory = () => {
 
   return (
     <div className="container mt-5">
-      <h2 className="text-center mb-4 text-success" style={{ fontWeight: "bold", fontFamily: "'Playfair Display', serif" }}>
+      <h2
+        className="text-center mb-4 text-success"
+        style={{ fontWeight: "bold", fontFamily: "'Playfair Display', serif" }}
+      >
         <FaBoxOpen className="me-2" /> All Order History
       </h2>
       <Accordion defaultActiveKey="0" className="tea-accordion">
@@ -78,7 +90,8 @@ const AllOrderHistory = () => {
             <Accordion.Header>
               <div className="w-100 d-flex flex-column flex-md-row justify-content-between align-items-md-center">
                 <span className="fw-bold">
-                  <FaCheckCircle className="text-success me-2" /> Order ID: {order.orderId}
+                  <FaCheckCircle className="text-success me-2" /> Order ID:{" "}
+                  {order.orderId}
                 </span>
                 <span>Total: ₹{order.totalAmount}</span>
                 {getStatusBadge(order)}
@@ -89,7 +102,8 @@ const AllOrderHistory = () => {
                 <Card.Body>
                   <p className="mb-2 text-dark">
                     <FaCalendarAlt className="me-2 text-success" />
-                    <strong>Order Date:</strong> {new Date(order.orderDate).toLocaleString()}
+                    <strong>Order Date:</strong>{" "}
+                    {new Date(order.orderDate).toLocaleString()}
                   </p>
                   <p className="mb-3 text-dark">
                     <FaMapMarkerAlt className="me-2 text-danger" />
@@ -105,11 +119,21 @@ const AllOrderHistory = () => {
                         className="d-flex justify-content-between align-items-center tea-item"
                       >
                         <div>
-                          <span className="fw-semibold">{item.productName}</span>
-                          <small className="text-muted d-block">Quantity: {item.quantity}</small>
+                          <span className="fw-semibold">
+                            {item.productName}
+                          </span>
+                          <small className="text-muted d-block">
+                            Quantity: {item.quantity}
+                          </small>
                         </div>
                         <div className="text-end">
-                          <span className="fw-bold">₹{item.price}</span><span>-{item.discount}%</span>
+                          <div className="text-end">
+                            ₹
+                            {(
+                              item.price -
+                              (item.price * item.discount) / 100
+                            ).toFixed(2)}
+                          </div>{" "}
                         </div>
                       </ListGroup.Item>
                     ))}
@@ -124,12 +148,22 @@ const AllOrderHistory = () => {
         <Pagination.First onClick={() => setPage(0)} disabled={page === 0} />
         <Pagination.Prev onClick={handlePreviousPage} disabled={page === 0} />
         {Array.from({ length: totalPages }, (_, i) => (
-          <Pagination.Item key={i} active={i === page} onClick={() => setPage(i)}>
+          <Pagination.Item
+            key={i}
+            active={i === page}
+            onClick={() => setPage(i)}
+          >
             {i + 1}
           </Pagination.Item>
         ))}
-        <Pagination.Next onClick={handleNextPage} disabled={page === totalPages - 1} />
-        <Pagination.Last onClick={() => setPage(totalPages - 1)} disabled={page === totalPages - 1} />
+        <Pagination.Next
+          onClick={handleNextPage}
+          disabled={page === totalPages - 1}
+        />
+        <Pagination.Last
+          onClick={() => setPage(totalPages - 1)}
+          disabled={page === totalPages - 1}
+        />
       </Pagination>
     </div>
   );

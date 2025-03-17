@@ -198,7 +198,7 @@ const AdminModule = () => {
               </Card.Body>
             </Card>
           </Container>
-          <ToastContainer position="top-end" className="p-3" />
+          <ToastContainer />
         </>
       ) : (
         <div className="d-flex justify-content-center">
