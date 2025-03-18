@@ -78,7 +78,7 @@ const Product = () => {
   return (
     <div className="container-fluid mx-10">
       <ToastContainer />
-      <h2 className="d-flex justify-content-center mb02">
+      <h2 className="d-flex justify-content-center mb-2">
         Top selling Products
       </h2>
       <div className="row ">
@@ -132,7 +132,7 @@ const Product = () => {
                         +
                       </Button>
                     </div>
-                    <div className="d-flex justify-content-center mt-2">
+                    <div className="d-flex justify-content-center mt-2 mb-1">
                       <Button
                         variant="success"
                         className="mb-1"
