@@ -7,9 +7,11 @@ import "../index.css";
 import "./Header.css";
 import { GrUserAdmin } from "react-icons/gr";
 import { FaRegUserCircle } from "react-icons/fa";
+import { useNavigate } from "react-router-dom";
 
 const Header = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const token = document.cookie
@@ -24,6 +26,7 @@ const Header = () => {
   const handleLogout = () => {
     document.cookie = "token=; Max-Age=0; path=/;";
     setIsLoggedIn(false);
+    navigate("/")
   };
 
   return (
