@@ -20,7 +20,7 @@ const Product = () => {
     try {
       const response = await axios.post(
         "http://localhost:8081/api/products/filter-and-search",
-        {},
+        {}
       );
       setData(response.data);
       const initialQuantities = {};
@@ -62,7 +62,6 @@ const Product = () => {
       toast.success("Added to cart successfully!");
     } catch (error) {
       toast.error("Error adding to cart.");
-      console.log();
       if (
         error.response.data.message ===
         "Invalid compact JWT string: Compact JWSs must contain exactly 2 period characters, and compact JWEs must contain exactly 4.  Found: 0"
@@ -81,11 +80,11 @@ const Product = () => {
       <h2 className="d-flex justify-content-center mb-2">
         Top selling Products
       </h2>
-      <div className="row ">
+      <div className="row mx-2">
         {data.map(
           (product) =>
             product.featured && (
-              <div key={product.id} className="col-md-3 mb-2 ">
+              <div key={product.id} className="col-md-3 mb-2  ">
                 <a
                   href={`/product/${product.id}`}
                   className="text-decoration-none"
@@ -147,7 +146,7 @@ const Product = () => {
                   </div>
                 </a>
               </div>
-            ),
+            )
         )}
       </div>
     </div>

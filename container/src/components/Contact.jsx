@@ -27,7 +27,7 @@ const Contact = () => {
               <h2 className="fw-bold">📍 Store Address</h2>
               <p className="text-muted">Bengaluru, India</p>
               <p>
-                <strong>🕒 Store Timing:</strong> 10 AM - 8 PM
+                <strong>🕒 Store Timing:</strong> 10 AM - 7 PM
               </p>
             </Card>
           </Col>

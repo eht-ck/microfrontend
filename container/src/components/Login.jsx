@@ -24,16 +24,15 @@ const Login = () => {
 
       const response = await axios.post(
         "http://localhost:8080/api/user/login",
-        payload,
+        payload
       );
       const token = response.data;
       document.cookie = `token=${token}; Max-age=432000; path=/; domain=localhost; SameSite=None; Secure`;
-      console.log("Login Successfully: ", response.data);
       toast.success("User Login Successfully");
 
       setTimeout(() => {
         navigate("/product");
-      }, 1000);
+      }, 1500);
     } catch (error) {
       const errorMessage = error.response
         ? error.response.data.replace("An unexpected error occurred: ", "")
@@ -59,10 +58,10 @@ const Login = () => {
               <Form onSubmit={handleSubmitLogin}>
                 <h3 className="text-center mb-4">Login</h3>
                 <Form.Group controlId="formBasicEmail">
-                  <Form.Label>UserName</Form.Label>
+                  <Form.Label>User Name</Form.Label>
                   <Form.Control
                     type="text"
-                    placeholder="Enter userName"
+                    placeholder="Enter user Name"
                     value={userName}
                     onChange={(e) => setUserName(e.target.value)}
                   />

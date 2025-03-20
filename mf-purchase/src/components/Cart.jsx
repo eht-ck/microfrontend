@@ -40,17 +40,17 @@ const Cart = () => {
         const config = tokenHeader();
         const response = await axios.get(
           "http://localhost:8082/api/cart/",
-          config,
+          config
         );
         const cartData = response.data;
 
         const productDetails = await Promise.all(
           cartData.cartItems.map(async (item) => {
             const productResponse = await axios.get(
-              `http://localhost:8081/api/products/${item.productId}`,
+              `http://localhost:8081/api/products/${item.productId}`
             );
             return { ...item, product: productResponse.data };
-          }),
+          })
         );
 
         setCart({ ...cartData, cartItems: productDetails });
@@ -81,7 +81,7 @@ const Cart = () => {
       const response = await axios.post(
         "http://localhost:8082/api/order/stockCheck",
         data,
-        config,
+        config
       );
       return response.data;
     } catch (error) {
@@ -98,12 +98,12 @@ const Cart = () => {
       await axios.patch(
         `http://localhost:8082/api/cart/${cartItemId}/quantity/${quantity}`,
         {},
-        config,
+        config
       );
 
       setCart((prevCart) => {
         const updatedCartItems = prevCart.cartItems.map((item) =>
-          item.cartItemId === cartItemId ? { ...item, quantity } : item,
+          item.cartItemId === cartItemId ? { ...item, quantity } : item
         );
         return { ...prevCart, cartItems: updatedCartItems };
       });
@@ -118,12 +118,12 @@ const Cart = () => {
       await axios.patch(
         `http://localhost:8082/api/cart/${cartItemId}/quantity/0`,
         {},
-        config,
+        config
       );
 
       setCart((prevCart) => {
         const updatedCartItems = prevCart.cartItems.filter(
-          (item) => item.cartItemId !== cartItemId,
+          (item) => item.cartItemId !== cartItemId
         );
         return { ...prevCart, cartItems: updatedCartItems };
       });
@@ -137,7 +137,6 @@ const Cart = () => {
 
   const placeOrder = async (cartItemId = null) => {
     const outOfStockItems = await checkStock(cartItemId);
-    console.log(outOfStockItems);
     if (outOfStockItems && outOfStockItems.length > 0) {
       toast.error(outOfStockItems);
       return;
@@ -145,7 +144,7 @@ const Cart = () => {
 
     if (cartItemId) {
       const item = cart.cartItems.find(
-        (item) => item.cartItemId === cartItemId,
+        (item) => item.cartItemId === cartItemId
       );
       setSelectedCartItem(item);
     } else {
@@ -183,9 +182,9 @@ const Cart = () => {
           quantity: 1,
           orderDataJson: JSON.stringify(placeOrderDTO),
         },
-        config,
+        config
       );
-
+      
       window.location.href = response.data.sessionUrl;
     } catch (error) {
       console.error("Error initiating Stripe checkout:", error);
@@ -217,9 +216,8 @@ const Cart = () => {
   const totalAmount = cart.cartItems.reduce(
     (total, item) =>
       total + item.product.price * item.quantity * (1 - item.discount / 100),
-    0,
+    0
   );
-  console.log(cart);
 
   return (
     <Container className="mt-4 overflow-auto">

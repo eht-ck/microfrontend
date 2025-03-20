@@ -16,7 +16,7 @@ const tokenHeader = () => {
 const addToCart = async (productId, quantity) => {
   const data = await axios.get(
     "http://localhost:8082/api/cart/",
-    tokenHeader(),
+    tokenHeader()
   );
   const payload = {
     productId: productId,
@@ -25,7 +25,7 @@ const addToCart = async (productId, quantity) => {
   const response = await axios.post(
     `http://localhost:8082/api/cart`,
     payload,
-    tokenHeader(),
+    tokenHeader()
   );
 };
 
@@ -33,10 +33,9 @@ const getUserOrder = async () => {
   try {
     const response = await axios.get(
       "http://localhost:8082/api/order/",
-      tokenHeader(),
+      tokenHeader()
     );
     const data = response.data;
-    console.log(data);
     return data;
   } catch (error) {
     console.error("Error fetching user order:", error);
@@ -47,10 +46,9 @@ const getAllOrders = async (page = 0, size = 10) => {
   try {
     const response = await axios.get(
       `http://localhost:8082/api/order/all?page=${page}&size=${size}`,
-      tokenHeader(),
+      tokenHeader()
     );
     const data = response.data;
-    console.log(data);
     return data;
   } catch (error) {
     console.error("Error fetching all orders:", error);
@@ -62,10 +60,9 @@ const updateOrderStatus = async (orderId, status) => {
     const response = await axios.patch(
       "http://localhost:8082/api/order/status",
       { orderId, status },
-      tokenHeader(),
+      tokenHeader()
     );
     const data = response.data;
-    console.log(data);
     return data;
   } catch (error) {
     console.error("Error updating order status:", error);

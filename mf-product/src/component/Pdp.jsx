@@ -39,14 +39,13 @@ const Pdp = () => {
 
   const getProduct = async () => {
     const response = await axios.get(
-      `http://localhost:8081/api/products/${productId}`,
+      `http://localhost:8081/api/products/${productId}`
     );
     setProduct(response.data);
   };
 
   const handleAddToCart = async (productId) => {
     try {
-      console.log("ADDING TO CART");
       await addToCart(productId, quantities);
       toast.success("Added to cart successfully!!");
     } catch (error) {
@@ -171,7 +170,7 @@ const Pdp = () => {
                             <li key={key}>
                               <strong>{key}:</strong> {value}
                             </li>
-                          ),
+                          )
                       )}
                     </ul>
                   </div>

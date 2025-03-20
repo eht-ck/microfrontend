@@ -39,7 +39,7 @@ const UserProfile = () => {
         try {
           const response = await axios.get(
             "http://localhost:8080/api/user",
-            config,
+            config
           );
           setUserInfo(response.data);
           setAddress(response.data.address);
@@ -73,13 +73,13 @@ const UserProfile = () => {
       e.preventDefault();
       if (newPassword.localeCompare(confirmNewPassword) !== 0) {
         setPasswordError(
-          "New Password doesn't match with the confirm password!",
+          "New Password doesn't match with the confirm password!"
         );
         return;
       }
       if (!passwordRegex.test(newPassword)) {
         setPasswordError(
-          "Password must contain at least 1 lowercase, 1 uppercase, 1 digit, 1 special character, and be at least 8 characters long.",
+          "Password must contain at least 1 lowercase, 1 uppercase, 1 digit, 1 special character, and be at least 8 characters long."
         );
         return;
       }
@@ -100,7 +100,7 @@ const UserProfile = () => {
         const response = await axios.put(
           "http://localhost:8080/api/user/change-password",
           payload,
-          config,
+          config
         );
         toast.success("Password Changed Successfully, Redirecting to Login!!!");
         document.cookie = "token=; Max-Age=0; path=/;";
@@ -148,17 +148,16 @@ const UserProfile = () => {
         const response = await axios.put(
           "http://localhost:8080/api/user/update",
           payload,
-          config,
+          config
         );
         const updatedData = await axios.get(
           "http://localhost:8080/api/user",
-          config,
+          config
         );
         setUserInfo(updatedData.data);
         toast.success("Updated the information successfully!!!");
       }
     } catch (error) {
-      console.log(error);
       toast.error(error.response.data);
     }
   };
@@ -168,7 +167,7 @@ const UserProfile = () => {
       <Container>
         <ToastContainer />
 
-        <Card className="my-5">
+        <Card className="my-5 border-success">
           <Card.Header className="d-flex justify-content-center">
             <Nav
               variant="tabs"
@@ -176,20 +175,30 @@ const UserProfile = () => {
               onSelect={handleTabSelect}
             >
               <Nav.Item>
-                <Nav.Link eventKey="#userInfoTab">User Info</Nav.Link>
+                <Nav.Link eventKey="#userInfoTab" className="text-success">
+                  User Info
+                </Nav.Link>
               </Nav.Item>
               <Nav.Item>
-                <Nav.Link eventKey="#changePasswordTag">
+                <Nav.Link
+                  eventKey="#changePasswordTag"
+                  className="text-success"
+                >
                   Change Password
                 </Nav.Link>
               </Nav.Item>
               <Nav.Item>
-                <Nav.Link eventKey="#updateUserInfoTab">
+                <Nav.Link
+                  eventKey="#updateUserInfoTab"
+                  className="text-success"
+                >
                   Update Information
                 </Nav.Link>
               </Nav.Item>
               <Nav.Item>
-                <Nav.Link eventKey="#orderHistory">Order History</Nav.Link>
+                <Nav.Link eventKey="#orderHistory" className="text-success">
+                  Order History
+                </Nav.Link>
               </Nav.Item>
             </Nav>
           </Card.Header>
