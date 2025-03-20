@@ -37,12 +37,14 @@ const AdminModule = () => {
 
         const response = await axios.get(
           "http://localhost:8080/api/user/all",
-          config,
+          config
         );
         setAllUsers(response.data);
       }
+      else {
+        setIsAdmin(false);
+      }
     } catch (error) {
-      console.log(error);
       setIsAdmin(false);
     }
   };
@@ -67,7 +69,7 @@ const AdminModule = () => {
     const config = getToken();
     await axios.delete(
       `http://localhost:8080/api/user/delete/${userId}`,
-      config,
+      config
     );
     getAllUsers();
     toast.success(`Deleted user with ID: ${userId}`);
@@ -78,7 +80,7 @@ const AdminModule = () => {
     await axios.put(
       `http://localhost:8080/api/user/block-user/${userId}`,
       {},
-      config,
+      config
     );
     getAllUsers();
     toast.warning(`Blocked user with ID: ${userId}`);
@@ -89,7 +91,7 @@ const AdminModule = () => {
     await axios.patch(
       `http://localhost:8080/api/user/update/role/${userId}`,
       { role: "ADMIN" },
-      config,
+      config
     );
     getAllUsers();
     toast.info(`Made user with ID: ${userId} an admin`);
@@ -100,7 +102,7 @@ const AdminModule = () => {
       {isAdmin ? (
         <>
           <Container>
-            <Card className="my-5">
+            <Card className="my-5 border-success">
               <Card.Header className="d-flex justify-content-center">
                 <Nav
                   variant="tabs"
@@ -108,16 +110,24 @@ const AdminModule = () => {
                   onSelect={handleTabSelect}
                 >
                   <Nav.Item>
-                    <Nav.Link eventKey="orderHistory">Order History</Nav.Link>
+                    <Nav.Link eventKey="orderHistory" className="text-success">
+                      Order History
+                    </Nav.Link>
                   </Nav.Item>
                   <Nav.Item>
-                    <Nav.Link eventKey="userInfoTab">All Users</Nav.Link>
+                    <Nav.Link eventKey="userInfoTab" className="text-success">
+                      All Users
+                    </Nav.Link>
                   </Nav.Item>
                   <Nav.Item>
-                    <Nav.Link eventKey="addProduct">Add Products</Nav.Link>
+                    <Nav.Link eventKey="addProduct" className="text-success">
+                      Add Products
+                    </Nav.Link>
                   </Nav.Item>
                   <Nav.Item>
-                    <Nav.Link eventKey="updateProduct">Update Product</Nav.Link>
+                    <Nav.Link eventKey="updateProduct" className="text-success">
+                      Update Product
+                    </Nav.Link>
                   </Nav.Item>
                 </Nav>
               </Card.Header>
